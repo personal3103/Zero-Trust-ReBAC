@@ -542,10 +542,10 @@
   .trace-line {
     font-family: var(--mono);
     font-size: 10px;
+    line-height: 1.38;
     color: var(--fga-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
   }
 
   @media (max-width: 780px) {
@@ -903,28 +903,38 @@ function evaluateLocal(user, relation, object, visited = new Set()) {
     return { allowed: false, trace: [`Relation ${relation} không tồn tại trên type ${objType}`] };
   }
 
+  const misses = [];
   for (const branch of typeRules[relation]) {
     if (branch.kind === 'direct') {
-      const exact = tuples.find(t => t.object === object && t.relation === relation && t.user === user);
+      const found = tuples.filter(t => t.object === object && t.relation === relation);
+      const exact = found.find(t => t.user === user);
       if (exact) return { allowed: true, trace: [`${exact.object}#${exact.relation}@${exact.user}`] };
       if (branch.wildcard && user.startsWith('user:')) {
-        const wild = tuples.find(t => t.object === object && t.relation === relation && t.user === 'user:*');
+        const wild = found.find(t => t.user === 'user:*');
         if (wild) return { allowed: true, trace: [`${wild.object}#${wild.relation}@user:*`] };
       }
+      misses.push(`${object}#${relation}=[${found.map(t => t.user).join(', ') || 'trống'}]`);
     } else if (branch.kind === 'computed') {
       const sub = evaluateLocal(user, branch.rel, object, new Set(visited));
       if (sub.allowed) return { allowed: true, trace: [`${object}#${relation} -> ${branch.rel}`, ...sub.trace] };
+      const leaf = (sub.trace[0] || '').replace(/^Checked\s+/, '');
+      misses.push(leaf || branch.rel);
     } else if (branch.kind === 'ttu') {
       const parents = tuples.filter(t => t.object === object && t.relation === branch.tupleset);
+      if (!parents.length) {
+        misses.push(`${object}#${branch.tupleset}=[trống]`);
+      }
       for (const p of parents) {
         const sub = evaluateLocal(user, branch.rel, p.user, new Set(visited));
         if (sub.allowed) {
           return { allowed: true, trace: [`${object}#${relation} -> (${branch.tupleset}) ${p.user}#${branch.rel}`, ...sub.trace] };
         }
+        const leaf = (sub.trace[0] || '').replace(/^Checked\s+/, '');
+        misses.push(leaf || `${p.user}#${branch.rel}`);
       }
     }
   }
-  return { allowed: false, trace: [`Không tìm thấy đường dẫn hợp lệ từ ${user} tới ${object}#${relation}`] };
+  return { allowed: false, trace: [`Checked ${misses.join(' | ')}`] };
 }
 
 function escapeHtml(s) {
@@ -1204,12 +1214,13 @@ function runCheck() {
 
   const t0 = performance.now();
   const res = evaluateLocal(user, relation, object);
-  const ms = (performance.now() - t0).toFixed(2);
+  const elapsed = performance.now() - t0;
+  const msText = elapsed < 0.05 ? '< 0.05 ms' : `${elapsed.toFixed(2)} ms`;
 
-  document.getElementById('resSummary').textContent = `Check(${user}, ${relation}, ${object}) • ${ms} ms`;
+  document.getElementById('resSummary').textContent = `Check(${user}, ${relation}, ${object}) • ${msText}`;
   const pill = document.getElementById('resPill');
   pill.className = 'res-pill ' + (res.allowed ? 'allow' : 'deny');
-  pill.textContent = res.allowed ? 'ALLOWED: true' : 'DENIED: false';
+  pill.textContent = res.allowed ? 'ALLOWED (allowed: true)' : 'DENIED (allowed: false)';
 
   document.getElementById('resTrace').textContent = 'Traversal: ' + res.trace.join('  =>  ');
   document.getElementById('graphActiveNote').textContent = `${user} -> ${relation}(${object}) = ${res.allowed}`;
