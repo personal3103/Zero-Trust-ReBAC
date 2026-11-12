@@ -195,27 +195,54 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 
 ### Trang 13 — Live Demo: OpenFGA Playground (`36:00 – 41:30`)
 - **Trên màn hình slide:** Khung nhúng giao diện **OpenFGA Playground** với dữ liệu Store `ekila-lms-b2c` (7 Types, 15 Tuples) chạy thuật toán duyệt đồ thị ReBAC trực tiếp trên trình duyệt, kèm nút **`Phóng to Iframe`** và **`Mở tab riêng`**.
-- **Trên giao diện OpenFGA gồm 4 vùng trực quan:**
-  - **Trên trái — `AUTHORIZATION MODEL (7 TYPES)`:** Xem toàn bộ model `ekila-lms-model.fga` dạng **DSL** hoặc **JSON**.
-  - **Dưới trái — `Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`:** Danh sách 15 quan hệ có sẵn của `ekila-lms-b2c`, thêm/xóa tuple trực tiếp và chạy bộ 19 kiểm thử tự động.
-  - **Trên phải — `TYPES PREVIEWER`:** Đồ thị phân cấp 7 types + các đường nối nét đứt giữa các relations phụ thuộc; hỗ trợ **cuộn chuột để zoom / kéo để di chuyển / nút `-`, `+`, `Fit`** và nút **ẩn/hiện bảng trái (`<` / `>`)** để bung rộng đồ thị.
-  - **Dưới phải — `TUPLE QUERIES` (thu gọn/mở rộng được):** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
-- **Kịch bản thao tác demo từng bước (nên bấm `Phóng to Iframe` ngay khi vào Trang 13):**
-  1. **Bấm `Phóng to Iframe`** để bung OpenFGA Playground toàn màn hình cho cả phòng dễ theo dõi (có thể bấm thanh **`<`** ở giữa hoặc **`ẨN BẢNG TRÁI`** + zoom đồ thị để mọi người nhìn rõ cấu trúc quan hệ).
-  2. **Giới thiệu nhanh Store `ekila-lms-b2c` (15 Tuples sẵn):**
-     - Chỉ vào **Model DSL** bên trái, danh sách **Tuples (15)** bên dưới (*Cường* `system_admin`, *Linh* `content_admin`, *Duy* giảng viên Spring Boot, *Minh* giảng viên Next.js, *Khánh* `enrolled` Spring Boot, *An* chưa mua khóa nào) và đồ thị **Types Previewer** bên phải.
-     - Bấm sang tab **`Assertions (19)`** hoặc nút **`ASSERTIONS (19/19)`** trên góc phải để chứng minh toàn bộ 19 kịch bản bảo mật đều **PASS**. Quay lại tab **`Tuples (15)`**.
-  3. **Chạy 5 tình huống `Check` tiêu biểu ở khung `TUPLE QUERIES`:**
-     - **Case 1 (Khánh học JWT):** `user:khanh` | `lesson:jwt-01` | `can_view` → **`ALLOWED: true`** *(Chỉ vào dòng Traversal: đi từ `lesson:jwt-01` → `parent_course` → `course:spring-boot#enrolled` thấy `user:khanh`)*.
-     - **Case 2 (An chưa mua bị chặn):** `user:an` | `lesson:jwt-01` | `can_view` → **`DENIED: false`** *(PEP trong service nhận `false` và trả HTTP 404 chống IDOR)*.
-     - **Case 3 (An học Preview `user:*`):** `user:an` | `lesson:intro-preview` | `can_view` → **`ALLOWED: true`**; nhưng đổi sang `can_track_progress` thì vẫn **`DENIED: false`**.
-     - **Case 4 (Gỡ nút thắt Assessment ↔ Catalog):** `user:duy` | `quiz:quiz-auth` | `can_manage_questions` → **`ALLOWED: true`** *(Assessment hỏi thẳng PDP, không gọi sang Catalog)*; bấm tiếp **`Duy sửa chéo`** (`user:duy` | `course:nextjs-pro` | `can_edit`) → **`DENIED: false`**.
-     - **Case 5 (Ranh giới Admin & Đơn hàng):** `user:linh` | `order:ord-khanh-01` | `can_cancel` → **`DENIED: false`** *(Content Admin chỉ xem đơn, không được hủy)*.
-  4. **Live Mutation — Mô phỏng thanh toán VietQR thành công:**
-     - Nói: *"Giả sử ngay lúc này bạn An thanh toán VietQR xong, Outbox worker ghi thêm đúng 1 Tuple..."*
-     - Bấm **`+ ADD TUPLE >`** ở góc phải bảng Tuples, nhập/giữ sẵn `user:an` | `enrolled` | `course:spring-boot` → bấm **`SAVE`**.
-     - Bấm lại **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED: true`**, node trên đồ thị sáng màu xanh! (Cuối cùng bấm **`RESET (15)`** nếu muốn khôi phục trạng thái ban đầu).
-  5. Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn về slide, chuyển sang Trang 14.
+- **Giới thiệu nhanh 4 vùng giao diện trước khi chạy luồng:**
+  - **Trên trái (`AUTHORIZATION MODEL`):** Schema 1.1 của Ekila LMS gồm 7 Types (xem dạng **DSL** hoặc **JSON**).
+  - **Dưới trái (`Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`):** Danh sách 15 quan hệ đang có trong hệ thống; có thể thêm/xóa tuple sống hoặc bấm **`ASSERTIONS (19/19)`** để chạy toàn bộ 19 kịch bản kiểm thử tự động.
+  - **Trên phải (`TYPES PREVIEWER`):** Đồ thị phân cấp 7 Types + các đường nối cong nét đứt thể hiện mối phụ thuộc quyền; hỗ trợ **cuộn chuột zoom / kéo di chuyển / `-`, `+`, `Fit`** và nút **`<` / `ẨN BẢNG TRÁI`** để bung rộng đồ thị.
+  - **Dưới phải (`TUPLE QUERIES`):** Hộp truy vấn `is [user] related to [object] as [relation]` + nút preset tình huống, trả kết quả **`ALLOWED (allowed: true)`** / **`DENIED (allowed: false)`** kèm đường đi duyệt đồ thị (**`Traversal`**).
+
+- **Chuẩn bị dữ liệu mẫu cho cả phòng nắm trước khi bấm (15 giây):**
+  > "Trong Store `ekila-lms-b2c`, mình đã dựng sẵn 6 nhân vật đúng bối cảnh B2C: anh **Cường** (`system_admin`), chị **Linh** (`content_admin`), giảng viên **Duy** dạy khóa `spring-boot`, giảng viên **Minh** dạy khóa `nextjs-pro`, học viên **Khánh** đã mua khóa `spring-boot`, và học viên **An** chưa mua khóa nào. Mình sẽ bấm **`Phóng to Iframe`** để cả phòng dễ theo dõi 6 luồng demo thực tế sau:"
+
+- **Giải thích chi tiết từng luồng Demo (Thao tác + Cơ chế đồ thị + Cách PEP xử lý + Lời nói):**
+
+  1. **Luồng 1 — Học viên đã mua khóa học (`Khánh học JWT`):**
+     - **Thao tác:** Bấm preset **`Khánh học JWT`** (`is user:khanh related to lesson:jwt-01 as can_view`).
+     - **Kết quả:** **`ALLOWED (allowed: true)`** — *Traversal:* `lesson:jwt-01#can_view -> (parent_course) course:spring-boot#can_view_content -> enrolled -> course:spring-boot#enrolled@user:khanh`.
+     - **Giải thích rõ để nói:**
+       > "Các bạn để ý: trong bảng `Tuples` bên trái **không hề có dòng nào gán trực tiếp Khánh với bài giảng `lesson:jwt-01`**. Nhưng OpenFGA đọc model thấy bài giảng nối `parent_course` về `course:spring-boot`, và thấy Khánh có tuple `enrolled` ở khóa học đó → tự suy diễn bắc cầu ra `allowed: true`. Nhờ vậy một khóa có 100 bài học và 10 bài quiz chỉ cần lưu **đúng 1 tuple ghi danh ở cấp khóa**, không bị phình dữ liệu. Phía service Catalog/Learning (PEP) nhận `true` thì trả `200 OK` và cấp link video."
+
+  2. **Luồng 2 — Chống IDOR khi học viên chưa mua bài trả phí (`An chưa mua`):**
+     - **Thao tác:** Bấm preset **`An chưa mua`** (`is user:an related to lesson:jwt-01 as can_view`).
+     - **Kết quả:** **`DENIED (allowed: false)`** — *Traversal:* `Checked lesson:jwt-01#preview_viewer=[trống] | course:spring-boot#enrolled=[user:khanh] | course:spring-boot#instructor=[user:duy] | ...`
+     - **Giải thích rõ để nói:**
+       > "Bây giờ giả sử bạn **An** chưa mua khóa học nhưng cố tình đổi ID trên URL để mở trộm bài `lesson:jwt-01` (tấn công IDOR). Trên dòng `Traversal`, OpenFGA đi kiểm tra hết: bài này không mở `preview_viewer`, tập `enrolled` của khóa chỉ có mỗi Khánh, cũng không phải giảng viên hay admin → trả **`allowed: false`**. Điểm mấu chốt ở đây là **PEP của Ekila LMS sẽ dịch `false` này thành HTTP `404 Not Found` thay vì `403`**, để kẻ tấn công dò ID không biết bài giảng đó có tồn tại hay không."
+
+  3. **Luồng 3 — Tách quyền học thử miễn phí (`user:*`) khỏi quyền lưu tiến độ (`An học Preview`):**
+     - **Thao tác 1:** Bấm preset **`An học Preview`** (`is user:an related to lesson:intro-preview as can_view`) → **`ALLOWED (allowed: true)`**.
+     - **Thao tác 2 (đổi action ngay tại chỗ):** Giữ nguyên `user:an` và `lesson:intro-preview`, đổi dropdown `as` từ `can_view` sang **`can_track_progress`** → **`DENIED (allowed: false)`**.
+     - **Giải thích rõ để nói:**
+       > "Với các bài giới thiệu miễn phí, ta chỉ cần thêm đúng 1 tuple `lesson:intro-preview#preview_viewer@user:*` (dấu `*` đại diện cho mọi user). Nhờ đó **An** chưa mua khóa vẫn xem được bài học thử (`can_view` = `true`). Nhưng nhìn bước thứ hai: khi đổi sang **`can_track_progress`**, OpenFGA trả **`false`** ngay lập tức, vì model quy định chỉ học viên đã `can_learn` (`enrolled`) mới được lưu tiến độ học và tính điều kiện cấp chứng chỉ — khách vãng lai xem thử sẽ không ghi rác vào database tiến độ."
+
+  4. **Luồng 4 — Gỡ phụ thuộc chéo Assessment ↔ Catalog & Chống giảng viên sửa chéo khóa (`Duy sửa Quiz` vs `Duy sửa chéo`):**
+     - **Thao tác 1:** Bấm preset **`Duy sửa Quiz`** (`is user:duy related to quiz:quiz-auth as can_manage_questions`) → **`ALLOWED (allowed: true)`**.
+     - **Thao tác 2:** Bấm preset **`Duy sửa chéo`** (`is user:duy related to course:nextjs-pro as can_edit`) → **`DENIED (allowed: false)`** (*Traversal:* `course:nextjs-pro#instructor=[user:minh] | ...`).
+     - **Giải thích rõ để nói:**
+       > "Đây chính là ca giải quyết **điểm nghẽn ở Trang 10**: trước đây khi giảng viên Duy vào **Assessment** sửa câu hỏi của `quiz:quiz-auth`, Assessment phải gọi HTTP sang **Catalog** để hỏi chủ khóa; nếu Catalog sập là Assessment báo `503`. Giờ Assessment hỏi thẳng OpenFGA, chỉ mất dưới 1ms để suy ra Duy là `instructor` của khóa cha → cho phép sửa câu hỏi độc lập hoàn toàn với Catalog!  
+       > Ngược lại khi bấm **`Duy sửa chéo`**: dù JWT của Duy vẫn mang Role `INSTRUCTOR` (RBAC thông thường dễ lọt), nhưng sang khóa `course:nextjs-pro` do Minh đứng tên, OpenFGA thấy `instructor=[user:minh]` chứ không phải Duy → chặn đứng luôn."
+
+  5. **Luồng 5 — Ranh giới quyền Admin & Bảo vệ bài làm Quiz tự chấm (`Linh hủy đơn` + Kiểm tra `quiz_attempt`):**
+     - **Thao tác 1:** Bấm preset **`Linh hủy đơn`** (`is user:linh related to order:ord-khanh-01 as can_cancel`) → **`DENIED (allowed: false)`**. Sau đó đổi `as` sang **`can_view`** → **`ALLOWED (allowed: true)`**.
+     - **Thao tác 2 (tùy chọn nếu còn thời gian):** Chọn `user:duy` | `quiz_attempt:att-khanh-01` | `can_draft_or_submit` → **`DENIED (allowed: false)`**; đổi sang `can_view_result` → **`ALLOWED (allowed: true)`**.
+     - **Giải thích rõ để nói:**
+       > "Luồng này chứng minh mô hình khớp chính xác ma trận quyền B2C của dự án: chị **Linh (`CONTENT_ADMIN`)** được xem đơn hàng (`can_view` = `true`) để hỗ trợ học viên, nhưng **bị cấm hủy đơn (`can_cancel` = `false`)** vì việc hủy/hoàn tiền thuộc quyền `buyer` hoặc `SYSTEM_ADMIN` (anh Cường). Tương tự với **`quiz_attempt`** (hệ thống tự động chấm điểm): giảng viên Duy hay Admin không thể nộp bài thay học viên (`can_draft_or_submit` = `false`), nhưng Duy vẫn xem được điểm báo cáo (`can_view_result` = `true`) nhờ kế thừa 3 cấp từ `quiz_attempt → quiz → course`."
+
+  6. **Luồng 6 — Live Mutation: Mô phỏng thanh toán VietQR Outbox cấp quyền tức thì (`+ ADD TUPLE >`):**
+     - **Thao tác:** Bấm **`+ ADD TUPLE >`** ở bảng Tuples bên trái (đã điền sẵn `user:an` | `enrolled` | `course:spring-boot`) → bấm **`SAVE`** → bấm lại preset **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED (allowed: true)`** và nhánh đồ thị bên phải sáng màu xanh! (Thử đổi sang `quiz:quiz-auth` + `can_attempt` cũng thành `true`. Cuối cùng bấm **`RESET (15)`** để khôi phục dữ liệu mẫu).
+     - **Giải thích rõ để nói:**
+       > "Cuối cùng, hãy xem kịch bản thanh toán thực tế: ngay giây phút bạn **An** quét VietQR thanh toán xong, worker **Outbox** của dịch vụ Commerce vừa ghi danh sang Learning, vừa gọi API ghi thêm **đúng 1 tuple** `course:spring-boot#enrolled@user:an` vào OpenFGA. Quay lại check quyền vào bài `lesson:jwt-01` của An: lập tức chuyển từ `DENIED` sang **`ALLOWED`**. Đặc biệt là **An không cần đăng xuất để xin cấp lại JWT mới** như cách nhét quyền vào token — vừa realtime, vừa tách rời hoàn toàn logic phân quyền khỏi tầng AuthN!"
+
+  - **Kết thúc phần Demo:** Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn iframe về slide và chuyển sang **Trang 14**.
 
 ---
 
