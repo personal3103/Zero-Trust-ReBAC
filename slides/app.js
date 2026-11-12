@@ -67,113 +67,14 @@ function copyFullDsl(btn) {
   setTimeout(() => btn.innerHTML = old, 1400);
 }
 
-function isHttpsPage() {
-  return window.location.protocol === 'https:';
-}
-
-function isLocalDockerHost() {
-  return !isHttpsPage() && (
-    window.location.protocol === 'file:' ||
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1'
-  );
-}
-
-function buildPlaygroundUrl(storeName) {
-  const base = 'http://localhost:3011/sandbox/?fga_api_scheme=http&fga_api_host=localhost%3A8092&fga_api_token=';
-  return storeName ? `${base}&store=${encodeURIComponent(storeName)}` : base;
-}
-
-async function initOpenFgaIframe() {
+function initOpenFgaIframe() {
   const frame = document.getElementById('openfgaFrame');
-  const statusEl = document.getElementById('openfgaDockerStatus');
-  const urlEl = document.getElementById('openfgaFrameUrl');
   const openExt = document.getElementById('openfgaExternalLink');
-  const bPlay = document.getElementById('btnFramePlay');
-  const bLocal = document.getElementById('btnFrameLocal');
   if (!frame) return;
-
-  // On GitHub Pages (HTTPS), play.fga.dev cannot load our local ekila-lms-b2c store
-  // (api.playground-us1.fga.dev returns 403 and cross-origin localhost PNA is blocked),
-  // so default directly to Ekila OpenFGA Studio (openfga-local.html) with full in-browser
-  // model/tuples/Check/Graph/Assertions + optional live Docker :8092 sync.
-  if (isHttpsPage()) {
-    if (bPlay) bPlay.style.display = 'none';
-    switchOpenFgaFrame('local');
-    try {
-      const controller = new AbortController();
-      const t = setTimeout(() => controller.abort(), 1200);
-      const res = await fetch('http://localhost:8092/stores', { signal: controller.signal });
-      clearTimeout(t);
-      const data = await res.json();
-      const store = (data.stores || []).find(s => s.name === 'ekila-lms-b2c') || (data.stores || [])[0];
-      if (store && statusEl) {
-        cachedStoreId = store.name || store.id;
-        statusEl.textContent = `Docker :8092 CONNECTED (${store.name})`;
-        statusEl.className = 'badge p2';
-        return;
-      }
-    } catch (_) {}
-    if (statusEl) {
-      statusEl.textContent = 'In-Browser Engine • ekila-lms-b2c (15 Tuples)';
-      statusEl.className = 'badge p2';
-    }
-    return;
-  }
-
-  try {
-    const res = await fetch('http://localhost:8092/stores');
-    const data = await res.json();
-    const store = (data.stores || []).find(s => s.name === 'ekila-lms-b2c') || (data.stores || [])[0];
-    if (store) {
-      cachedStoreId = store.name || store.id;
-      const playUrl = buildPlaygroundUrl(cachedStoreId);
-      frame.src = playUrl;
-      if (urlEl) urlEl.textContent = `OpenFGA Playground • Store: ${store.name} (${store.id})`;
-      if (openExt) openExt.href = playUrl;
-      if (statusEl) {
-        statusEl.textContent = `Docker :8092 CONNECTED (${store.name})`;
-        statusEl.className = 'badge p2';
-      }
-      return;
-    }
-  } catch (err) {
-    // Docker offline or unreachable
-  }
-
-  switchOpenFgaFrame('local');
-  if (bPlay) bPlay.classList.remove('active');
-  if (bLocal) bLocal.classList.add('active');
-  if (statusEl) {
-    statusEl.textContent = 'In-Browser Engine (Docker :8092 Offline)';
-    statusEl.className = 'badge p2';
-  }
-}
-
-function switchOpenFgaFrame(mode) {
-  const frame = document.getElementById('openfgaFrame');
-  const urlEl = document.getElementById('openfgaFrameUrl');
-  const openExt = document.getElementById('openfgaExternalLink');
-  const bPlay = document.getElementById('btnFramePlay');
-  const bLocal = document.getElementById('btnFrameLocal');
-  if (!frame) return;
-
-  if (mode === 'local' || isHttpsPage()) {
+  if (!frame.getAttribute('src') || frame.getAttribute('src') === 'about:blank') {
     frame.src = 'openfga-local.html';
-    if (urlEl) urlEl.textContent = 'Ekila OpenFGA Studio • Store: ekila-lms-b2c (15 Tuples, Interactive Check & Graph)';
-    if (openExt) openExt.href = 'openfga-local.html';
-    bPlay?.classList.remove('active');
-    bLocal?.classList.add('active');
-  } else {
-    const playUrl = buildPlaygroundUrl(cachedStoreId || 'ekila-lms-b2c');
-    frame.src = playUrl;
-    if (urlEl) urlEl.textContent = cachedStoreId
-      ? `OpenFGA Playground • Store: ekila-lms-b2c (${cachedStoreId})`
-      : 'OpenFGA Playground (:3011)';
-    if (openExt) openExt.href = playUrl;
-    bLocal?.classList.remove('active');
-    bPlay?.classList.add('active');
   }
+  if (openExt) openExt.href = 'openfga-local.html';
 }
 
 function setIframeExpanded(expanded) {

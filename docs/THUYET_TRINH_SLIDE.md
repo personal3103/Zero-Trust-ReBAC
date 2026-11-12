@@ -194,27 +194,29 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 
 ---
 
-### Trang 13 — Live Demo: OpenFGA Playground & Ekila Studio (`36:00 – 41:30`)
-- **Trên màn hình slide:** Khung nhúng trực tiếp giao diện OpenFGA kèm thanh công cụ phía trên: nút chuyển chế độ (`OpenFGA Official UI (:3011)` khi chạy Docker local / `Ekila OpenFGA Studio` chạy mượt cả trên GitHub Pages & Offline), badge trạng thái kết nối, nút **`Phóng to Iframe`** và nút **`Mở tab riêng`**.
-- **Lưu ý chọn chế độ Demo trước khi bấm:**
-  - **Nếu thuyết trình bằng link GitHub Pages (`https://personal3103.github.io/Zero-Trust-ReBAC/`):** Trang 13 tự động mở **Ekila OpenFGA Studio** (`ekila-lms-b2c`, 15 Tuples sẵn trong trình duyệt; tự nâng cấp lên `DOCKER :8092 LIVE` nếu máy bạn bật Docker).
-  - **Nếu thuyết trình trên máy đã bật Docker (`http://localhost:3011/`):** Mặc định mở **OpenFGA Official UI** kết nối PostgreSQL Docker thật, và bạn vẫn chuyển qua tab **Ekila OpenFGA Studio** để xem đồ thị & chạy nhanh 19 test assertions nếu muốn.
+### Trang 13 — Live Demo: OpenFGA Playground (In-Browser JS) (`36:00 – 41:30`)
+- **Trên màn hình slide:** Khung nhúng giao diện **OpenFGA Playground** chạy 100% bằng thuật toán duyệt đồ thị JavaScript ngay trong trình duyệt (không cần Docker, không lỗi mạng hay bị chặn iframe), kèm nút **`Phóng to Iframe`** và **`Mở tab riêng`**.
+- **Trên giao diện OpenFGA gồm 4 vùng trực quan:**
+  - **Trên trái — `AUTHORIZATION MODEL (7 TYPES)`:** Xem toàn bộ model `ekila-lms-model.fga` dạng **DSL** hoặc **JSON**.
+  - **Dưới trái — `Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`:** Danh sách 15 quan hệ có sẵn của `ekila-lms-b2c`, thêm/xóa tuple trực tiếp và chạy bộ 19 kiểm thử tự động.
+  - **Trên phải — `TYPES PREVIEWER`:** Đồ thị phân cấp 7 types (`user`, `platform`, `course`, `lesson`, `quiz`, `quiz_attempt`, `order`) và các relations; tự động đổi màu nhánh đang kiểm tra (`xanh` = `ALLOWED`, `đỏ` = `DENIED`).
+  - **Dưới phải — `TUPLE QUERIES • GRAPH TRAVERSAL CHECK`:** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
 - **Kịch bản thao tác demo từng bước (nên bấm `Phóng to Iframe` ngay khi vào Trang 13):**
-  1. **Mở rộng toàn màn hình & giới thiệu dữ liệu có sẵn:**
-     - Bấm **`Phóng to Iframe`** trên thanh công cụ để cả phòng nhìn rõ chữ.
-     - Giải thích nhanh dữ liệu mẫu Store **`ekila-lms-b2c`** (15 Tuples có sẵn): *Cường* (`system_admin`), *Linh* (`content_admin`), *Duy* (giảng viên `course:spring-boot`), *Minh* (giảng viên `course:nextjs-pro`), *Khánh* (`enrolled` khóa Spring Boot), *An* (chưa mua khóa nào), `lesson:intro-preview` (bài học thử `user:*`), `lesson:jwt-01`, `quiz:quiz-auth`, `quiz_attempt:att-khanh-01`, và đơn hàng `order:ord-khanh-01`.
-     - *(Nếu đang ở Ekila OpenFGA Studio trên GitHub Pages)*: Có thể bấm nhanh qua tab **`Relation Graph`** để mọi người thấy sơ đồ phân cấp 7 types, và tab **`Assertions (19/19)`** bấm chạy kiểm thử tự động toàn bộ 19 kịch bản đều **PASS**, rồi quay lại tab **`Tuples & Check()`**.
-  2. **Chạy 5 tình huống `Check` tiêu biểu (chọn bằng nút preset hoặc dropdown):**
-     - **Case 1 (Học viên đã mua):** `user:khanh` | `can_view` | `lesson:jwt-01` → **`allowed: true`** *(Đọc trace: OpenFGA đi từ `lesson:jwt-01` → `parent_course` → `course:spring-boot#enrolled` thấy `user:khanh`)*.
-     - **Case 2 (Chống IDOR người chưa mua):** `user:an` | `can_view` | `lesson:jwt-01` → **`allowed: false`** *(PEP trong Catalog nhận `false` và trả về HTTP 404)*.
-     - **Case 3 (Học thử miễn phí `user:*`):** `user:an` | `can_view` | `lesson:intro-preview` → **`allowed: true`**; nhưng đổi sang `can_track_progress` thì vẫn **`false`**.
-     - **Case 4 (Gỡ nút thắt Assessment ↔ Catalog):** `user:duy` | `can_manage_questions` | `quiz:quiz-auth` → **`allowed: true`** *(Assessment hỏi thẳng OpenFGA, không gọi mạng sang Catalog)*; thử `user:duy` | `can_edit` | `course:nextjs-pro` → **`false`** *(chặn sửa chéo khóa của Minh)*.
-     - **Case 5 (Ranh giới Admin & Đơn hàng):** `user:linh` | `can_cancel` | `order:ord-khanh-01` → **`allowed: false`** *(Content Admin chỉ xem đơn, không được hủy)*.
-  3. **Live Mutation — Mô phỏng thanh toán VietQR thành công:**
-     - Nói: *"Giả sử ngay lúc này bạn An quét mã VietQR thanh toán khóa Spring Boot thành công, Outbox worker ghi thêm đúng 1 tuple mới..."*
-     - Thêm tuple: `user:an` | `enrolled` | `course:spring-boot` → bấm **`+ Ghi Tuple`** (hoặc **Add Tuple** ở Official UI).
-     - Chạy lại ngay Case 2 (`user:an` | `can_view` | `lesson:jwt-01`) → kết quả lập tức lật từ `false` sang **`true`** *(và làm tương tự với `quiz:quiz-auth`)* mà không cần sửa 1 dòng code hay sửa JWT của An!
-  4. Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn iframe về trang slide, sang Trang 14.
+  1. **Bấm `Phóng to Iframe`** để bung OpenFGA Playground toàn màn hình cho cả phòng dễ theo dõi.
+  2. **Giới thiệu nhanh Store `ekila-lms-b2c` (15 Tuples sẵn):**
+     - Chỉ vào **Model DSL** bên trái, danh sách **Tuples (15)** bên dưới (*Cường* `system_admin`, *Linh* `content_admin`, *Duy* giảng viên Spring Boot, *Minh* giảng viên Next.js, *Khánh* `enrolled` Spring Boot, *An* chưa mua khóa nào) và đồ thị **Types Previewer** bên phải.
+     - Bấm sang tab **`Assertions (19)`** hoặc nút **`ASSERTIONS (19/19)`** trên góc phải để chứng minh toàn bộ 19 kịch bản bảo mật đều **PASS**. Quay lại tab **`Tuples (15)`**.
+  3. **Chạy 5 tình huống `Check` tiêu biểu ở khung `TUPLE QUERIES`:**
+     - **Case 1 (Khánh học JWT):** `user:khanh` | `lesson:jwt-01` | `can_view` → **`ALLOWED: true`** *(Chỉ vào dòng Traversal: đi từ `lesson:jwt-01` → `parent_course` → `course:spring-boot#enrolled` thấy `user:khanh`)*.
+     - **Case 2 (An chưa mua bị chặn):** `user:an` | `lesson:jwt-01` | `can_view` → **`DENIED: false`** *(PEP trong service nhận `false` và trả HTTP 404 chống IDOR)*.
+     - **Case 3 (An học Preview `user:*`):** `user:an` | `lesson:intro-preview` | `can_view` → **`ALLOWED: true`**; nhưng đổi sang `can_track_progress` thì vẫn **`DENIED: false`**.
+     - **Case 4 (Gỡ nút thắt Assessment ↔ Catalog):** `user:duy` | `quiz:quiz-auth` | `can_manage_questions` → **`ALLOWED: true`** *(Assessment hỏi thẳng PDP, không gọi sang Catalog)*; bấm tiếp **`Duy sửa chéo`** (`user:duy` | `course:nextjs-pro` | `can_edit`) → **`DENIED: false`**.
+     - **Case 5 (Ranh giới Admin & Đơn hàng):** `user:linh` | `order:ord-khanh-01` | `can_cancel` → **`DENIED: false`** *(Content Admin chỉ xem đơn, không được hủy)*.
+  4. **Live Mutation — Mô phỏng thanh toán VietQR thành công:**
+     - Nói: *"Giả sử ngay lúc này bạn An thanh toán VietQR xong, Outbox worker ghi thêm đúng 1 Tuple..."*
+     - Ở khung **`+ ADD TUPLE >`** (đang mở sẵn bên trái), nhập/giữ sẵn `user:an` | `enrolled` | `course:spring-boot` → bấm **`SAVE`**.
+     - Bấm lại **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED: true`**, node trên đồ thị sáng màu xanh! (Cuối cùng bấm **`RESET STORE (15)`** nếu muốn khôi phục trạng thái ban đầu).
+  5. Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn về slide, chuyển sang Trang 14.
 
 ---
 

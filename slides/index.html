@@ -709,23 +709,21 @@
         </div>
       </section>
 
-      <!-- TRANG 13: OPENFGA PLAYGROUND & EKILA INTERACTIVE STUDIO -->
+      <!-- TRANG 13: OPENFGA PLAYGROUND (100% IN-BROWSER JS REBAC ENGINE) -->
       <section class="slide" data-group="Phần II — Ekila LMS" data-title="Live Demo: OpenFGA Playground">
         <div class="slide-top stagger" style="--i:0; margin-bottom: 8px;">
-          <span class="badge p2">Phần II • Live Demo OpenFGA</span>
-          <span class="slide-tag">OpenFGA UI &amp; Studio • Store: ekila-lms-b2c • Trang 13</span>
+          <span class="badge p2">Phần II • Live Demo OpenFGA (In-Browser JS)</span>
+          <span class="slide-tag">OpenFGA Playground UI • Store: ekila-lms-b2c • Trang 13</span>
         </div>
         <h1 class="title stagger" style="--i:1; font-size: 21px; margin-bottom: 4px;">Demo trực tiếp trên <span class="c-primary">OpenFGA Playground</span> (Dữ liệu Ekila LMS có sẵn)</h1>
-        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Nạp sẵn Store <code class="inline">ekila-lms-b2c</code> (7 Types, 15 Tuples): tự kết nối Docker <code class="inline">:8092</code> nếu có hoặc chạy In-Browser Engine trên GitHub Pages</p>
+        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Giao diện OpenFGA chạy thuật toán duyệt đồ thị ReBAC bằng JavaScript ngay trong trình duyệt — Store <code class="inline">ekila-lms-b2c</code> (7 Types, 15 Tuples, 0 phụ thuộc Docker/Mạng)</p>
 
         <div class="iframe-shell stagger" style="--i:3">
           <div class="iframe-bar">
-            <div style="display:flex; gap:6px; align-items:center;">
-              <button class="btn active" id="btnFramePlay" onclick="switchOpenFgaFrame('playground')">OpenFGA Official UI (:3011)</button>
-              <button class="btn" id="btnFrameLocal" onclick="switchOpenFgaFrame('local')">Ekila OpenFGA Studio</button>
-              <span class="badge" id="openfgaDockerStatus">Initializing...</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span class="badge p2" id="openfgaDockerStatus">IN-BROWSER REBAC ENGINE • EKILA-LMS-B2C</span>
+              <span class="iframe-url" id="openfgaFrameUrl">Model DSL + 15 Tuples + Types Previewer + Graph Traversal Check()</span>
             </div>
-            <span class="iframe-url" id="openfgaFrameUrl">Đang nạp store ekila-lms-b2c...</span>
             <div style="display:flex; gap:6px; align-items:center;">
               <button class="btn" id="btnToggleIframeExpand" onclick="toggleIframeExpand()">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -737,7 +735,7 @@
               </a>
             </div>
           </div>
-          <iframe id="openfgaFrame" class="iframe-frame" src="about:blank" title="OpenFGA Interactive Playground" allow="local-network-access *; clipboard-read *; clipboard-write *"></iframe>
+          <iframe id="openfgaFrame" class="iframe-frame" src="openfga-local.html" title="OpenFGA Interactive Playground"></iframe>
         </div>
       </section>
 
