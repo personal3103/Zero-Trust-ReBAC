@@ -1,0 +1,130 @@
+name: Ekila LMS B2C Authorization Tests
+model_file: ./ekila-lms-model.fga
+
+tuples:
+  - user: user:cuong
+    relation: system_admin
+    object: platform:ekila
+  - user: user:linh
+    relation: content_admin
+    object: platform:ekila
+
+  - user: platform:ekila
+    relation: platform
+    object: course:spring-boot
+  - user: user:duy
+    relation: instructor
+    object: course:spring-boot
+  - user: user:khanh
+    relation: enrolled
+    object: course:spring-boot
+
+  - user: platform:ekila
+    relation: platform
+    object: course:nextjs-pro
+  - user: user:minh
+    relation: instructor
+    object: course:nextjs-pro
+
+  - user: course:spring-boot
+    relation: parent_course
+    object: lesson:jwt-01
+  - user: course:spring-boot
+    relation: parent_course
+    object: lesson:intro-preview
+  - user: user:*
+    relation: preview_viewer
+    object: lesson:intro-preview
+
+  - user: course:spring-boot
+    relation: parent_course
+    object: quiz:quiz-auth
+  - user: quiz:quiz-auth
+    relation: parent_quiz
+    object: quiz_attempt:att-khanh-01
+  - user: user:khanh
+    relation: owner
+    object: quiz_attempt:att-khanh-01
+
+  - user: platform:ekila
+    relation: platform
+    object: order:ord-khanh-01
+  - user: user:khanh
+    relation: buyer
+    object: order:ord-khanh-01
+
+tests:
+  - name: Học viên đã ghi danh học bài & làm quiz, chưa ghi danh bị chặn (trừ preview)
+    check:
+      - user: user:khanh
+        object: lesson:jwt-01
+        assertions:
+          can_view: true
+          can_track_progress: true
+      - user: user:an
+        object: lesson:jwt-01
+        assertions:
+          can_view: false
+          can_track_progress: false
+      - user: user:an
+        object: lesson:intro-preview
+        assertions:
+          can_view: true
+          can_track_progress: false
+      - user: user:khanh
+        object: quiz:quiz-auth
+        assertions:
+          can_attempt: true
+      - user: user:an
+        object: quiz:quiz-auth
+        assertions:
+          can_attempt: false
+
+  - name: Giảng viên chỉ sửa/quản lý câu hỏi khóa của mình, không tự xuất bản
+    check:
+      - user: user:duy
+        object: course:spring-boot
+        assertions:
+          can_edit: true
+          can_publish: false
+      - user: user:duy
+        object: quiz:quiz-auth
+        assertions:
+          can_manage_questions: true
+      - user: user:duy
+        object: course:nextjs-pro
+        assertions:
+          can_edit: false
+          can_manage_questions: false
+
+  - name: Chống IDOR trên lượt làm bài và đơn hàng; giữ ranh giới Content Admin vs System Admin
+    check:
+      - user: user:khanh
+        object: quiz_attempt:att-khanh-01
+        assertions:
+          can_draft_or_submit: true
+          can_view_result: true
+      - user: user:an
+        object: quiz_attempt:att-khanh-01
+        assertions:
+          can_draft_or_submit: false
+          can_view_result: false
+      - user: user:duy
+        object: quiz_attempt:att-khanh-01
+        assertions:
+          can_draft_or_submit: false
+          can_view_result: true
+      - user: user:linh
+        object: course:spring-boot
+        assertions:
+          can_publish: true
+      - user: user:linh
+        object: order:ord-khanh-01
+        assertions:
+          can_view: true
+          can_cancel: false
+      - user: user:cuong
+        object: order:ord-khanh-01
+        assertions:
+          can_view: true
+          can_cancel: true

@@ -1,0 +1,54 @@
+model
+  schema 1.1
+
+type user
+
+type platform
+  relations
+    define system_admin: [user]
+    define content_admin: [user]
+
+type course
+  relations
+    define platform: [platform]
+    define instructor: [user]
+    define enrolled: [user]
+
+    define can_edit: instructor or content_admin from platform or system_admin from platform
+    define can_publish: content_admin from platform or system_admin from platform
+    define can_manage_questions: instructor or content_admin from platform or system_admin from platform
+    define can_view_content: enrolled or can_edit
+    define can_view_reports: can_edit
+    define can_learn: enrolled
+
+type lesson
+  relations
+    define parent_course: [course]
+    define preview_viewer: [user:*]
+
+    define can_view: preview_viewer or can_view_content from parent_course
+    define can_track_progress: can_learn from parent_course
+
+type quiz
+  relations
+    define parent_course: [course]
+    define course_reporter: can_view_reports from parent_course
+
+    define can_manage_questions: can_manage_questions from parent_course
+    define can_attempt: can_learn from parent_course
+
+type quiz_attempt
+  relations
+    define parent_quiz: [quiz]
+    define owner: [user]
+
+    define can_draft_or_submit: owner
+    define can_view_result: owner or course_reporter from parent_quiz
+
+type order
+  relations
+    define platform: [platform]
+    define buyer: [user]
+
+    define can_view: buyer or content_admin from platform or system_admin from platform
+    define can_cancel: buyer or system_admin from platform

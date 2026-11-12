@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OpenFGA Local Docker Console (localhost:8090)</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --paper: #ffffff;
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --primary: #1d4ed8;
+    --primary-soft: #eff6ff;
+    --green: #15803d;
+    --green-soft: #f0fdf4;
+    --green-border: #bbf7d0;
+    --red: #dc2626;
+    --red-soft: #fef2f2;
+    --red-border: #fecaca;
+    --sans: "Inter", "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    padding: 12px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .top-strip {
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+  }
+  .status-pill.ok { color: var(--green); background: var(--green-soft); border-color: var(--green-border); }
+  .status-pill.err { color: var(--red); background: var(--red-soft); border-color: var(--red-border); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .meta-kv {
+    display: flex;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-2);
+    flex-wrap: wrap;
+  }
+  .btn {
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    color: var(--ink);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .btn:hover { border-color: var(--primary); color: var(--primary); }
+  .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 10px;
+  }
+  .panel {
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .panel-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tuples-box {
+    max-height: 225px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .t-row {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 6px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--ink-2);
+  }
+  .row { display: flex; gap: 8px; align-items: center; }
+  select {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  pre {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.45;
+    overflow: auto;
+    max-height: 155px;
+    color: var(--ink);
+  }
+  .res-badge {
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .res-badge.ok { background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green); }
+  .res-badge.no { background: var(--red-soft); border: 1px solid var(--red-border); color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="top-strip">
+  <div class="row">
+    <span class="status-pill" id="healthPill"><span class="dot"></span>Connecting http://localhost:8090...</span>
+    <div class="meta-kv" id="metaKv"></div>
+  </div>
+  <div class="row">
+    <button class="btn" onclick="loadFromDocker()">Làm mới từ Docker</button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">
+      <span>Dữ liệu Tuples thật trong PostgreSQL Docker (<span id="tupleCount">0</span>)</span>
+      <span style="font-family:var(--mono); color:var(--muted);">ekila-openfga-postgres</span>
+    </div>
+    <div class="tuples-box" id="tuplesBox">Đang tải từ http://localhost:8090...</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span>Gọi API thật tới OpenFGA Server (:8090)</span>
+      <span id="apiTimer" style="font-family:var(--mono); color:var(--muted);">-</span>
+    </div>
+    <div class="row">
+      <select id="qUser">
+        <option value="user:khanh">user:khanh</option>
+        <option value="user:an">user:an</option>
+        <option value="user:duy">user:duy</option>
+        <option value="user:linh">user:linh</option>
+        <option value="user:cuong">user:cuong</option>
+      </select>
+      <select id="qRel">
+        <option value="can_view">can_view</option>
+        <option value="can_manage_questions">can_manage_questions</option>
+        <option value="can_publish">can_publish</option>
+        <option value="can_view_result">can_view_result</option>
+        <option value="can_cancel">can_cancel</option>
+      </select>
+      <select id="qObj">
+        <option value="lesson:jwt-01">lesson:jwt-01</option>
+        <option value="lesson:intro-preview">lesson:intro-preview</option>
+        <option value="quiz:quiz-auth">quiz:quiz-auth</option>
+        <option value="course:spring-boot">course:spring-boot</option>
+        <option value="quiz_attempt:att-khanh-01">quiz_attempt:att-khanh-01</option>
+        <option value="order:ord-khanh-01">order:ord-khanh-01</option>
+      </select>
+      <button class="btn primary" onclick="callRealCheck()">POST /check</button>
+    </div>
+    <div class="res-badge ok" id="resBadge">
+      <span id="resText">Sẵn sàng gọi Docker OpenFGA API</span>
+      <span id="resAllowed">-</span>
+    </div>
+    <pre id="jsonOut">{ "hint": "Bấm POST /check để gửi request thật tới OpenFGA container..." }</pre>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:8090';
+let storeId = '';
+let modelId = '';
+
+async function loadFromDocker() {
+  const pill = document.getElementById('healthPill');
+  try {
+    const h = await fetch(`${API}/healthz`).then(r => r.json());
+    pill.className = 'status-pill ok';
+    pill.innerHTML = `<span class="dot"></span>${h.status || 'SERVING'} • localhost:8090`;
+
+    const storesRes = await fetch(`${API}/stores`).then(r => r.json());
+    const store = (storesRes.stores || []).find(s => s.name === 'ekila-lms-b2c') || (storesRes.stores || [])[0];
+    if (!store) {
+      document.getElementById('tuplesBox').textContent = 'Chưa có store. Chạy openfga/seed-openfga.ps1 để nạp dữ liệu mẫu.';
+      return;
+    }
+    storeId = store.id;
+
+    const modelsRes = await fetch(`${API}/stores/${storeId}/authorization-models`).then(r => r.json());
+    const latestModel = (modelsRes.authorization_models || [])[0];
+    modelId = latestModel ? latestModel.id : '';
+
+    document.getElementById('metaKv').innerHTML =
+      `<span>Store: <strong>${store.name}</strong> (${storeId.slice(0, 10)}...)</span><span>Model: ${modelId ? modelId.slice(0, 10) + '...' : 'N/A'}</span>`;
+
+    const readRes = await fetch(`${API}/stores/${storeId}/read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    }).then(r => r.json());
+
+    const list = readRes.tuples || [];
+    document.getElementById('tupleCount').textContent = list.length;
+    document.getElementById('tuplesBox').innerHTML = list.map(t =>
+      `<div class="t-row">${t.key.object}#${t.key.relation}@${t.key.user}</div>`
+    ).join('');
+
+    await callRealCheck();
+  } catch (e) {
+    pill.className = 'status-pill err';
+    pill.innerHTML = `<span class="dot"></span>OFFLINE — Chạy: docker compose up -d`;
+    document.getElementById('tuplesBox').textContent = 'Không kết nối được tới http://localhost:8090. Hãy kiểm tra Docker OpenFGA.';
+  }
+}
+
+async function callRealCheck() {
+  if (!storeId) return;
+  const user = document.getElementById('qUser').value;
+  const relation = document.getElementById('qRel').value;
+  const object = document.getElementById('qObj').value;
+  const payload = { tuple_key: { user, relation, object }, authorization_model_id: modelId };
+
+  const t0 = performance.now();
+  const resp = await fetch(`${API}/stores/${storeId}/check`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(r => r.json());
+  const ms = (performance.now() - t0).toFixed(1);
+
+  document.getElementById('apiTimer').textContent = `HTTP ${ms} ms`;
+  const badge = document.getElementById('resBadge');
+  badge.className = 'res-badge ' + (resp.allowed ? 'ok' : 'no');
+  document.getElementById('resText').textContent = `Check(${user}, ${relation}, ${object})`;
+  document.getElementById('resAllowed').textContent = `allowed: ${resp.allowed}`;
+  document.getElementById('jsonOut').textContent = JSON.stringify({ request: payload, response: resp }, null, 2);
+}
+
+loadFromDocker();
+</script>
+</body>
+</html>

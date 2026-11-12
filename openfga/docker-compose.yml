@@ -1,0 +1,60 @@
+services:
+  openfga-postgres:
+    image: postgres:16-alpine
+    container_name: ekila-openfga-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: openfga
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d openfga"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - openfga_pg_data:/var/lib/postgresql/data
+
+  openfga-migrate:
+    image: openfga/openfga:latest
+    container_name: ekila-openfga-migrate
+    depends_on:
+      openfga-postgres:
+        condition: service_healthy
+    command: migrate
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://postgres:password@openfga-postgres:5432/openfga?sslmode=disable
+
+  openfga:
+    image: openfga/openfga:latest
+    container_name: ekila-openfga-server
+    depends_on:
+      openfga-migrate:
+        condition: service_completed_successfully
+    command: run
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://postgres:password@openfga-postgres:5432/openfga?sslmode=disable
+      OPENFGA_PLAYGROUND_ENABLED: "true"
+      OPENFGA_PLAYGROUND_PORT: 3000
+      OPENFGA_PLAYGROUND_ADDR: "0.0.0.0:3000"
+    ports:
+      # Dùng port 8090/8091/3010 để không xung đột với Ekila API Gateway (:8080) & Identity (:8081)
+      - "8090:8080"
+      - "8091:8081"
+      - "3010:3000"
+
+  slides-web:
+    image: nginx:alpine
+    container_name: ekila-seminar-slides
+    depends_on:
+      - openfga
+    ports:
+      - "3011:3011"
+      - "8092:8092"
+    volumes:
+      - ../slides:/usr/share/nginx/slides:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  openfga_pg_data:

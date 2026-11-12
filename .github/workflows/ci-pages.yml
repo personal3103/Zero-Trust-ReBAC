@@ -1,0 +1,85 @@
+name: CI & Deploy GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: Validate OpenFGA Model, Docker & Slides
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate slides UI (15 pages, 0 emojis, 0 gradients) & tuples.json
+        run: |
+          node -e '
+            const fs = require("fs");
+            const tuples = JSON.parse(fs.readFileSync("openfga/tuples.json", "utf8"));
+            if (!Array.isArray(tuples) || tuples.length !== 15) {
+              throw new Error("Expected 15 tuples in openfga/tuples.json");
+            }
+            const emojiRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
+            for (const f of ["index.html", "styles.css", "app.js", "openfga-local.html"]) {
+              const txt = fs.readFileSync("slides/" + f, "utf8");
+              if (emojiRegex.test(txt)) throw new Error("Emoji found in slides/" + f);
+              if (/(linear-gradient|radial-gradient)\(/g.test(txt)) throw new Error("Gradient found in slides/" + f);
+            }
+            const html = fs.readFileSync("slides/index.html", "utf8");
+            const count = (html.match(/<section class="slide/g) || []).length;
+            if (count !== 15) throw new Error("Expected 15 slides, found " + count);
+            console.log("Slides & tuples validation passed:", count, "slides,", tuples.length, "tuples.");
+          '
+
+      - name: Validate OpenFGA Docker Compose syntax
+        run: docker compose -f openfga/docker-compose.yml config -q
+
+      - name: Install OpenFGA CLI (v0.8.2) & Run Authorization Model Tests
+        run: |
+          curl -fsSL https://github.com/openfga/cli/releases/download/v0.8.2/fga_0.8.2_linux_amd64.tar.gz -o /tmp/fga.tar.gz
+          tar -xzf /tmp/fga.tar.gz -C /tmp fga
+          chmod +x /tmp/fga
+          /tmp/fga model validate --file openfga/ekila-lms-model.fga
+          /tmp/fga model test --tests openfga/ekila-lms.fga.yaml
+
+  deploy:
+    name: Deploy Slides to GitHub Pages
+    needs: ci
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload slides artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./slides"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

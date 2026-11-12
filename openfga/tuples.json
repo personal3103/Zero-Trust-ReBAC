@@ -1,0 +1,22 @@
+[
+  { "user": "user:cuong", "relation": "system_admin", "object": "platform:ekila" },
+  { "user": "user:linh",  "relation": "content_admin", "object": "platform:ekila" },
+
+  { "user": "platform:ekila", "relation": "platform",   "object": "course:spring-boot" },
+  { "user": "user:duy",       "relation": "instructor", "object": "course:spring-boot" },
+  { "user": "user:khanh",     "relation": "enrolled",   "object": "course:spring-boot" },
+
+  { "user": "platform:ekila", "relation": "platform",   "object": "course:nextjs-pro" },
+  { "user": "user:minh",      "relation": "instructor", "object": "course:nextjs-pro" },
+
+  { "user": "course:spring-boot", "relation": "parent_course",  "object": "lesson:jwt-01" },
+  { "user": "course:spring-boot", "relation": "parent_course",  "object": "lesson:intro-preview" },
+  { "user": "user:*",             "relation": "preview_viewer", "object": "lesson:intro-preview" },
+
+  { "user": "course:spring-boot", "relation": "parent_course", "object": "quiz:quiz-auth" },
+  { "user": "quiz:quiz-auth",     "relation": "parent_quiz",   "object": "quiz_attempt:att-khanh-01" },
+  { "user": "user:khanh",         "relation": "owner",         "object": "quiz_attempt:att-khanh-01" },
+
+  { "user": "platform:ekila", "relation": "platform", "object": "order:ord-khanh-01" },
+  { "user": "user:khanh",     "relation": "buyer",    "object": "order:ord-khanh-01" }
+]
