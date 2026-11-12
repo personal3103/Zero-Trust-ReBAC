@@ -901,11 +901,13 @@ async function detectDocker(manual) {
   if (manual) runCheck();
 }
 
-document.getElementById('dslPre').textContent = MODEL_DSL;
-renderTuples();
-runCheck();
-runAllAssertions();
-detectDocker(false);
+if (typeof document !== 'undefined') {
+  document.getElementById('dslPre').textContent = MODEL_DSL;
+  renderTuples();
+  runCheck();
+  runAllAssertions();
+  detectDocker(false);
+}
 </script>
 </body>
 </html>
