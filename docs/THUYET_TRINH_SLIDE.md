@@ -1,8 +1,7 @@
 # KỊCH BẢN THUYẾT TRÌNH CHI TIẾT THEO SLIDE (TRANG 01 → TRANG 15)
 
 > **Người trình bày:** Trần Đức Anh (Team Ekila LMS) | **Ngày:** 15/11/2026 | **Thời lượng:** 40–45 phút trình bày & demo + 15–20 phút Q&A  
-> **Link Slide Online (GitHub Pages):** `https://personal3103.github.io/Zero-Trust-ReBAC/`  
-> **Link Slide Local (Docker OpenFGA thật):** `http://localhost:3011/` ([`../slides/index.html`](../slides/index.html))  
+> **Link Slide Trực tuyến:** `https://personal3103.github.io/Zero-Trust-ReBAC/` ([`../slides/index.html`](../slides/index.html))  
 >
 > **Hệ thống tài liệu liên kết (chuyển nhanh theo mục đích):**  
 > - [Cẩm nang Phản biện Q&A (12 câu hỏi kỹ thuật thường gặp)](PHAN_BIEN_QA.md)  
@@ -139,13 +138,13 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 
 ---
 
-### Trang 09 — Những nền tảng Zero Trust Ekila LMS đã triển khai (`24:00 – 27:00`)
-- **Trên màn hình slide:** 4 thẻ xanh/lam/vàng: *1. Chốt chặn Gateway & Tước header giả mạo*, *2. Chữ ký nội bộ HMAC-SHA256 (5-Tuple)*, *3. Cô lập dịch vụ & Che giấu tồn tại (403 → 404)*, *4. Nhật ký kiểm toán bất biến & Hướng nâng cấp*.
+### Trang 09 — 4 Chốt chặn Zero Trust Ekila LMS đang vận hành (`24:00 – 27:00`)
+- **Trên màn hình slide:** Sơ đồ luồng bảo vệ 4 bước (`Client + JWT → 1. Gateway Edge → 2. HMAC 5-Tuple → 3. Service + IDOR Shield → 4. Audit DB`) và 2 thẻ tóm tắt phía dưới.
 - **Giải thích dễ hiểu về 403 → 404 và HMAC 5-Tuple:**
   - *Vì sao ẩn 403 thành 404?* Nếu hệ thống trả `403 Forbidden`, kẻ tấn công biết chắc *"À, ID bài thi/đơn hàng này có tồn tại trong DB, chỉ là mình không có quyền"* và tiếp tục dò quét. Trả `404 Not Found` khiến kẻ tấn công không biết bản ghi đó có tồn tại hay không.
   - *Vì sao HMAC phải ký đủ 5 thành phần?* Nếu chỉ ký `UserId`, hacker cướp được chữ ký từ một API `GET` xem danh sách rồi đem tái sử dụng cho API `DELETE` hoặc `POST` sẽ lọt. Ký cả `METHOD : PATH : USER_ID : ROLES : TIMESTAMP` (±60 giây) khóa chặt chữ ký vào đúng hành động và đúng thời điểm đó.
 - **Lời thuyết trình gợi ý:**
-  > "Trước khi nói về những gì cần nâng cấp, cần ghi nhận là dự án của chúng ta không bắt đầu từ con số 0. Team đã triển khai sẵn 4 chốt chặn rất sát tinh thần Zero Trust:  
+  > "Trước khi nói về những gì cần nâng cấp, cần ghi nhận là dự án của chúng ta không bắt đầu từ con số 0. Nhìn vào sơ đồ chuỗi bảo vệ từ trái sang phải, team đã triển khai sẵn 4 chốt chặn rất sát tinh thần Zero Trust:  
   > 1. **Tước bỏ header giả mạo tại Gateway:** Gateway xác thực JWT và xóa sạch mọi header định danh mà client tự ý nhét vào trước khi chuyển request xuống service nội bộ.  
   > 2. **Chữ ký nội bộ HMAC-SHA256 (5-Tuple):** Mọi lời gọi từ Gateway vào microservices đều được ký trên 5 thành phần: `METHOD`, `PATH`, `USER_ID`, `ROLES` và `TIMESTAMP` trong cửa sổ ±60 giây. Điều này chặn triệt để kịch bản giả mạo `X-User-Id` hay lấy nhầm chữ ký từ API đọc sang API ghi.  
   > 3. **Cô lập Notification & Cơ chế 403 → 404:** Service gửi mail không lộ ra ngoài Internet; và với tài nguyên riêng tư của user khác, hệ thống chủ động trả **404 Not Found** thay vì 403 để chống dò ID.  
@@ -153,8 +152,8 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 
 ---
 
-### Trang 10 — Mô hình phân quyền 3 lớp hiện tại & Điểm nghẽn thực tế (`27:00 – 30:30`)
-- **Trên màn hình slide:** Cột trái: *3 lớp phòng thủ hiện tại* (`STUDENT`, `INSTRUCTOR`, `CONTENT_ADMIN`, `SYSTEM_ADMIN`); Cột phải: *3 điểm nghẽn thực tế khi B2C mở rộng* (đặc biệt là **Assessment gọi mạng sang Catalog**, dễ trả lỗi `503`).
+### Trang 10 — Phân quyền 3 lớp hiện tại & Điểm nghẽn thực tế (`27:00 – 30:30`)
+- **Trên màn hình slide:** Sơ đồ bên trái thể hiện **3 lớp phòng thủ** (`Lớp 1 RBAC tĩnh` → `Lớp 2 Sở hữu IDOR` → `Lớp 3 Scope Query`) và khung đứt nét đỏ chỉ ra **Điểm nghẽn: Assessment gọi HTTP sang Catalog (`503`)**; bên phải tóm tắt 3 giới hạn khi B2C mở rộng.
 - **Lời thuyết trình gợi ý:**
   > "Hiện tại, phân quyền bên trong Ekila LMS đang vận hành theo mô hình **3 lớp** khá chắc chắn cho giai đoạn MVP với đúng 4 vai trò B2C: Học viên (`STUDENT`), Giảng viên (`INSTRUCTOR`), Quản trị nội dung (`CONTENT_ADMIN`) và Quản trị hệ thống (`SYSTEM_ADMIN`):  
   > - **Lớp 1 (RBAC tĩnh theo API):** Khớp đúng ma trận nghiệp vụ — ví dụ Giảng viên được tạo/sửa khóa học, nhưng chỉ Content Admin hoặc System Admin mới có quyền duyệt xuất bản; Content Admin được xem đơn hàng hỗ trợ khách nhưng **không** được hủy đơn như System Admin.  
@@ -194,13 +193,13 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 
 ---
 
-### Trang 13 — Live Demo: OpenFGA Playground (In-Browser JS) (`36:00 – 41:30`)
-- **Trên màn hình slide:** Khung nhúng giao diện **OpenFGA Playground** chạy 100% bằng thuật toán duyệt đồ thị JavaScript ngay trong trình duyệt (không cần Docker, không lỗi mạng hay bị chặn iframe), kèm nút **`Phóng to Iframe`** và **`Mở tab riêng`**.
+### Trang 13 — Live Demo: OpenFGA Playground (`36:00 – 41:30`)
+- **Trên màn hình slide:** Khung nhúng giao diện **OpenFGA Playground** với dữ liệu Store `ekila-lms-b2c` (7 Types, 15 Tuples) chạy thuật toán duyệt đồ thị ReBAC trực tiếp trên trình duyệt, kèm nút **`Phóng to Iframe`** và **`Mở tab riêng`**.
 - **Trên giao diện OpenFGA gồm 4 vùng trực quan:**
   - **Trên trái — `AUTHORIZATION MODEL (7 TYPES)`:** Xem toàn bộ model `ekila-lms-model.fga` dạng **DSL** hoặc **JSON**.
   - **Dưới trái — `Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`:** Danh sách 15 quan hệ có sẵn của `ekila-lms-b2c`, thêm/xóa tuple trực tiếp và chạy bộ 19 kiểm thử tự động.
   - **Trên phải — `TYPES PREVIEWER`:** Đồ thị phân cấp 7 types (`user`, `platform`, `course`, `lesson`, `quiz`, `quiz_attempt`, `order`) và các relations; tự động đổi màu nhánh đang kiểm tra (`xanh` = `ALLOWED`, `đỏ` = `DENIED`).
-  - **Dưới phải — `TUPLE QUERIES • GRAPH TRAVERSAL CHECK`:** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
+  - **Dưới phải — `TUPLE QUERIES`:** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
 - **Kịch bản thao tác demo từng bước (nên bấm `Phóng to Iframe` ngay khi vào Trang 13):**
   1. **Bấm `Phóng to Iframe`** để bung OpenFGA Playground toàn màn hình cho cả phòng dễ theo dõi.
   2. **Giới thiệu nhanh Store `ekila-lms-b2c` (15 Tuples sẵn):**
@@ -214,8 +213,8 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
      - **Case 5 (Ranh giới Admin & Đơn hàng):** `user:linh` | `order:ord-khanh-01` | `can_cancel` → **`DENIED: false`** *(Content Admin chỉ xem đơn, không được hủy)*.
   4. **Live Mutation — Mô phỏng thanh toán VietQR thành công:**
      - Nói: *"Giả sử ngay lúc này bạn An thanh toán VietQR xong, Outbox worker ghi thêm đúng 1 Tuple..."*
-     - Ở khung **`+ ADD TUPLE >`** (đang mở sẵn bên trái), nhập/giữ sẵn `user:an` | `enrolled` | `course:spring-boot` → bấm **`SAVE`**.
-     - Bấm lại **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED: true`**, node trên đồ thị sáng màu xanh! (Cuối cùng bấm **`RESET STORE (15)`** nếu muốn khôi phục trạng thái ban đầu).
+     - Bấm **`+ ADD TUPLE >`** ở góc phải bảng Tuples, nhập/giữ sẵn `user:an` | `enrolled` | `course:spring-boot` → bấm **`SAVE`**.
+     - Bấm lại **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED: true`**, node trên đồ thị sáng màu xanh! (Cuối cùng bấm **`RESET (15)`** nếu muốn khôi phục trạng thái ban đầu).
   5. Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn về slide, chuyển sang Trang 14.
 
 ---

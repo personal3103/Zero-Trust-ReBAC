@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- Top Document Toolbar (Clean, Minimalist) -->
+<!-- Top Document Toolbar -->
 <header class="topbar">
   <div class="brand-group">
     <button class="btn active" id="outlineBtn" onclick="toggleOutline()" title="Bật/tắt Mục lục (M)">
@@ -19,7 +19,7 @@
     <div class="doc-icon" aria-hidden="true">
       <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     </div>
-    <span class="doc-title">Ekila LMS — Zero Trust &amp; ReBAC (Zanzibar / OpenFGA)</span>
+    <span class="doc-title">Ekila Academy LMS (B2C) — Zero Trust &amp; ReBAC</span>
   </div>
 
   <div class="toolbar-actions">
@@ -43,7 +43,7 @@
 <div class="workspace">
   <aside class="outline" id="outlineRail">
     <div class="outline-head">
-      <span>Mục lục tài liệu (15 trang)</span>
+      <span>Mục lục (15 trang)</span>
       <span style="font-family:var(--mono); font-size:10.5px;">M</span>
     </div>
     <div class="outline-list" id="outlineList"></div>
@@ -56,7 +56,7 @@
       <section class="slide active" data-group="Mở đầu" data-title="Trang bìa & Bố cục">
         <div class="slide-top stagger" style="--i:0">
           <span class="badge">Internal Tech Talk • 60 Phút</span>
-          <span class="slide-tag">EKILA ACADEMY LMS • 15 / 11 / 2026 • TRANG 01</span>
+          <span class="slide-tag">Ekila Academy LMS (B2C) • 15/11/2026 • Trang 01</span>
         </div>
         <div class="cover-wrap">
           <div class="cover-rule stagger" style="--i:1"></div>
@@ -65,26 +65,26 @@
             <span class="c-primary">(Google Zanzibar / ReBAC)</span>
           </div>
           <p class="subtitle stagger" style="--i:2; font-size: 16.5px; max-width: 780px; color: var(--ink-2);">
-            Từ tư duy bảo mật không mặc định tin tưởng đến bài toán phân quyền theo dữ liệu thực tế tại hệ thống <strong>Ekila Academy LMS (B2C)</strong>
+            Từ tư duy bảo mật không mặc định tin tưởng đến bài toán phân quyền theo quan hệ dữ liệu thực tế tại <strong>Ekila Academy LMS (B2C)</strong>
           </p>
           <div class="cover-meta stagger" style="--i:3">
             <div class="pill">
               <svg class="ico c-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span><strong>Người trình bày:</strong> Trần Đức Anh — <strong>Team Ekila LMS</strong></span>
+              <span><strong>Trình bày:</strong> Trần Đức Anh — <strong>Team Ekila LMS</strong></span>
             </div>
           </div>
           <div class="grid-3 stagger" style="--i:4; margin-top: 8px; flex: 0 0 auto;">
             <div class="card b-violet">
               <h3><span><span class="c-violet">Phần I.</span> Lý thuyết cốt lõi</span></h3>
-              <p>Zero Trust (NIST 800-207), giới hạn của RBAC và kiến trúc đồ thị quan hệ Google Zanzibar / OpenFGA.</p>
+              <p>Zero Trust (NIST 800-207), giới hạn RBAC và đồ thị quan hệ Google Zanzibar / OpenFGA.</p>
             </div>
             <div class="card b-green">
               <h3><span><span class="c-green">Phần II.</span> Thực tế Ekila LMS</span></h3>
-              <p>Kiến trúc 6 Microservices B2C, lớp Zero Trust hiện có, điểm nghẽn thực tế &amp; Demo OpenFGA Playground.</p>
+              <p>Kiến trúc 6 Microservices B2C, nền tảng Zero Trust, điểm nghẽn thực tế &amp; Demo OpenFGA.</p>
             </div>
             <div class="card b-amber">
               <h3><span><span class="c-amber">Phần III.</span> Trade-off &amp; Q&amp;A</span></h3>
-              <p>Đánh giá chi phí – lợi ích, lộ trình áp dụng Hybrid và thảo luận mở cùng Mentor &amp; Tech Lead.</p>
+              <p>Đánh giá đánh đổi, lộ trình Hybrid 3 giai đoạn và thảo luận mở cùng team.</p>
             </div>
           </div>
         </div>
@@ -97,39 +97,36 @@
           <span class="slide-tag">AuthN vs. AuthZ • Trang 02</span>
         </div>
         <h1 class="title stagger" style="--i:1">Kết nối chuỗi Seminar: <span class="c-primary">AuthN</span> chưa phải là <span class="c-green">AuthZ</span></h1>
-        <p class="subtitle stagger" style="--i:2">Vì sao đã có Identity / Keycloak SSO và RBAC rồi mà hệ thống vẫn có thể bị rò rỉ dữ liệu (IDOR)?</p>
+        <p class="subtitle stagger" style="--i:2">Đã có Keycloak SSO / Identity và RBAC nhưng hệ thống vẫn có thể lộ dữ liệu (IDOR) nếu thiếu phân quyền theo quan hệ</p>
 
         <div class="grid-3" style="align-items: stretch;">
           <div class="card b-primary stagger" style="--i:3">
             <h3><span>1. Keycloak SSO / Identity</span> <span class="badge">AuthN</span></h3>
-            <p><strong>Câu hỏi:</strong> <em>"Bạn có đúng là Trần Đức Anh không?"</em></p>
+            <p><strong>Câu hỏi:</strong> <em>"Bạn có đúng là Trần Đức Anh?"</em></p>
             <ul class="clean">
-              <li>Đăng nhập, Google OAuth2, cấp phát JWT / HttpOnly Cookie.</li>
-              <li>Quản lý phiên và khóa tài khoản tạm thời khi sai mật khẩu.</li>
-              <li><strong>Giới hạn:</strong> Token chỉ biết danh tính và Role tổng quát, không biết bạn đã mua khóa học nào.</li>
+              <li>Đăng nhập, OAuth2, cấp JWT ngắn hạn &amp; phiên đăng nhập.</li>
+              <li><strong>Giới hạn:</strong> Chỉ xác nhận danh tính + Role tổng quát; không biết bạn đã mua khóa nào.</li>
             </ul>
           </div>
           <div class="card b-violet stagger" style="--i:4">
             <h3><span>2. RBAC Microservices</span> <span class="badge p1">AuthZ Thô</span></h3>
-            <p><strong>Câu hỏi:</strong> <em>"Role INSTRUCTOR có được gọi API sửa khóa học không?"</em></p>
+            <p><strong>Câu hỏi:</strong> <em>"Role INSTRUCTOR có được gọi API sửa khóa?"</em></p>
             <ul class="clean">
-              <li>Ánh xạ <code class="inline">Role → Endpoint / Action</code> rất gọn nhẹ.</li>
-              <li>Chặn nhanh người lạ hoặc Học viên gọi API của Admin.</li>
-              <li><strong>Giới hạn:</strong> Không phân biệt được Giảng viên A đang sửa khóa của mình hay khóa của Giảng viên B.</li>
+              <li>Ánh xạ nhanh <code class="inline">Role → Endpoint</code>, chặn người lạ gọi API quản trị.</li>
+              <li><strong>Giới hạn:</strong> Không phân biệt được Giảng viên A đang sửa khóa của mình hay của người khác.</li>
             </ul>
           </div>
           <div class="card b-green stagger" style="--i:5">
             <h3><span>3. Zero Trust &amp; ReBAC</span> <span class="badge p2">AuthZ Mịn</span></h3>
-            <p><strong>Câu hỏi:</strong> <em>"User X có quan hệ gì với đúng bản ghi Y tại thời điểm này?"</em></p>
+            <p><strong>Câu hỏi:</strong> <em>"User X có quan hệ gì với bản ghi Y lúc này?"</em></p>
             <ul class="clean green">
-              <li>Không tin mặc định request nội bộ giữa các microservice.</li>
-              <li>Kiểm tra quyền theo <strong>mối quan hệ</strong> tới tận từng khóa học, bài giảng, bài thi, đơn hàng.</li>
-              <li>Chặn đứng tấn công <strong>IDOR</strong> (OWASP API Top 10 #1).</li>
+              <li>Xác minh từng request nội bộ; không mặc định tin nhau.</li>
+              <li><strong>Giá trị:</strong> Kiểm soát tới từng khóa học, bài học, quiz, đơn hàng — chặn đứng <strong>IDOR</strong>.</li>
             </ul>
           </div>
         </div>
         <div class="callout stagger" style="--i:6; margin-top: 14px;">
-          <strong>Key Takeaway:</strong> Identity/SSO giải quyết <strong>danh tính</strong>; RBAC giải quyết <strong>quyền theo chức năng</strong>; ReBAC + Zero Trust giải quyết <strong>quyền theo từng tài nguyên &amp; từng ngữ cảnh gọi dịch vụ</strong>.
+          <strong>Key Takeaway:</strong> Identity lo <strong>danh tính</strong>; RBAC lo <strong>quyền chức năng</strong>; ReBAC + Zero Trust lo <strong>quyền trên từng tài nguyên &amp; ngữ cảnh gọi dịch vụ</strong>.
         </div>
       </section>
 
@@ -139,8 +136,8 @@
           <span class="badge p1">Phần I • Zero Trust</span>
           <span class="slide-tag">Castle-and-Moat • Trang 03</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Sự sụp đổ của <span class="c-red">Castle-and-Moat</span> &amp; Kịch bản Lateral Movement</h1>
-        <p class="subtitle stagger" style="--i:2">Khi "vào được mạng nội bộ là an toàn" trở thành điểm chết trong kiến trúc Microservices</p>
+        <h1 class="title stagger" style="--i:1">Sự sụp đổ của <span class="c-red">Castle-and-Moat</span> &amp; Lateral Movement</h1>
+        <p class="subtitle stagger" style="--i:2">Tư duy "vào được mạng nội bộ là an toàn" trở thành điểm chết trong kiến trúc Microservices</p>
 
         <div class="grid-2">
           <div class="svg-box stagger" style="--i:3">
@@ -174,18 +171,18 @@
               <text x="438" y="154" fill="#dc2626" font-size="11" font-weight="700">Lateral Movement</text>
 
               <rect x="200" y="255" width="320" height="32" rx="6" fill="#fef2f2" stroke="#fecaca"/>
-              <text x="360" y="275" text-anchor="middle" fill="#991b1b" font-size="11.5" font-weight="600">Không kiểm tra chữ ký &amp; quyền nội bộ → Sập dây chuyền</text>
+              <text x="360" y="275" text-anchor="middle" fill="#991b1b" font-size="11.5" font-weight="600">Thiếu kiểm tra nội bộ → Lây lan toàn hệ thống</text>
             </svg>
           </div>
           <div class="card b-red stagger" style="--i:4">
-            <h3>Vì sao Castle-and-Moat thất bại ở Microservices?</h3>
+            <h3>Vì sao mô hình Lâu đài – Hào nước thất bại?</h3>
             <ul class="clean red">
-              <li><strong>Bề mặt tấn công phân tán:</strong> Không còn 1 máy chủ nguyên khối; nhiều service giao tiếp qua mạng nội bộ, container và hàng đợi.</li>
-              <li><strong>Rủi ro Header Spoofing:</strong> Nếu service phía sau tin mù quáng vào <code class="inline">X-User-Id</code> mà không xác minh chữ ký từ Gateway, lỗ hổng ở 1 service phụ có thể giả danh Admin.</li>
-              <li><strong>Lateral Movement (Di chuyển ngang):</strong> Service phụ bị xâm nhập dễ dàng gọi sang endpoint nội bộ của Thanh toán hoặc Identity nếu thiếu xác thực từng hop.</li>
+              <li><strong>Bề mặt phân tán:</strong> Nhiều container &amp; hàng đợi giao tiếp liên tục; không còn một máy chủ duy nhất.</li>
+              <li><strong>Header Spoofing:</strong> Service tin mù quáng <code class="inline">X-User-Id</code> từ header sẽ bị giả danh Admin nếu thiếu chữ ký nội bộ.</li>
+              <li><strong>Lateral Movement:</strong> Kẻ tấn công chiếm 1 service phụ có thể gọi ngang sang Thanh toán hoặc Identity.</li>
             </ul>
             <div class="callout red" style="margin-top:auto;">
-              <strong>Chuyển đổi tư duy:</strong> Ranh giới bảo mật không còn nằm ở "bức tường mạng" mà nằm trên <strong>từng request, từng danh tính và từng đối tượng dữ liệu</strong>.
+              <strong>Đổi tư duy:</strong> Ranh giới bảo mật đặt trên <strong>từng request, từng danh tính và từng đối tượng dữ liệu</strong>.
             </div>
           </div>
         </div>
@@ -198,25 +195,25 @@
           <span class="slide-tag">NIST SP 800-207 • Trang 04</span>
         </div>
         <h1 class="title stagger" style="--i:1">Zero Trust Architecture: <span class="c-primary">3 Trụ cột</span> &amp; Mô hình <span class="c-green">PEP / PDP</span></h1>
-        <p class="subtitle stagger" style="--i:2">"Never Trust, Always Verify" — Không tin mặc định bất kỳ request nào, kể cả từ mạng nội bộ</p>
+        <p class="subtitle stagger" style="--i:2">"Never Trust, Always Verify" — Mọi request nội bộ đều phải được xác thực và phân quyền tường minh</p>
 
         <div class="grid-3" style="flex: 0 0 auto; margin-bottom: 14px;">
           <div class="card b-primary stagger" style="--i:3">
             <h3>1. Verify Explicitly</h3>
-            <p>Luôn xác thực và kiểm tra quyền dựa trên đầy đủ ngữ cảnh: JWT ngắn hạn, chữ ký nội bộ, danh tính dịch vụ gọi và trạng thái phiên.</p>
+            <p>Kiểm tra đầy đủ ngữ cảnh trên mỗi request: JWT ngắn hạn, chữ ký nội bộ và trạng thái phiên.</p>
           </div>
           <div class="card b-green stagger" style="--i:4">
             <h3>2. Least Privilege</h3>
-            <p>Chỉ cấp quyền tối thiểu vừa đủ trên đúng tài nguyên cần thao tác (chỉ học khóa đã mua, chỉ sửa bài thuộc khóa mình).</p>
+            <p>Chỉ cấp quyền tối thiểu trên đúng tài nguyên: chỉ học khóa đã mua, chỉ sửa bài thuộc khóa mình.</p>
           </div>
           <div class="card b-amber stagger" style="--i:5">
             <h3>3. Assume Breach</h3>
-            <p>Thiết kế với tâm thế kẻ tấn công đã vào trong: cô lập dịch vụ nội bộ, xác thực từng hop, nhật ký kiểm toán bất biến.</p>
+            <p>Luôn giả định đã có xâm nhập để cô lập service nhạy cảm, xác thực từng hop &amp; ghi audit log bất biến.</p>
           </div>
         </div>
 
         <div class="card stagger" style="--i:6; flex:1;">
-          <h3>Kiến trúc tách rời PEP (Thực thi) &amp; PDP (Ra quyết định)</h3>
+          <h3>Kiến trúc tách rời PEP (Điểm thực thi) &amp; PDP (Điểm ra quyết định)</h3>
           <div class="svg-box" style="height: 185px;">
             <svg viewBox="0 0 820 155" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -259,8 +256,8 @@
           <span class="badge p1">Phần I • Giới hạn mô hình cũ</span>
           <span class="slide-tag">ACL vs RBAC vs ABAC vs ReBAC • Trang 05</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Vì sao <span class="c-amber">RBAC</span> truyền thống chưa đủ khi hệ thống mở rộng?</h1>
-        <p class="subtitle stagger" style="--i:2">So sánh 4 mô hình phân quyền và 2 bẫy kỹ thuật khiến RBAC quá tải</p>
+        <h1 class="title stagger" style="--i:1">Vì sao <span class="c-amber">RBAC</span> chưa đủ khi hệ thống mở rộng?</h1>
+        <p class="subtitle stagger" style="--i:2">So sánh 4 mô hình phân quyền phổ biến và 2 điểm nghẽn kinh điển của RBAC</p>
 
         <table class="cmp stagger" style="--i:3; margin-bottom: 14px;">
           <thead>
@@ -275,37 +272,37 @@
           <tbody>
             <tr>
               <td><strong>Đơn vị cốt lõi</strong></td>
-              <td>Danh sách User gắn vào Resource</td>
+              <td>User list trên từng Resource</td>
               <td>Role tĩnh (<code class="inline">INSTRUCTOR</code>)</td>
-              <td>Thuộc tính (IP, giờ, phòng ban...)</td>
+              <td>Thuộc tính (IP, giờ, phòng...)</td>
               <td><strong>Đồ thị quan hệ</strong> (<code class="inline">object#rel@user</code>)</td>
             </tr>
             <tr>
-              <td><strong>Phân cấp &amp; Kế thừa</strong></td>
+              <td><strong>Kế thừa phân cấp</strong></td>
               <td>Không</td>
-              <td>Hạn chế (kế thừa Role)</td>
-              <td>Khó biểu diễn cây tài nguyên</td>
+              <td>Chỉ theo cấp Role</td>
+              <td>Khó mô tả cây dữ liệu</td>
               <td><strong>Tự nhiên</strong> (Course → Lesson / Quiz)</td>
             </tr>
             <tr>
-              <td><strong>Độ mịn theo dữ liệu</strong></td>
-              <td>Tốt nhưng rời rạc</td>
-              <td><strong>Kém</strong> (dễ lộ IDOR nếu thiếu guard)</td>
-              <td>Tốt nhưng rule dễ phình to</td>
-              <td><strong>Cực mịn</strong> tới từng bản ghi</td>
+              <td><strong>Độ mịn theo bản ghi</strong></td>
+              <td>Rời rạc</td>
+              <td><strong>Thô</strong> (dễ hở IDOR)</td>
+              <td>Rule dễ phình to</td>
+              <td><strong>Chính xác tới từng bản ghi</strong></td>
             </tr>
             <tr>
-              <td><strong>Kiểm toán "Ai có quyền gì?"</strong></td>
+              <td><strong>Audit "Ai có quyền gì?"</strong></td>
               <td>Chậm</td>
               <td>Chỉ biết theo Role</td>
-              <td>Rất khó Audit</td>
+              <td>Rất khó truy vết</td>
               <td><strong>Nhanh</strong> (<code class="inline">ListObjects</code> / <code class="inline">Expand</code>)</td>
             </tr>
             <tr class="hl">
-              <td><strong>Phù hợp nhất cho</strong></td>
-              <td>File đơn giản</td>
+              <td><strong>Đất diễn tối ưu</strong></td>
+              <td>File đơn lẻ</td>
               <td>Phân quyền API / Menu thô</td>
-              <td>Luật theo ngữ cảnh thời gian/IP</td>
+              <td>Luật ngữ cảnh IP/thời gian</td>
               <td><strong>Microservices nhiều quan hệ dữ liệu</strong></td>
             </tr>
           </tbody>
@@ -313,22 +310,22 @@
 
         <div class="grid-2 stagger" style="--i:4; flex: 0 0 auto;">
           <div class="callout amber">
-            <strong>Role Explosion (Bùng nổ vai trò):</strong> Nếu cố nhét ID khóa học vào Role (<code class="inline">INSTRUCTOR_COURSE_101</code>), khi có 10.000 khóa học thì JWT phình to và không thể quản trị nổi.
+            <strong>Role Explosion:</strong> Nhét ID khóa học vào Role (<code class="inline">COURSE_101</code>) làm JWT phình to và không quản trị nổi khi có hàng vạn khóa.
           </div>
           <div class="callout red">
-            <strong>Logic kiểm tra sở hữu rải rác:</strong> Để chặn IDOR, developer phải tự viết logic kiểm tra sở hữu lặp đi lặp lại trong từng Service và từng câu truy vấn SQL.
+            <strong>Logic kiểm tra sở hữu rải rác:</strong> Dev phải viết tay kiểm tra chủ sở hữu lặp lại ở nhiều Service và từng câu SQL.
           </div>
         </div>
       </section>
 
-      <!-- TRANG 06: REBAC & GOOGLE ZANZIBAR (MERGED, ZERO OVERLAP) -->
+      <!-- TRANG 06: REBAC & GOOGLE ZANZIBAR -->
       <section class="slide" data-group="Phần I — Lý thuyết" data-title="ReBAC & Kiến trúc Google Zanzibar">
         <div class="slide-top stagger" style="--i:0">
           <span class="badge p1">Phần I • ReBAC &amp; Google Zanzibar</span>
           <span class="slide-tag">Graph Model &amp; Consistency • Trang 06</span>
         </div>
         <h1 class="title stagger" style="--i:1">Tư duy <span class="c-green">ReBAC</span> &amp; Kiến trúc <span class="c-primary">Google Zanzibar</span></h1>
-        <p class="subtitle stagger" style="--i:2">Biểu diễn quyền bằng đồ thị <code class="inline">object#relation@user</code> với độ trễ &lt; 10ms và nhất quán cao</p>
+        <p class="subtitle stagger" style="--i:2">Mô hình hóa quyền bằng đồ thị <code class="inline">object#relation@user</code> với độ trễ p95 &lt; 10ms</p>
 
         <div class="grid-12">
           <div style="display:flex; flex-direction:column; gap:10px;">
@@ -337,14 +334,14 @@
               <pre class="code"><span class="tp">course:spring-boot</span>#<span class="rel">instructor</span>@<span class="kw">user:duy</span>
 <span class="tp">course:spring-boot</span>#<span class="rel">enrolled</span>@<span class="kw">user:khanh</span>
 <span class="tp">lesson:jwt-01</span>#<span class="rel">parent_course</span>@<span class="tp">course:spring-boot</span></pre>
-              <p>Chỉ cần nối 1 cạnh <code class="inline">enrolled</code> tới Khóa học — engine tự suy diễn (<code class="inline">from</code>) xuống toàn bộ Bài giảng &amp; Quiz con.</p>
+              <p>Chỉ cần 1 cạnh <code class="inline">enrolled</code> tới Khóa học — engine tự suy diễn (<code class="inline">from</code>) xuống toàn bộ Bài giảng &amp; Quiz con.</p>
             </div>
 
             <div class="card b-amber stagger" style="--i:4">
               <h3>2. Cơ chế cốt lõi của Google Zanzibar</h3>
               <ul class="clean amber">
-                <li><strong>New Enemy &amp; Zookie:</strong> Sau khi thu hồi quyền/hoàn tiền, Consistency Token ngăn cache cũ làm rò rỉ bài giảng/đề thi mới vừa thêm.</li>
-                <li><strong>Tối ưu hiệu năng:</strong> Tiền tính toán nhóm lồng sâu (<em>Leopard</em>) + gửi request song song chống tail-latency (<em>Request Hedging</em>).</li>
+                <li><strong>New Enemy &amp; Zookie:</strong> Consistency Token ngăn cache cũ làm rò rỉ dữ liệu mới vừa tạo sau khi thu hồi quyền.</li>
+                <li><strong>Hiệu năng &lt; 10ms:</strong> Tiền tính toán nhóm lồng sâu (<em>Leopard</em>) + gửi song song giảm tail-latency (<em>Request Hedging</em>).</li>
               </ul>
             </div>
           </div>
@@ -397,37 +394,37 @@
           <span class="badge p1">Phần I • Công cụ thực tế</span>
           <span class="slide-tag">Open-Source Zanzibar • Trang 07</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Hệ sinh thái mã nguồn mở: Chọn công cụ nào cho Backend?</h1>
-        <p class="subtitle stagger" style="--i:2">3 bản hiện thực hóa chuẩn Google Zanzibar phổ biến nhất hiện nay</p>
+        <h1 class="title stagger" style="--i:1">Hệ sinh thái mã nguồn mở: Chọn công cụ nào?</h1>
+        <p class="subtitle stagger" style="--i:2">3 bản hiện thực hóa chuẩn Google Zanzibar phổ biến nhất cho Backend hiện đại</p>
 
         <div class="grid-3">
           <div class="card b-green stagger" style="--i:3">
             <h3><span>OpenFGA</span> <span class="badge p2">Khuyên dùng</span></h3>
             <ul class="clean green">
-              <li><strong>Chủ quản:</strong> Dự án thuộc CNCF (xuất phát từ Auth0/Okta).</li>
-              <li><strong>Ngôn ngữ định nghĩa:</strong> DSL cực kỳ sạch, dễ đọc cho cả Dev lẫn Reviewer.</li>
-              <li><strong>Tích hợp:</strong> Hỗ trợ tốt <strong>PostgreSQL</strong> (trùng DB stack hiện tại), Java/Spring &amp; Node SDK, CLI <code class="inline">fga model test</code>.</li>
+              <li><strong>CNCF Project:</strong> Phát triển từ Auth0/Okta, cộng đồng lớn.</li>
+              <li><strong>DSL trực quan:</strong> Dễ đọc, dễ review trên PR cùng cả team.</li>
+              <li><strong>Hệ sinh thái:</strong> Dùng chung <strong>PostgreSQL</strong>, SDK Java/Node, CLI test YAML.</li>
             </ul>
           </div>
           <div class="card b-primary stagger" style="--i:4">
             <h3>SpiceDB (AuthZed)</h3>
             <ul class="clean">
-              <li><strong>Điểm mạnh:</strong> Kiến trúc bám sát bài báo gốc của Google Zanzibar nhất.</li>
-              <li><strong>Nhất quán:</strong> Xử lý <strong>ZedToken (Zookie)</strong> cực mạnh, hỗ trợ CockroachDB / PostgreSQL phân tán.</li>
-              <li><strong>Phù hợp:</strong> Hệ thống cần độ nhất quán nghiêm ngặt ở quy mô lớn.</li>
+              <li><strong>Bám sát Zanzibar:</strong> Mô phỏng chuẩn bài báo gốc của Google.</li>
+              <li><strong>ZedToken:</strong> Kiểm soát nhất quán phân tán cực kỳ chặt chẽ.</li>
+              <li><strong>Phù hợp:</strong> Hệ thống quy mô lớn chạy CockroachDB / Spanner.</li>
             </ul>
           </div>
           <div class="card b-violet stagger" style="--i:5">
             <h3>Ory Keto</h3>
             <ul class="clean">
-              <li><strong>Điểm mạnh:</strong> Nằm trong hệ sinh thái Ory (cùng Ory Hydra / Kratos).</li>
-              <li><strong>Giao thức:</strong> Hỗ trợ tốt gRPC / REST và cú pháp OPL (TypeScript-like).</li>
-              <li><strong>Phù hợp:</strong> Đội ngũ đang dùng trọn bộ Ory Stack.</li>
+              <li><strong>Bộ Ory Stack:</strong> Gắn kết sẵn với Ory Hydra / Kratos.</li>
+              <li><strong>Cú pháp OPL:</strong> Định nghĩa policy theo phong cách TypeScript.</li>
+              <li><strong>Phù hợp:</strong> Dự án đang triển khai trọn bộ hạ tầng Ory.</li>
             </ul>
           </div>
         </div>
         <div class="callout green stagger" style="--i:6; margin-top: 14px;">
-          <strong>Lựa chọn cho Ekila LMS:</strong> <strong>OpenFGA</strong> — vì dùng chung được PostgreSQL 16 của dự án, DSL trực quan và có sẵn giao diện Playground + CLI test YAML.
+          <strong>Lựa chọn cho Ekila LMS:</strong> <strong>OpenFGA</strong> — tận dụng PostgreSQL 16 sẵn có, DSL sạch và kiểm thử được bằng YAML (<code class="inline">fga model test</code>).
         </div>
       </section>
 
@@ -437,8 +434,8 @@
           <span class="badge p2">Phần II • Thực tế Ekila LMS (B2C)</span>
           <span class="slide-tag">Current Architecture • Trang 08</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Bức tranh kiến trúc <span class="c-primary">Ekila Academy LMS</span> hiện tại</h1>
-        <p class="subtitle stagger" style="--i:2">6 Microservices độc lập theo mô hình Database-per-Service (PostgreSQL 16 + Redis 7 + MinIO S3)</p>
+        <h1 class="title stagger" style="--i:1">Kiến trúc <span class="c-primary">Ekila Academy LMS (B2C)</span> hiện tại</h1>
+        <p class="subtitle stagger" style="--i:2">6 Microservices theo mô hình Database-per-Service (PostgreSQL 16 + Redis 7 + MinIO S3)</p>
 
         <div class="grid-21">
           <div class="svg-box stagger" style="--i:3">
@@ -454,7 +451,7 @@
               <text x="260" y="44" text-anchor="middle" fill="#334155" font-size="11.5" font-weight="700">Traefik Proxy</text>
 
               <rect x="365" y="18" width="195" height="44" rx="6" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.6"/>
-              <text x="462" y="38" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="800">API Gateway (:8080)</text>
+              <text x="462" y="38" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="800">API Gateway</text>
               <text x="462" y="53" text-anchor="middle" fill="#475569" font-size="9.5">JWT + Strip Header + HMAC 5-tuple</text>
 
               <line x1="155" y1="40" x2="189" y2="40" stroke="#1d4ed8" stroke-width="1.8" class="flow-line" marker-end="url(#arB9)"/>
@@ -477,7 +474,7 @@
 
               <rect x="352" y="110" width="102" height="66" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.4"/>
               <text x="403" y="133" text-anchor="middle" fill="#92400e" font-size="11.5" font-weight="700">Assessment</text>
-              <text x="403" y="149" text-anchor="middle" fill="#475569" font-size="9.5">Quiz / Auto-Grade</text>
+              <text x="403" y="149" text-anchor="middle" fill="#475569" font-size="9.5">Quiz / Tự chấm</text>
               <text x="403" y="164" text-anchor="middle" fill="#64748b" font-size="9">assessment_db</text>
 
               <rect x="464" y="110" width="102" height="66" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.4"/>
@@ -495,80 +492,135 @@
               <text x="275" y="218" text-anchor="middle" fill="#b45309" font-size="10.5" font-weight="700">Gọi chéo kiểm tra chủ sở hữu khóa</text>
 
               <rect x="352" y="242" width="214" height="52" rx="6" fill="#fef2f2" stroke="#dc2626" stroke-width="1.4"/>
-              <text x="459" y="264" text-anchor="middle" fill="#991b1b" font-size="11.5" font-weight="700">Notification (:8086 — Cô lập)</text>
-              <text x="459" y="281" text-anchor="middle" fill="#475569" font-size="9.5">Không public qua Gateway • Chỉ nhận nội bộ</text>
+              <text x="459" y="264" text-anchor="middle" fill="#991b1b" font-size="11.5" font-weight="700">Notification (Cô lập hoàn toàn)</text>
+              <text x="459" y="281" text-anchor="middle" fill="#475569" font-size="9.5">Không mở qua Gateway • Chỉ nhận nội bộ</text>
 
               <line x1="515" y1="176" x2="515" y2="236" stroke="#15803d" stroke-width="1.5" class="flow-line-slow" marker-end="url(#arB9)"/>
               <path d="M464,170 L325,200 L295,180" fill="none" stroke="#15803d" stroke-width="1.4" stroke-dasharray="3 3"/>
-              <text x="530" y="212" fill="#15803d" font-size="10" font-weight="700">Outbox</text>
+              <text x="532" y="212" fill="#15803d" font-size="10" font-weight="700">Outbox</text>
             </svg>
           </div>
 
           <div class="card b-violet stagger" style="--i:4">
-            <h3>Vị trí AuthN (Identity tự xây vs Keycloak)</h3>
+            <h3>Đặc điểm kiến trúc &amp; AuthN</h3>
             <ul class="clean">
-              <li><strong>Hiện tại:</strong> Dự án tự phát triển <strong>Identity Service</strong> (đăng ký, xác minh mail, khóa tạm 5 lần sai, xoay vòng Refresh Token, Google OAuth2, lộ trình HttpOnly Cookie).</li>
-              <li><strong>Điểm chung với Keycloak SSO:</strong> Dù dùng Identity tự xây hay Keycloak thì tầng này chỉ giải quyết <strong>AuthN &amp; Role tổng quát</strong>.</li>
-              <li><strong>Đặc thù Database-per-Service:</strong> 6 dịch vụ sở hữu 6 PostgreSQL DB tách biệt hoàn toàn — không JOIN chéo DB được.</li>
+              <li><strong>Identity tự xây:</strong> Đăng ký, xác minh email, khóa tạm 5 lần sai, Refresh Token rotation, Google OAuth2.</li>
+              <li><strong>Chung nguyên lý Keycloak:</strong> Tầng Identity chỉ lo danh tính (AuthN) và Role tổng quát.</li>
+              <li><strong>Database-per-Service:</strong> 6 PostgreSQL DB tách biệt hoàn toàn — không thể JOIN chéo DB để kiểm tra quyền.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- TRANG 09: ZERO TRUST DA LAM TOT -->
+      <!-- TRANG 09: ZERO TRUST DA LAM TOT (CO SO DO TRUC QUAN) -->
       <section class="slide" data-group="Phần II — Ekila LMS" data-title="Nền tảng Zero Trust đã có">
         <div class="slide-top stagger" style="--i:0">
           <span class="badge p2">Phần II • Thực tế Ekila LMS (B2C)</span>
           <span class="slide-tag">Zero Trust Foundation • Trang 09</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Những nền tảng <span class="c-green">Zero Trust</span> Ekila LMS đã triển khai</h1>
-        <p class="subtitle stagger" style="--i:2">Dự án không bắt đầu từ con số 0 — đã có 4 chốt chặn bảo mật quan trọng đang vận hành</p>
+        <h1 class="title stagger" style="--i:1">4 Chốt chặn <span class="c-green">Zero Trust</span> Ekila LMS đang vận hành</h1>
+        <p class="subtitle stagger" style="--i:2">Chuỗi bảo vệ nhiều lớp từ cổng Gateway vào tới từng Microservice và Database</p>
 
-        <div class="grid-2">
-          <div class="card b-green stagger" style="--i:3">
-            <h3>1. Chốt chặn Gateway &amp; Chống giả mạo Header</h3>
-            <p>Mọi request từ Internet đều đi qua API Gateway; Gateway xác thực JWT và <strong>tước bỏ triệt để các header danh tính giả mạo</strong> do client tự gắn trước khi chuyển tiếp vào trong.</p>
+        <div class="svg-box stagger" style="--i:3; height: 155px; margin-bottom: 12px;">
+          <svg viewBox="0 0 860 135" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="a09b" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#1d4ed8"/></marker>
+              <marker id="a09g" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#15803d"/></marker>
+            </defs>
+            <rect x="12" y="32" width="110" height="68" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.4"/>
+            <text x="67" y="61" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">Client + JWT</text>
+            <text x="67" y="80" text-anchor="middle" fill="#dc2626" font-size="9.5">Có thể giả header</text>
+
+            <rect x="155" y="24" width="150" height="84" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.6"/>
+            <text x="230" y="50" text-anchor="middle" fill="#166534" font-size="11.5" font-weight="800">1. Gateway Edge</text>
+            <text x="230" y="69" text-anchor="middle" fill="#334155" font-size="10">Verify JWT</text>
+            <text x="230" y="87" text-anchor="middle" fill="#15803d" font-size="10" font-weight="600">Tước sạch header giả</text>
+
+            <rect x="338" y="24" width="160" height="84" rx="6" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.6"/>
+            <text x="418" y="50" text-anchor="middle" fill="#1e3a8a" font-size="11.5" font-weight="800">2. HMAC 5-Tuple</text>
+            <text x="418" y="69" text-anchor="middle" fill="#334155" font-size="9.5">METHOD:PATH:UID:ROLE:TS</text>
+            <text x="418" y="87" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="600">Cửa sổ ±60s chống ký lậu</text>
+
+            <rect x="531" y="24" width="155" height="84" rx="6" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.6"/>
+            <text x="608" y="50" text-anchor="middle" fill="#5b21b6" font-size="11.5" font-weight="800">3. Service + IDOR Shield</text>
+            <text x="608" y="69" text-anchor="middle" fill="#334155" font-size="10">Cô lập Notification</text>
+            <text x="608" y="87" text-anchor="middle" fill="#6d28d9" font-size="10" font-weight="600">Ẩn lỗi 403 → 404</text>
+
+            <rect x="719" y="24" width="128" height="84" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.6"/>
+            <text x="783" y="50" text-anchor="middle" fill="#92400e" font-size="11.5" font-weight="800">4. Audit DB</text>
+            <text x="783" y="69" text-anchor="middle" fill="#334155" font-size="10">Append-only log</text>
+            <text x="783" y="87" text-anchor="middle" fill="#b45309" font-size="9.5" font-weight="600">Tiếp theo: Nonce/mTLS</text>
+
+            <line x1="122" y1="66" x2="149" y2="66" stroke="#15803d" stroke-width="1.8" class="flow-line" marker-end="url(#a09g)"/>
+            <line x1="305" y1="66" x2="332" y2="66" stroke="#1d4ed8" stroke-width="1.8" class="flow-line" marker-end="url(#a09b)"/>
+            <line x1="498" y1="66" x2="525" y2="66" stroke="#1d4ed8" stroke-width="1.8" class="flow-line" marker-end="url(#a09b)"/>
+            <line x1="686" y1="66" x2="713" y2="66" stroke="#1d4ed8" stroke-width="1.8" class="flow-line" marker-end="url(#a09b)"/>
+          </svg>
+        </div>
+
+        <div class="grid-2" style="gap: 12px;">
+          <div class="card b-green stagger" style="--i:4; padding: 12px 14px;">
+            <h3>1 &amp; 2. Chống giả mạo &amp; Di chuyển ngang</h3>
+            <p>Gateway xóa header client; chữ ký <strong>HMAC-SHA256 5 thành phần</strong> (±60s) ngăn dùng lại chữ ký giữa các API.</p>
           </div>
-          <div class="card b-green stagger" style="--i:4">
-            <h3>2. Chữ ký nội bộ HMAC-SHA256 (5-Tuple)</h3>
-            <p>Giao tiếp nội bộ được ký trên 5 yếu tố: <code class="inline">METHOD : PATH : USER_ID : ROLES : TIMESTAMP</code> (cửa sổ ±60s) → Chặn tái sử dụng chữ ký từ API đọc sang API ghi, giảm rủi ro Lateral Movement.</p>
-          </div>
-          <div class="card b-primary stagger" style="--i:5">
-            <h3>3. Cô lập dịch vụ &amp; Che giấu tồn tại (403 → 404)</h3>
-            <p>Dịch vụ gửi email (Notification) bị cô lập hoàn toàn khỏi Gateway. Các tài nguyên cá nhân/khóa học trả về <strong>404 Not Found</strong> nếu người gọi không sở hữu để chống dò quét IDOR.</p>
-          </div>
-          <div class="card b-amber stagger" style="--i:6">
-            <h3>4. Nhật ký kiểm toán bất biến &amp; Hướng nâng cấp</h3>
-            <p>Bảng audit log IAM chỉ cho phép ghi thêm (<strong>Append-only</strong>), chặn sửa/xóa ở tầng DB. <br><em>Hướng nâng cấp tiếp theo:</em> Bổ sung Redis Nonce chống replay trong cửa sổ 60s và mã hóa mTLS giữa các container.</p>
+          <div class="card b-amber stagger" style="--i:5; padding: 12px 14px;">
+            <h3>3 &amp; 4. Ẩn tài nguyên &amp; Truy vết</h3>
+            <p>Trả <strong>404 Not Found</strong> chống dò IDOR; Audit log <strong>Append-only</strong> (chuẩn bị thêm Redis Nonce &amp; mTLS).</p>
           </div>
         </div>
       </section>
 
-      <!-- TRANG 10: PHAN QUYEN 3 LOP & DIEM NGHEN -->
+      <!-- TRANG 10: PHAN QUYEN 3 LOP & DIEM NGHEN (CO SO DO TRUC QUAN) -->
       <section class="slide" data-group="Phần II — Ekila LMS" data-title="Phân quyền 3 lớp & Điểm nghẽn thực tế">
         <div class="slide-top stagger" style="--i:0">
           <span class="badge p2">Phần II • Thực tế Ekila LMS (B2C)</span>
           <span class="slide-tag">Pain Points • Trang 10</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Mô hình phân quyền 3 lớp hiện tại &amp; <span class="c-red">Điểm nghẽn thực tế</span></h1>
-        <p class="subtitle stagger" style="--i:2">Đối chiếu đúng 4 vai trò B2C đang chạy: <code class="inline">STUDENT</code>, <code class="inline">INSTRUCTOR</code>, <code class="inline">CONTENT_ADMIN</code>, <code class="inline">SYSTEM_ADMIN</code></p>
+        <h1 class="title stagger" style="--i:1">Phân quyền 3 lớp hiện tại &amp; <span class="c-red">Điểm nghẽn thực tế</span></h1>
+        <p class="subtitle stagger" style="--i:2">4 vai trò B2C đang chạy: <code class="inline">STUDENT</code> • <code class="inline">INSTRUCTOR</code> • <code class="inline">CONTENT_ADMIN</code> • <code class="inline">SYSTEM_ADMIN</code></p>
 
-        <div class="grid-2">
-          <div class="card b-primary stagger" style="--i:3">
-            <h3>Hiện tại: 3 lớp phòng thủ (Hoạt động tốt cho MVP)</h3>
-            <ul class="clean">
-              <li><strong>Lớp 1 — RBAC tĩnh theo API:</strong> Khớp ma trận quyền giữa 4 vai trò (Giảng viên soạn khóa, chỉ Content/System Admin duyệt xuất bản; Content Admin chỉ đọc đơn hàng, không hủy đơn).</li>
-              <li><strong>Lớp 2 — Kiểm tra sở hữu (Chống IDOR):</strong> Từng dịch vụ kiểm tra chủ sở hữu khóa học, lượt làm Quiz (hệ thống tự động chấm), đơn hàng VietQR và ẩn lỗi thành 404.</li>
-              <li><strong>Lớp 3 — Scope Query:</strong> Lọc dữ liệu theo phạm vi <code class="inline">cá nhân</code>, <code class="inline">khóa học</code>, hoặc <code class="inline">toàn hệ thống</code>.</li>
-            </ul>
+        <div class="grid-21">
+          <div class="svg-box stagger" style="--i:3">
+            <svg viewBox="0 0 540 295" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="a10b" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#1d4ed8"/></marker>
+                <marker id="a10r" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#dc2626"/></marker>
+              </defs>
+              <rect x="18" y="16" width="504" height="44" rx="6" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+              <text x="34" y="42" fill="#1e3a8a" font-size="12" font-weight="800">Lớp 1 — RBAC tĩnh:</text>
+              <text x="172" y="42" fill="#334155" font-size="11">Khớp API theo 4 vai trò B2C</text>
+
+              <rect x="18" y="72" width="504" height="44" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+              <text x="34" y="98" fill="#166534" font-size="12" font-weight="800">Lớp 2 — Sở hữu (IDOR):</text>
+              <text x="195" y="98" fill="#334155" font-size="11">Tự check chủ khóa học / quiz / đơn VietQR (404)</text>
+
+              <rect x="18" y="128" width="504" height="44" rx="6" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.5"/>
+              <text x="34" y="154" fill="#5b21b6" font-size="12" font-weight="800">Lớp 3 — Scope Query:</text>
+              <text x="182" y="154" fill="#334155" font-size="11">Lọc dữ liệu theo phạm vi cá nhân / khóa / toàn sàn</text>
+
+              <rect x="18" y="190" width="504" height="90" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="5 4"/>
+              <text x="34" y="212" fill="#991b1b" font-size="11.5" font-weight="800">ĐIỂM NGHẼN THỰC TẾ KHI TÁCH DATABASE-PER-SERVICE:</text>
+
+              <rect x="38" y="224" width="150" height="44" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+              <text x="113" y="244" text-anchor="middle" fill="#92400e" font-size="11.5" font-weight="700">Assessment Service</text>
+              <text x="113" y="260" text-anchor="middle" fill="#64748b" font-size="9.5">Sửa ngân hàng câu hỏi</text>
+
+              <rect x="352" y="224" width="150" height="44" rx="6" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.5"/>
+              <text x="427" y="244" text-anchor="middle" fill="#1e3a8a" font-size="11.5" font-weight="700">Catalog Service</text>
+              <text x="427" y="260" text-anchor="middle" fill="#64748b" font-size="9.5">Giữ chủ sở hữu khóa học</text>
+
+              <line x1="188" y1="246" x2="346" y2="246" stroke="#dc2626" stroke-width="2" class="flow-line" marker-end="url(#a10r)"/>
+              <text x="270" y="238" text-anchor="middle" fill="#dc2626" font-size="10" font-weight="700">Gọi HTTP hỏi quyền</text>
+              <text x="270" y="265" text-anchor="middle" fill="#991b1b" font-size="10" font-weight="700">Catalog lỗi → 503</text>
+            </svg>
           </div>
 
           <div class="card b-red stagger" style="--i:4">
-            <h3>Điểm nghẽn thực tế khi B2C mở rộng quy mô</h3>
+            <h3>3 Giới hạn khi B2C mở rộng</h3>
             <ul class="clean red">
-              <li><strong>Phụ thuộc chéo vì tách DB:</strong> Điểm nghẽn có thật tại dự án: khi Giảng viên quản lý ngân hàng câu hỏi ở <strong>Assessment</strong>, dịch vụ này phải <strong>gọi mạng sang Catalog</strong> để xác minh chủ sở hữu khóa học (nếu Catalog gián đoạn, Assessment trả lỗi <code class="inline">503</code>).</li>
-              <li><strong>Logic kiểm tra quyền phân mảnh:</strong> Quy tắc nằm rải rác giữa cấu hình RBAC và các chốt chặn thủ công trong từng microservice.</li>
-              <li><strong>Khó mở rộng cộng tác / gói combo:</strong> Khi cần nhiều giảng viên đồng sở hữu 1 khóa hoặc gói combo nhiều khóa, logic kiểm tra thủ công sẽ phình nhanh.</li>
+              <li><strong>Coupling chéo DB:</strong> Assessment phải gọi mạng sang Catalog để xác minh Giảng viên sở hữu khóa — mất Catalog là lỗi <code class="inline">503</code>.</li>
+              <li><strong>Code phân mảnh:</strong> Rule kiểm tra sở hữu viết rải rác ở nhiều service, khó rà soát đồng bộ.</li>
+              <li><strong>Khó mở rộng:</strong> Thêm đồng giảng viên hoặc gói combo nhiều khóa sẽ làm logic thủ công phình nhanh.</li>
             </ul>
           </div>
         </div>
@@ -581,7 +633,7 @@
           <span class="slide-tag">Target Architecture • Trang 11</span>
         </div>
         <h1 class="title stagger" style="--i:1">Kiến trúc đích: Tách <span class="c-violet">OpenFGA (PDP)</span> cho Ekila LMS</h1>
-        <p class="subtitle stagger" style="--i:2">Loại bỏ lời gọi kiểm tra quyền chéo giữa các Microservice nhưng vẫn bảo toàn cơ chế chống IDOR 403 → 404</p>
+        <p class="subtitle stagger" style="--i:2">Xóa gọi chéo giữa các Microservice và bảo toàn cơ chế chống IDOR 403 → 404</p>
 
         <div class="svg-box stagger" style="--i:3; height: 235px; margin-bottom: 12px;">
           <svg viewBox="0 0 860 215" xmlns="http://www.w3.org/2000/svg">
@@ -631,9 +683,9 @@
         </div>
 
         <div class="grid-3 stagger" style="--i:4; flex: 0 0 auto;">
-          <div class="callout green"><strong>1. Tách coupling:</strong> Assessment hỏi thẳng OpenFGA thay vì gọi chéo sang Catalog.</div>
-          <div class="callout"><strong>2. Outbox Sync:</strong> Luồng thanh toán VietQR → Outbox ghi danh đồng thời đẩy Tuple vào OpenFGA.</div>
-          <div class="callout amber"><strong>3. Bảo toàn 404:</strong> PEP dịch kết quả <code class="inline">allowed=false</code> thành 404 (tài nguyên ẩn) hoặc 403 (hành động admin).</div>
+          <div class="callout green"><strong>1. Tách coupling:</strong> Assessment hỏi thẳng OpenFGA thay vì gọi sang Catalog.</div>
+          <div class="callout"><strong>2. Outbox Sync:</strong> Thanh toán VietQR → Outbox ghi danh và đồng bộ Tuple vào OpenFGA.</div>
+          <div class="callout amber"><strong>3. Bảo toàn 404:</strong> PEP dịch <code class="inline">allowed=false</code> thành 404 (tài nguyên ẩn) hoặc 403 (hành động admin).</div>
         </div>
       </section>
 
@@ -643,8 +695,8 @@
           <span class="badge p2">Phần II • OpenFGA Model</span>
           <span class="slide-tag">Schema 1.1 • Trang 12</span>
         </div>
-        <h1 class="title stagger" style="--i:1">Authorization Model (<span class="c-primary">OpenFGA DSL</span>) chuẩn quyền B2C Ekila LMS</h1>
-        <p class="subtitle stagger" style="--i:2">Khớp 100% ma trận phân quyền thực tế (không B2B, không vai trò ngoài hệ thống, Quiz do hệ thống tự chấm)</p>
+        <h1 class="title stagger" style="--i:1">Authorization Model (<span class="c-primary">OpenFGA DSL</span>) chuẩn B2C</h1>
+        <p class="subtitle stagger" style="--i:2">Khớp 100% ma trận quyền thực tế (4 vai trò B2C, Quiz hệ thống tự chấm)</p>
 
         <div class="grid-2">
           <pre class="code stagger" style="--i:3" id="dslBlock1"><span class="kw">model</span>
@@ -699,7 +751,7 @@
     <span class="kw">define</span> <span class="rel">can_cancel</span>: buyer <span class="kw">or</span> system_admin <span class="kw">from</span> platform</pre>
 
             <div class="callout green" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-              <span><strong>4 quy tắc then chốt:</strong> <code class="inline">can_publish</code> (chỉ Admin), <code class="inline">can_draft_or_submit</code> (chỉ chính chủ), <code class="inline">can_cancel</code> (không cho Content Admin), <code class="inline">user:*</code> (học thử).</span>
+              <span><strong>4 quy tắc chính:</strong> <code class="inline">can_publish</code> (chỉ Admin), <code class="inline">can_draft_or_submit</code> (chỉ chủ bài), <code class="inline">can_cancel</code> (trừ Content Admin), <code class="inline">user:*</code> (học thử).</span>
               <button class="copy-btn" onclick="copyFullDsl(this)">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy DSL
@@ -709,33 +761,33 @@
         </div>
       </section>
 
-      <!-- TRANG 13: OPENFGA PLAYGROUND (100% IN-BROWSER JS REBAC ENGINE) -->
+      <!-- TRANG 13: OPENFGA PLAYGROUND -->
       <section class="slide" data-group="Phần II — Ekila LMS" data-title="Live Demo: OpenFGA Playground">
         <div class="slide-top stagger" style="--i:0; margin-bottom: 8px;">
-          <span class="badge p2">Phần II • Live Demo OpenFGA (In-Browser JS)</span>
-          <span class="slide-tag">OpenFGA Playground UI • Store: ekila-lms-b2c • Trang 13</span>
+          <span class="badge p2">Phần II • Live Demo OpenFGA</span>
+          <span class="slide-tag">OpenFGA Playground • Store: ekila-lms-b2c • Trang 13</span>
         </div>
-        <h1 class="title stagger" style="--i:1; font-size: 21px; margin-bottom: 4px;">Demo trực tiếp trên <span class="c-primary">OpenFGA Playground</span> (Dữ liệu Ekila LMS có sẵn)</h1>
-        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Giao diện OpenFGA chạy thuật toán duyệt đồ thị ReBAC bằng JavaScript ngay trong trình duyệt — Store <code class="inline">ekila-lms-b2c</code> (7 Types, 15 Tuples, 0 phụ thuộc Docker/Mạng)</p>
+        <h1 class="title stagger" style="--i:1; font-size: 21px; margin-bottom: 4px;">Demo trực tiếp trên <span class="c-primary">OpenFGA Playground</span> (Dữ liệu Ekila LMS)</h1>
+        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Nạp sẵn Store <code class="inline">ekila-lms-b2c</code> (7 Types, 15 Tuples) — kiểm tra quyền, xem đồ thị phân cấp &amp; mô phỏng ghi Tuple</p>
 
         <div class="iframe-shell stagger" style="--i:3">
           <div class="iframe-bar">
             <div style="display:flex; gap:8px; align-items:center;">
-              <span class="badge p2" id="openfgaDockerStatus">IN-BROWSER REBAC ENGINE • EKILA-LMS-B2C</span>
-              <span class="iframe-url" id="openfgaFrameUrl">Model DSL + 15 Tuples + Types Previewer + Graph Traversal Check()</span>
+              <span class="badge p2" id="openfgaDockerStatus">EKILA-LMS-B2C • 7 TYPES • 15 TUPLES</span>
+              <span class="iframe-url" id="openfgaFrameUrl">Model DSL • Types Previewer • Tuple Queries</span>
             </div>
             <div style="display:flex; gap:6px; align-items:center;">
               <button class="btn" id="btnToggleIframeExpand" onclick="toggleIframeExpand()">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 Phóng to Iframe
               </button>
-              <a class="btn" id="openfgaExternalLink" href="openfga-local.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+              <a class="btn" id="openfgaExternalLink" href="openfga-playground.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 Mở tab riêng
               </a>
             </div>
           </div>
-          <iframe id="openfgaFrame" class="iframe-frame" src="openfga-local.html" title="OpenFGA Interactive Playground"></iframe>
+          <iframe id="openfgaFrame" class="iframe-frame" src="openfga-playground.html" title="OpenFGA Playground"></iframe>
         </div>
       </section>
 
@@ -746,23 +798,23 @@
           <span class="slide-tag">Trade-offs &amp; Roadmap • Trang 14</span>
         </div>
         <h1 class="title stagger" style="--i:1">Đánh giá <span class="c-amber">Trade-off</span> &amp; Lộ trình áp dụng thực tế</h1>
-        <p class="subtitle stagger" style="--i:2">Không "đập đi xây lại" một sớm một chiều — Chọn đúng thời điểm và lộ trình Hybrid</p>
+        <p class="subtitle stagger" style="--i:2">Không "đập đi xây lại" — chọn đúng điểm đau và triển khai theo lộ trình Hybrid 3 giai đoạn</p>
 
         <div class="grid-2" style="margin-bottom: 14px;">
           <div class="card b-green stagger" style="--i:3">
-            <h3>Được gì khi dùng OpenFGA?</h3>
+            <h3>Lợi ích khi dùng OpenFGA</h3>
             <ul class="clean green">
-              <li>Xóa bỏ lời gọi chéo kiểm tra quyền giữa các microservice (như Assessment → Catalog).</li>
-              <li>Một nguồn chân lý duy nhất cho AuthZ; dễ kiểm toán &amp; viết test tự động bằng YAML (<code class="inline">fga model test</code>).</li>
-              <li>Sẵn sàng nếu tương lai mở rộng thêm nhiều giảng viên đồng sở hữu hoặc combo khóa học.</li>
+              <li><strong>Gỡ gọi chéo service:</strong> Xóa phụ thuộc HTTP giữa Assessment ↔ Catalog.</li>
+              <li><strong>Chuẩn hóa &amp; Dễ test:</strong> 1 nguồn chân lý AuthZ; chạy test YAML tự động (<code class="inline">fga model test</code>).</li>
+              <li><strong>Sẵn sàng mở rộng:</strong> Dễ thêm đồng giảng viên hoặc gói combo khóa học.</li>
             </ul>
           </div>
           <div class="card b-red stagger" style="--i:4">
-            <h3>Đánh đổi (Chi phí &amp; Rủi ro) là gì?</h3>
+            <h3>Chi phí &amp; Đánh đổi</h3>
             <ul class="clean red">
-              <li><strong>Độ phức tạp vận hành:</strong> Thêm 1 service (OpenFGA) cần HA, monitoring và backup.</li>
-              <li><strong>Độ trễ mạng:</strong> Thêm 1 network hop kiểm tra quyền trên mỗi request (cần gRPC/cache).</li>
-              <li><strong>Đồng bộ dữ liệu:</strong> Phải đảm bảo sự kiện ghi/xóa Tuple không bị lệch so với DB nghiệp vụ.</li>
+              <li><strong>Vận hành:</strong> Thêm 1 service lõi cần HA, monitoring và backup.</li>
+              <li><strong>Độ trễ:</strong> Thêm 1 hop kiểm tra quyền (cần gRPC &amp; cache tối ưu).</li>
+              <li><strong>Đồng bộ dữ liệu:</strong> Phải giữ Tuple khớp với DB nghiệp vụ qua Outbox.</li>
             </ul>
           </div>
         </div>
@@ -770,15 +822,15 @@
         <div class="grid-3 stagger" style="--i:5; flex: 0 0 auto;">
           <div class="card">
             <h3>Giai đoạn 1 (Hiện tại — MVP)</h3>
-            <p>Giữ nguyên RBAC 4 vai trò + lớp chống IDOR (404) đang chạy ổn; ưu tiên hoàn thiện Redis Nonce chống replay HMAC.</p>
+            <p>Giữ RBAC 4 vai trò + chống IDOR 404; bổ sung Redis Nonce chống replay HMAC.</p>
           </div>
           <div class="card b-primary">
             <h3>Giai đoạn 2 (Thí điểm Hybrid)</h3>
-            <p>Đưa OpenFGA vào luồng có phụ thuộc chéo rõ nhất (<strong>Assessment ↔ Catalog ↔ Learning</strong>) và đồng bộ từ Outbox VietQR.</p>
+            <p>Đưa OpenFGA vào cụm <strong>Assessment ↔ Catalog ↔ Learning</strong> và đồng bộ từ Outbox VietQR.</p>
           </div>
           <div class="card b-green">
             <h3>Giai đoạn 3 (Chuẩn hóa PDP)</h3>
-            <p>Hợp nhất toàn bộ phân quyền đối tượng qua OpenFGA + bật <code class="inline">ListObjects</code> cho các API danh sách lớn.</p>
+            <p>Hợp nhất phân quyền đối tượng qua OpenFGA và bật <code class="inline">ListObjects</code> cho danh sách lớn.</p>
           </div>
         </div>
       </section>

@@ -1,7 +1,6 @@
-// Document-Slide Controller, Outline Rail & OpenFGA Docker Store Auto-Connector
+// Document-Slide Controller, Outline Rail & OpenFGA Playground Viewer
 const slides = Array.from(document.querySelectorAll('.slide'));
 let currentSlide = 0;
-let cachedStoreId = '';
 
 function renderOutline() {
   const container = document.getElementById('outlineList');
@@ -72,9 +71,9 @@ function initOpenFgaIframe() {
   const openExt = document.getElementById('openfgaExternalLink');
   if (!frame) return;
   if (!frame.getAttribute('src') || frame.getAttribute('src') === 'about:blank') {
-    frame.src = 'openfga-local.html';
+    frame.src = 'openfga-playground.html';
   }
-  if (openExt) openExt.href = 'openfga-local.html';
+  if (openExt) openExt.href = 'openfga-playground.html';
 }
 
 function setIframeExpanded(expanded) {

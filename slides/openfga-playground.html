@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OpenFGA Playground — ekila-lms-b2c (In-Browser ReBAC Engine)</title>
+<title>OpenFGA Playground — ekila-lms-b2c</title>
 <style>
   :root {
     --fga-bg: #0f1117;
@@ -22,7 +22,6 @@
     --fga-green-bg: #064e3b;
     --fga-red: #f87171;
     --fga-red-bg: #450a0a;
-    --fga-amber: #fbbf24;
     --sans: "Inter", "Segoe UI", system-ui, sans-serif;
     --mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
   }
@@ -33,7 +32,7 @@
     color: var(--fga-text);
     font-family: var(--sans);
     font-size: 12px;
-    line-height: 1.45;
+    line-height: 1.4;
     overflow: hidden;
   }
   .shell {
@@ -41,71 +40,62 @@
     display: flex;
     flex-direction: column;
   }
-  /* OpenFGA Top Header */
+  /* OpenFGA Header */
   .fga-nav {
-    height: 46px;
+    height: 40px;
     background: #0b0d12;
     border-bottom: 1px solid var(--fga-border);
-    padding: 0 14px;
+    padding: 0 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
   .nav-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     min-width: 0;
   }
   .fga-logo {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 13.5px;
     letter-spacing: -0.02em;
     color: #ffffff;
   }
   .store-select {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
     background: var(--fga-surface);
     border: 1px solid var(--fga-border);
     color: #ffffff;
-    padding: 4px 10px;
-    border-radius: 5px;
+    padding: 3px 9px;
+    border-radius: 4px;
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 600;
   }
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 11px;
+    gap: 12px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--fga-muted);
     text-transform: uppercase;
   }
-  .nav-links span.ok {
-    color: var(--fga-teal);
-  }
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .nav-links span.ok { color: var(--fga-teal); }
+  .nav-actions { display: flex; align-items: center; gap: 6px; }
   .btn-fga {
     background: var(--fga-surface);
     border: 1px solid var(--fga-border);
     color: var(--fga-text);
-    padding: 5px 10px;
+    padding: 4px 9px;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.03em;
     cursor: pointer;
@@ -125,12 +115,12 @@
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: 42% 58%;
+    grid-template-columns: 39% 61%;
   }
   .col-left {
     border-right: 1px solid var(--fga-border);
     display: grid;
-    grid-template-rows: 47% 53%;
+    grid-template-rows: 45% 55%;
     min-height: 0;
     background: var(--fga-panel);
   }
@@ -149,7 +139,7 @@
     border-bottom: 1px solid var(--fga-border);
   }
   .pane-head {
-    padding: 7px 12px;
+    padding: 5px 10px;
     background: var(--fga-panel);
     border-bottom: 1px solid var(--fga-border);
     display: flex;
@@ -159,25 +149,21 @@
     flex-shrink: 0;
   }
   .pane-title {
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--fga-muted);
   }
-  .mode-pills {
-    display: inline-flex;
-    gap: 6px;
-    align-items: center;
-  }
+  .mode-pills { display: inline-flex; gap: 4px; align-items: center; }
   .mode-pill {
     background: transparent;
     border: 1px solid transparent;
     color: var(--fga-muted);
-    padding: 2px 7px;
-    border-radius: 4px;
+    padding: 1px 6px;
+    border-radius: 3px;
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
     cursor: pointer;
   }
@@ -190,18 +176,17 @@
     flex: 1;
     min-height: 0;
     overflow: auto;
-    padding: 8px 12px;
+    padding: 6px 10px;
     background: #0e1017;
     font-family: var(--mono);
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 10.5px;
+    line-height: 1.45;
     color: #e2e8f0;
   }
-  .dsl-line { display: flex; gap: 10px; }
-  .dsl-ln { color: #475569; user-select: none; min-width: 18px; text-align: right; }
+  .dsl-line { display: flex; gap: 8px; }
+  .dsl-ln { color: #475569; user-select: none; min-width: 16px; text-align: right; }
   .kw { color: #38bdf8; font-weight: 700; }
   .tp { color: #a78bfa; font-weight: 700; }
-  .rl { color: #2dd4bf; }
   .cm { color: #64748b; font-style: italic; }
 
   /* Left Bottom: Tuples & Assertions */
@@ -212,22 +197,22 @@
     background: var(--fga-panel);
   }
   .tab-bar {
-    padding: 0 12px;
+    padding: 0 10px;
     border-bottom: 1px solid var(--fga-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     flex-shrink: 0;
-    height: 36px;
+    height: 30px;
   }
-  .sub-tabs { display: flex; gap: 14px; height: 100%; }
+  .sub-tabs { display: flex; gap: 12px; height: 100%; }
   .sub-tab {
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
     color: var(--fga-muted);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     height: 100%;
@@ -240,20 +225,20 @@
   .add-trigger {
     background: transparent;
     border: none;
-    color: #e2e8f0;
-    font-size: 10.5px;
+    color: var(--fga-violet);
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     cursor: pointer;
   }
-  .add-trigger:hover { color: var(--fga-violet); }
+  .add-trigger:hover { color: #ffffff; }
   .add-drawer {
     display: none;
-    padding: 8px 10px;
+    padding: 6px 8px;
     background: var(--fga-surface);
     border-bottom: 1px solid var(--fga-border);
-    gap: 6px;
+    gap: 5px;
     flex-shrink: 0;
   }
   .add-drawer.open {
@@ -265,9 +250,9 @@
     border: 1px solid var(--fga-border);
     color: #ffffff;
     border-radius: 4px;
-    padding: 4px 7px;
+    padding: 3px 6px;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10.5px;
     min-width: 0;
   }
   .fga-input:focus, .fga-select:focus {
@@ -278,20 +263,20 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 8px 10px;
+    padding: 6px 8px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
   .tuple-card {
     background: var(--fga-surface);
     border: 1px solid var(--fga-border);
     border-radius: 4px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
   }
   .tuple-card:hover { border-color: #3f4860; }
   .tuple-meta {
@@ -302,13 +287,13 @@
   }
   .tuple-line {
     display: flex;
-    gap: 10px;
-    font-size: 11px;
+    gap: 8px;
+    font-size: 10.5px;
     align-items: baseline;
   }
   .tuple-k {
-    width: 62px;
-    font-size: 9.5px;
+    width: 56px;
+    font-size: 9px;
     font-weight: 700;
     color: var(--fga-dim);
     text-transform: uppercase;
@@ -328,32 +313,32 @@
     border: 1px solid transparent;
     color: var(--fga-dim);
     cursor: pointer;
-    border-radius: 4px;
-    padding: 3px 6px;
+    border-radius: 3px;
+    padding: 2px 5px;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10.5px;
   }
-  .tuple-del:hover { color: var(--fga-red); border-color: #7f1d1d; background: var(--red-bg, #450a0a); }
+  .tuple-del:hover { color: var(--fga-red); border-color: #7f1d1d; background: var(--fga-red-bg); }
 
   .assert-item {
     background: var(--fga-surface);
     border: 1px solid var(--fga-border);
     border-left: 3px solid var(--fga-green);
     border-radius: 4px;
-    padding: 6px 9px;
+    padding: 5px 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 10px;
   }
   .assert-item.fail { border-left-color: var(--fga-red); background: #261215; }
   .assert-badge {
     font-weight: 700;
-    padding: 2px 6px;
+    padding: 1px 5px;
     border-radius: 3px;
-    font-size: 10px;
+    font-size: 9.5px;
   }
   .assert-badge.pass { background: var(--fga-green-bg); color: #6ee7b7; }
   .assert-badge.fail { background: var(--fga-red-bg); color: #fca5a5; }
@@ -367,7 +352,7 @@
     flex-direction: column;
   }
   .graph-head {
-    padding: 7px 14px;
+    padding: 5px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -385,51 +370,51 @@
   }
   .graph-legend {
     position: absolute;
-    left: 14px;
-    bottom: 10px;
+    left: 10px;
+    bottom: 8px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 10px;
+    gap: 10px;
+    font-size: 9.5px;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--fga-muted);
-    background: rgba(11, 13, 18, 0.85);
-    padding: 6px 8px;
+    background: rgba(11, 13, 18, 0.88);
+    padding: 4px 8px;
     border-radius: 4px;
     border: 1px solid var(--fga-border);
   }
-  .lg-row { display: flex; align-items: center; gap: 7px; }
-  .lg-dash { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .lg-row { display: flex; align-items: center; gap: 5px; }
+  .lg-dash { width: 11px; height: 3px; border-radius: 2px; display: inline-block; }
 
-  /* Right Bottom: Tuple Queries Drawer */
+  /* Right Bottom: Tuple Queries */
   .queries-pane {
     border-top: 1px solid var(--fga-border);
     background: var(--fga-panel);
-    padding: 8px 12px 10px;
+    padding: 7px 10px 8px;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 5px;
     flex-shrink: 0;
   }
   .queries-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
   }
   .preset-bar {
     display: flex;
-    gap: 5px;
+    gap: 4px;
     flex-wrap: wrap;
   }
   .preset-btn {
     background: var(--fga-surface);
     border: 1px solid var(--fga-border);
     color: #cbd5e1;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 10.5px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -437,22 +422,21 @@
   .query-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 5px;
   }
   .q-lbl {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--fga-muted);
   }
   .query-result {
     background: #0b0d12;
     border: 1px solid var(--fga-border);
     border-radius: 4px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
   }
   .res-top {
     display: flex;
@@ -460,26 +444,26 @@
     justify-content: space-between;
     gap: 8px;
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
   }
   .res-pill {
-    padding: 2px 8px;
+    padding: 1px 7px;
     border-radius: 3px;
-    font-size: 11px;
+    font-size: 10.5px;
   }
   .res-pill.allow { background: var(--fga-green-bg); color: #6ee7b7; border: 1px solid #047857; }
   .res-pill.deny { background: var(--fga-red-bg); color: #fca5a5; border: 1px solid #991b1b; }
   .trace-line {
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 10px;
     color: var(--fga-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 780px) {
     .fga-main { grid-template-columns: 1fr; overflow-y: auto; }
     .col-left { grid-template-rows: auto auto; border-right: none; border-bottom: 1px solid var(--fga-border); }
     .nav-links { display: none; }
@@ -492,7 +476,7 @@
   <header class="fga-nav">
     <div class="nav-left">
       <div class="fga-logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="#ffffff" stroke-width="2" fill="#1b1f2b"/>
           <circle cx="12" cy="12" r="3" fill="#635dff"/>
           <line x1="12" y1="2" x2="12" y2="9" stroke="#2dd4bf" stroke-width="1.6"/>
@@ -501,17 +485,15 @@
         </svg>
         <span>OpenFGA</span>
       </div>
-      <div class="store-select">
-        <span>ekila-lms-b2c</span>
-      </div>
+      <div class="store-select">ekila-lms-b2c</div>
       <div class="nav-links">
-        <span class="ok">JS REBAC ENGINE ACTIVE</span>
+        <span class="ok">REBAC ENGINE READY</span>
         <span>SCHEMA 1.1</span>
-        <span>0 NETWORK DEPENDENCIES</span>
+        <span>7 TYPES</span>
       </div>
     </div>
     <div class="nav-actions">
-      <button class="btn-fga" onclick="resetStore()">RESET STORE (15)</button>
+      <button class="btn-fga" onclick="resetStore()">RESET (15)</button>
       <button class="btn-fga primary" onclick="switchLeftTab('assertions'); runAllAssertions();">ASSERTIONS (<span id="topAssertBadge">19/19</span>)</button>
     </div>
   </header>
@@ -540,7 +522,7 @@
           <button class="add-trigger" onclick="toggleAddDrawer()">+ ADD TUPLE &gt;</button>
         </div>
 
-        <div class="add-drawer open" id="addDrawer">
+        <div class="add-drawer" id="addDrawer">
           <input class="fga-input" id="inUser" value="user:an" placeholder="user:an" title="User" />
           <input class="fga-input" id="inRel" value="enrolled" placeholder="relation" title="Relation" />
           <input class="fga-input" id="inObj" value="course:spring-boot" placeholder="course:spring-boot" title="Object" />
@@ -552,15 +534,15 @@
       </div>
     </section>
 
-    <!-- Right Column: Types Previewer Graph + Tuple Queries -->
+    <!-- Right Column: Types Previewer Radial Graph + Tuple Queries -->
     <section class="col-right">
       <div class="graph-pane">
         <div class="graph-head">
           <span class="pane-title">TYPES PREVIEWER</span>
-          <span id="graphActiveNote" style="font-family:var(--mono); font-size:10.5px; color:var(--fga-teal);">Store: ekila-lms-b2c (7 Types)</span>
+          <span id="graphActiveNote" style="font-family:var(--mono); font-size:10px; color:var(--fga-teal);">Store: ekila-lms-b2c (7 Types)</span>
         </div>
         <div class="graph-canvas-wrap">
-          <svg class="graph-svg" id="typesGraph" viewBox="0 0 680 340"></svg>
+          <svg class="graph-svg" id="typesGraph" viewBox="0 0 720 310"></svg>
           <div class="graph-legend">
             <div class="lg-row"><span class="lg-dash" style="background:#94a3b8;"></span><span>STORE</span></div>
             <div class="lg-row"><span class="lg-dash" style="background:#8b5cf6;"></span><span>TYPE</span></div>
@@ -571,7 +553,7 @@
 
       <div class="queries-pane">
         <div class="queries-head">
-          <span class="pane-title">TUPLE QUERIES • GRAPH TRAVERSAL CHECK</span>
+          <span class="pane-title">TUPLE QUERIES</span>
           <div class="preset-bar">
             <button class="preset-btn" onclick="applyPreset('user:khanh','can_view','lesson:jwt-01')">Khánh học JWT</button>
             <button class="preset-btn" onclick="applyPreset('user:an','can_view','lesson:jwt-01')">An chưa mua</button>
@@ -584,7 +566,7 @@
 
         <div class="query-row">
           <span class="q-lbl">is</span>
-          <select class="fga-select" id="qUser" style="flex:1.15;" onchange="runCheck()">
+          <select class="fga-select" id="qUser" style="flex:1.1;" onchange="runCheck()">
             <option value="user:khanh">user:khanh</option>
             <option value="user:an">user:an</option>
             <option value="user:duy">user:duy</option>
@@ -593,7 +575,7 @@
             <option value="user:cuong">user:cuong</option>
           </select>
           <span class="q-lbl">related to</span>
-          <select class="fga-select" id="qObj" style="flex:1.3;" onchange="runCheck()">
+          <select class="fga-select" id="qObj" style="flex:1.35;" onchange="runCheck()">
             <option value="lesson:jwt-01">lesson:jwt-01</option>
             <option value="lesson:intro-preview">lesson:intro-preview</option>
             <option value="quiz:quiz-auth">quiz:quiz-auth</option>
@@ -622,7 +604,7 @@
             <span id="resSummary">Check(user:khanh, can_view, lesson:jwt-01)</span>
             <span class="res-pill allow" id="resPill">ALLOWED: true</span>
           </div>
-          <div class="trace-line" id="resTrace">Graph Traversal...</div>
+          <div class="trace-line" id="resTrace">Traversal...</div>
         </div>
       </div>
     </section>
@@ -698,7 +680,6 @@ const DEFAULT_TUPLES = [
   { user: 'user:khanh', relation: 'buyer', object: 'order:ord-khanh-01' }
 ];
 
-// Declarative OpenFGA schema 1.1 graph rules (~50 lines core evaluator)
 const MODEL_RULES = {
   platform: {
     system_admin: [{ kind: 'direct' }],
@@ -766,7 +747,6 @@ const ASSERTIONS = [
 let tuples = DEFAULT_TUPLES.map(t => ({ ...t }));
 let modelViewMode = 'dsl';
 
-// Core Zanzibar / OpenFGA ReBAC Graph Traversal Algorithm in Pure JavaScript
 function evaluateLocal(user, relation, object, visited = new Set()) {
   const key = `${user}|${relation}|${object}`;
   if (visited.has(key)) return { allowed: false, trace: [] };
@@ -799,7 +779,7 @@ function evaluateLocal(user, relation, object, visited = new Set()) {
       }
     }
   }
-  return { allowed: false, trace: [`No matching relation path from ${user} to ${object}#${relation}`] };
+  return { allowed: false, trace: [`Không tìm thấy đường dẫn hợp lệ từ ${user} tới ${object}#${relation}`] };
 }
 
 function escapeHtml(s) {
@@ -812,9 +792,8 @@ function renderModelPane() {
     el.innerHTML = `<pre style="margin:0;">${escapeHtml(JSON.stringify({ schema_version: '1.1', types: Object.keys(MODEL_RULES), model: MODEL_RULES }, null, 2))}</pre>`;
     return;
   }
-  const lines = MODEL_DSL.split('\n');
-  el.innerHTML = lines.map((line, idx) => {
-    let f = escapeHtml(line)
+  el.innerHTML = MODEL_DSL.split('\n').map((line, idx) => {
+    const f = escapeHtml(line)
       .replace(/^(\s*)(model|schema|type|relations|define)\b/g, '$1<span class="kw">$2</span>')
       .replace(/\b(or|from)\b/g, '<span class="kw">$1</span>')
       .replace(/(#.*)$/g, '<span class="cm">$1</span>');
@@ -846,21 +825,21 @@ function renderTuples() {
 function renderTypesPreviewer(activeQuery) {
   const svg = document.getElementById('typesGraph');
   if (!svg) return;
-  const cx = 340, cy = 170;
+  const cx = 360, cy = 155;
   const activeObjType = activeQuery ? activeQuery.object.split(':')[0] : '';
   const activeRel = activeQuery ? activeQuery.relation : '';
 
   const typeNodes = [
-    { name: 'user', ang: -175, r: 95, rels: [] },
-    { name: 'platform', ang: 135, r: 105, rels: ['system_admin', 'content_admin'] },
-    { name: 'course', ang: -18, r: 118, rels: ['platform', 'instructor', 'enrolled', 'can_edit', 'can_publish', 'can_manage_questions', 'can_view_content', 'can_view_reports', 'can_learn'] },
-    { name: 'lesson', ang: -75, r: 112, rels: ['parent_course', 'preview_viewer', 'can_view', 'can_track_progress'] },
-    { name: 'quiz', ang: -125, r: 112, rels: ['parent_course', 'course_reporter', 'can_manage_questions', 'can_attempt'] },
-    { name: 'quiz_attempt', ang: 78, r: 115, rels: ['parent_quiz', 'owner', 'can_draft_or_submit', 'can_view_result'] },
-    { name: 'order', ang: 28, r: 115, rels: ['platform', 'buyer', 'can_view', 'can_cancel'] }
+    { name: 'user', ang: -175, r: 92, rels: [] },
+    { name: 'platform', ang: 132, r: 98, rels: ['system_admin', 'content_admin'] },
+    { name: 'course', ang: -10, r: 120, rels: ['platform', 'instructor', 'enrolled', 'can_edit', 'can_publish', 'can_manage_questions', 'can_view_content', 'can_view_reports', 'can_learn'] },
+    { name: 'lesson', ang: -70, r: 105, rels: ['parent_course', 'preview_viewer', 'can_view', 'can_track_progress'] },
+    { name: 'quiz', ang: -125, r: 105, rels: ['parent_course', 'course_reporter', 'can_manage_questions', 'can_attempt'] },
+    { name: 'quiz_attempt', ang: 78, r: 102, rels: ['parent_quiz', 'owner', 'can_draft_or_submit', 'can_view_result'] },
+    { name: 'order', ang: 32, r: 112, rels: ['platform', 'buyer', 'can_view', 'can_cancel'] }
   ];
 
-  let out = `<defs><pattern id="fgaDots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.8" fill="#1e2433"/></pattern></defs><rect width="680" height="340" fill="#0b0d12"/><rect width="680" height="340" fill="url(#fgaDots)"/>`;
+  let out = `<defs><pattern id="fgaDots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.8" fill="#1e2433"/></pattern></defs><rect width="720" height="310" fill="#0b0d12"/><rect width="720" height="310" fill="url(#fgaDots)"/>`;
 
   typeNodes.forEach(tp => {
     const rad = tp.ang * Math.PI / 180;
@@ -871,27 +850,27 @@ function renderTypesPreviewer(activeQuery) {
     out += `<line x1="${cx}" y1="${cy}" x2="${tx}" y2="${ty}" stroke="${isActiveType ? '#a78bfa' : '#334155'}" stroke-width="${isActiveType ? 1.8 : 1.1}"/>`;
 
     const n = tp.rels.length;
-    const spread = Math.min(72, Math.max(24, n * 10));
+    const spread = Math.min(76, Math.max(26, n * 9));
     tp.rels.forEach((rel, i) => {
       const offset = n === 1 ? 0 : (-spread / 2 + (spread / (n - 1)) * i);
       const rAng = (tp.ang + offset) * Math.PI / 180;
-      const dist = 54 + (i % 2) * 18;
+      const dist = 48 + (i % 2) * 18;
       const rx = tx + Math.cos(rAng) * dist;
       const ry = ty + Math.sin(rAng) * dist;
       const hitRel = isActiveType && rel === activeRel;
       const lineColor = hitRel ? (activeQuery.allowed ? '#10b981' : '#f87171') : '#293245';
       const dotColor = hitRel ? (activeQuery.allowed ? '#10b981' : '#f87171') : '#2dd4bf';
       out += `<line x1="${tx}" y1="${ty}" x2="${rx}" y2="${ry}" stroke="${lineColor}" stroke-width="${hitRel ? 2 : 0.9}"/>`;
-      out += `<circle cx="${rx}" cy="${ry}" r="${hitRel ? 6 : 4.2}" fill="${dotColor}"/>`;
-      out += `<text x="${rx}" y="${ry + (ry < ty ? -8 : 13)}" text-anchor="middle" fill="${hitRel ? '#ffffff' : '#94a3b8'}" font-size="${hitRel ? 9.5 : 8.2}" font-weight="${hitRel ? 700 : 500}" font-family="monospace">${rel}</text>`;
+      out += `<circle cx="${rx}" cy="${ry}" r="${hitRel ? 5.5 : 3.8}" fill="${dotColor}"/>`;
+      out += `<text x="${rx}" y="${ry + (ry < ty ? -7 : 11)}" text-anchor="middle" fill="${hitRel ? '#ffffff' : '#94a3b8'}" font-size="${hitRel ? 9 : 7.8}" font-weight="${hitRel ? 700 : 500}" font-family="monospace">${rel}</text>`;
     });
 
-    out += `<circle cx="${tx}" cy="${ty}" r="${isActiveType ? 9.5 : 7.5}" fill="#8b5cf6" stroke="${isActiveType ? '#ffffff' : '#0b0d12'}" stroke-width="1.5"/>`;
-    out += `<text x="${tx}" y="${ty + 17}" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="700" font-family="monospace">${tp.name}</text>`;
+    out += `<circle cx="${tx}" cy="${ty}" r="${isActiveType ? 9 : 7}" fill="#8b5cf6" stroke="${isActiveType ? '#ffffff' : '#0b0d12'}" stroke-width="1.5"/>`;
+    out += `<text x="${tx}" y="${ty + 15}" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-weight="700" font-family="monospace">${tp.name}</text>`;
   });
 
-  out += `<circle cx="${cx}" cy="${cy}" r="12" fill="#64748b" stroke="#0b0d12" stroke-width="2"/>`;
-  out += `<text x="${cx}" y="${cy + 21}" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="700" font-family="monospace">ekila-lms-b2c</text>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="11" fill="#64748b" stroke="#0b0d12" stroke-width="2"/>`;
+  out += `<text x="${cx}" y="${cy + 19}" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="700" font-family="monospace">ekila-lms-b2c</text>`;
 
   svg.innerHTML = out;
 }
@@ -969,7 +948,7 @@ function runAllAssertions() {
     if (ok) passed++;
     return `
       <div class="assert-item ${ok ? '' : 'fail'}">
-        <span>${escapeHtml(a.user)} → ${escapeHtml(a.relation)}(${escapeHtml(a.object)}) = ${a.expected}</span>
+        <span>${escapeHtml(a.user)} -> ${escapeHtml(a.relation)}(${escapeHtml(a.object)}) = ${a.expected}</span>
         <span class="assert-badge ${ok ? 'pass' : 'fail'}">${ok ? 'PASS' : 'FAIL (' + r.allowed + ')'}</span>
       </div>
     `;

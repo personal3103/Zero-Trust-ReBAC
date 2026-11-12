@@ -38,7 +38,7 @@ jobs:
               throw new Error("Expected 15 tuples in openfga/tuples.json");
             }
             const emojiRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
-            for (const f of ["index.html", "styles.css", "app.js", "openfga-local.html"]) {
+            for (const f of ["index.html", "styles.css", "app.js", "openfga-playground.html"]) {
               const txt = fs.readFileSync("slides/" + f, "utf8");
               if (emojiRegex.test(txt)) throw new Error("Emoji found in slides/" + f);
               if (/(linear-gradient|radial-gradient)\(/g.test(txt)) throw new Error("Gradient found in slides/" + f);
@@ -47,7 +47,7 @@ jobs:
             const count = (html.match(/<section class="slide/g) || []).length;
             if (count !== 15) throw new Error("Expected 15 slides, found " + count);
             new Function(fs.readFileSync("slides/app.js", "utf8"));
-            const studio = fs.readFileSync("slides/openfga-local.html", "utf8");
+            const studio = fs.readFileSync("slides/openfga-playground.html", "utf8");
             const m = studio.match(/<script>([\s\S]*?)<\/script>/);
             const { DEFAULT_TUPLES, ASSERTIONS, evaluateLocal } = new Function(m[1] + "\nreturn { DEFAULT_TUPLES, ASSERTIONS, evaluateLocal };")();
             if (JSON.stringify(DEFAULT_TUPLES) !== JSON.stringify(tuples)) throw new Error("Studio tuples out of sync");
