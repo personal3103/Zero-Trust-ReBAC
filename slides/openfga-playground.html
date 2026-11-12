@@ -110,21 +110,62 @@
   }
   .btn-fga.primary:hover { background: var(--fga-purple-hover); }
 
-  /* Split Main Workspace */
+  /* Split Main Workspace + Left Collapse Toggle */
   .fga-main {
     flex: 1;
     min-height: 0;
-    display: grid;
-    grid-template-columns: 39% 61%;
+    display: flex;
+    position: relative;
   }
   .col-left {
+    width: 39%;
+    min-width: 280px;
     border-right: 1px solid var(--fga-border);
     display: grid;
     grid-template-rows: 45% 55%;
     min-height: 0;
     background: var(--fga-panel);
+    transition: width 0.2s ease, min-width 0.2s ease, opacity 0.15s ease;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .fga-main.left-collapsed .col-left {
+    width: 0;
+    min-width: 0;
+    border-right: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .divider-rail {
+    width: 14px;
+    background: #0e1017;
+    border-right: 1px solid var(--fga-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: var(--fga-muted);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .divider-rail:hover {
+    background: var(--fga-surface-2);
+    color: #ffffff;
+  }
+  .divider-btn {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 44px;
   }
   .col-right {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -279,18 +320,8 @@
     gap: 6px;
   }
   .tuple-card:hover { border-color: #3f4860; }
-  .tuple-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
-  }
-  .tuple-line {
-    display: flex;
-    gap: 8px;
-    font-size: 10.5px;
-    align-items: baseline;
-  }
+  .tuple-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .tuple-line { display: flex; gap: 8px; font-size: 10.5px; align-items: baseline; }
   .tuple-k {
     width: 56px;
     font-size: 9px;
@@ -343,7 +374,7 @@
   .assert-badge.pass { background: var(--fga-green-bg); color: #6ee7b7; }
   .assert-badge.fail { background: var(--fga-red-bg); color: #fca5a5; }
 
-  /* Right Top: Types Previewer Radial Graph */
+  /* Right Top: Types Previewer Radial Graph + Zoom/Pan */
   .graph-pane {
     flex: 1;
     min-height: 0;
@@ -356,13 +387,43 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
     flex-shrink: 0;
+    border-bottom: 1px solid #181c26;
+  }
+  .zoom-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .zoom-btn {
+    background: var(--fga-surface);
+    border: 1px solid var(--fga-border);
+    color: var(--fga-text);
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .zoom-btn:hover { border-color: var(--fga-violet); color: #ffffff; }
+  .zoom-pct {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--fga-muted);
+    min-width: 38px;
+    text-align: center;
   }
   .graph-canvas-wrap {
     flex: 1;
     min-height: 0;
     position: relative;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
   }
+  .graph-canvas-wrap:active { cursor: grabbing; }
   .graph-svg {
     width: 100%;
     height: 100%;
@@ -370,31 +431,36 @@
   }
   .graph-legend {
     position: absolute;
-    left: 10px;
-    bottom: 8px;
+    left: 12px;
+    bottom: 10px;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 4px;
     font-size: 9.5px;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--fga-muted);
     background: rgba(11, 13, 18, 0.88);
-    padding: 4px 8px;
+    padding: 6px 8px;
     border-radius: 4px;
     border: 1px solid var(--fga-border);
+    pointer-events: none;
   }
-  .lg-row { display: flex; align-items: center; gap: 5px; }
-  .lg-dash { width: 11px; height: 3px; border-radius: 2px; display: inline-block; }
+  .lg-row { display: flex; align-items: center; gap: 6px; }
+  .lg-dash { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
 
-  /* Right Bottom: Tuple Queries */
+  /* Right Bottom: Collapsible Tuple Queries Drawer */
   .queries-pane {
     border-top: 1px solid var(--fga-border);
     background: var(--fga-panel);
-    padding: 7px 10px 8px;
+    padding: 6px 10px 8px;
     display: flex;
     flex-direction: column;
     gap: 5px;
     flex-shrink: 0;
+  }
+  .queries-pane.collapsed .queries-body {
+    display: none;
   }
   .queries-head {
     display: flex;
@@ -402,6 +468,25 @@
     justify-content: space-between;
     gap: 6px;
     flex-wrap: wrap;
+  }
+  .q-toggle {
+    background: transparent;
+    border: none;
+    color: var(--fga-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .q-toggle:hover { color: #ffffff; }
+  .queries-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
   .preset-bar {
     display: flex;
@@ -464,8 +549,9 @@
   }
 
   @media (max-width: 780px) {
-    .fga-main { grid-template-columns: 1fr; overflow-y: auto; }
-    .col-left { grid-template-rows: auto auto; border-right: none; border-bottom: 1px solid var(--fga-border); }
+    .fga-main { flex-direction: column; overflow-y: auto; }
+    .col-left { width: 100%; min-width: 0; grid-template-rows: auto auto; border-right: none; border-bottom: 1px solid var(--fga-border); }
+    .divider-rail { display: none; }
     .nav-links { display: none; }
   }
 </style>
@@ -493,15 +579,16 @@
       </div>
     </div>
     <div class="nav-actions">
+      <button class="btn-fga" onclick="toggleLeftPanel()" id="btnToggleLeftHeader">ẨN BẢNG TRÁI</button>
       <button class="btn-fga" onclick="resetStore()">RESET (15)</button>
-      <button class="btn-fga primary" onclick="switchLeftTab('assertions'); runAllAssertions();">ASSERTIONS (<span id="topAssertBadge">19/19</span>)</button>
+      <button class="btn-fga primary" onclick="showAssertions()">ASSERTIONS (<span id="topAssertBadge">19/19</span>)</button>
     </div>
   </header>
 
   <!-- Main OpenFGA Split View -->
-  <div class="fga-main">
+  <div class="fga-main" id="fgaMain">
     <!-- Left Column: Model + Tuples/Assertions -->
-    <section class="col-left">
+    <section class="col-left" id="colLeft">
       <div class="pane-model">
         <div class="pane-head">
           <span class="pane-title">AUTHORIZATION MODEL (7 TYPES)</span>
@@ -534,26 +621,42 @@
       </div>
     </section>
 
+    <!-- Middle Collapse/Expand Handle (OpenFGA style) -->
+    <div class="divider-rail" onclick="toggleLeftPanel()" title="Ẩn / Hiện bảng Model &amp; Tuples bên trái">
+      <button class="divider-btn" id="dividerArrow" aria-label="Ẩn bảng trái">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
+
     <!-- Right Column: Types Previewer Radial Graph + Tuple Queries -->
     <section class="col-right">
       <div class="graph-pane">
         <div class="graph-head">
           <span class="pane-title">TYPES PREVIEWER</span>
-          <span id="graphActiveNote" style="font-family:var(--mono); font-size:10px; color:var(--fga-teal);">Store: ekila-lms-b2c (7 Types)</span>
+          <span id="graphActiveNote" style="font-family:var(--mono); font-size:10px; color:var(--fga-teal); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Store: ekila-lms-b2c</span>
+          <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomGraph(-0.18)" title="Thu nhỏ">-</button>
+            <span class="zoom-pct" id="zoomPct">100%</span>
+            <button class="zoom-btn" onclick="zoomGraph(0.18)" title="Phóng to">+</button>
+            <button class="zoom-btn" onclick="resetGraphView()" title="Đưa đồ thị về giữa">Fit</button>
+          </div>
         </div>
-        <div class="graph-canvas-wrap">
-          <svg class="graph-svg" id="typesGraph" viewBox="0 0 720 310"></svg>
+        <div class="graph-canvas-wrap" id="graphCanvasWrap">
+          <svg class="graph-svg" id="typesGraph" viewBox="0 0 820 460"></svg>
           <div class="graph-legend">
-            <div class="lg-row"><span class="lg-dash" style="background:#94a3b8;"></span><span>STORE</span></div>
+            <div class="lg-row"><span class="lg-dash" style="background:#64748b;"></span><span>STORE</span></div>
             <div class="lg-row"><span class="lg-dash" style="background:#8b5cf6;"></span><span>TYPE</span></div>
             <div class="lg-row"><span class="lg-dash" style="background:#2dd4bf;"></span><span>RELATIONS</span></div>
           </div>
         </div>
       </div>
 
-      <div class="queries-pane">
+      <div class="queries-pane" id="queriesPane">
         <div class="queries-head">
-          <span class="pane-title">TUPLE QUERIES</span>
+          <button class="q-toggle" onclick="toggleQueriesPane()">
+            <span>TUPLE QUERIES</span>
+            <svg id="qChevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
           <div class="preset-bar">
             <button class="preset-btn" onclick="applyPreset('user:khanh','can_view','lesson:jwt-01')">Khánh học JWT</button>
             <button class="preset-btn" onclick="applyPreset('user:an','can_view','lesson:jwt-01')">An chưa mua</button>
@@ -564,47 +667,49 @@
           </div>
         </div>
 
-        <div class="query-row">
-          <span class="q-lbl">is</span>
-          <select class="fga-select" id="qUser" style="flex:1.1;" onchange="runCheck()">
-            <option value="user:khanh">user:khanh</option>
-            <option value="user:an">user:an</option>
-            <option value="user:duy">user:duy</option>
-            <option value="user:minh">user:minh</option>
-            <option value="user:linh">user:linh</option>
-            <option value="user:cuong">user:cuong</option>
-          </select>
-          <span class="q-lbl">related to</span>
-          <select class="fga-select" id="qObj" style="flex:1.35;" onchange="runCheck()">
-            <option value="lesson:jwt-01">lesson:jwt-01</option>
-            <option value="lesson:intro-preview">lesson:intro-preview</option>
-            <option value="quiz:quiz-auth">quiz:quiz-auth</option>
-            <option value="course:spring-boot">course:spring-boot</option>
-            <option value="course:nextjs-pro">course:nextjs-pro</option>
-            <option value="quiz_attempt:att-khanh-01">quiz_attempt:att-khanh-01</option>
-            <option value="order:ord-khanh-01">order:ord-khanh-01</option>
-          </select>
-          <span class="q-lbl">as</span>
-          <select class="fga-select" id="qRel" style="flex:1.15;" onchange="runCheck()">
-            <option value="can_view">can_view</option>
-            <option value="can_track_progress">can_track_progress</option>
-            <option value="can_attempt">can_attempt</option>
-            <option value="can_edit">can_edit</option>
-            <option value="can_publish">can_publish</option>
-            <option value="can_manage_questions">can_manage_questions</option>
-            <option value="can_draft_or_submit">can_draft_or_submit</option>
-            <option value="can_view_result">can_view_result</option>
-            <option value="can_cancel">can_cancel</option>
-          </select>
-          <button class="btn-fga primary" onclick="runCheck()">CHECK</button>
-        </div>
-
-        <div class="query-result">
-          <div class="res-top">
-            <span id="resSummary">Check(user:khanh, can_view, lesson:jwt-01)</span>
-            <span class="res-pill allow" id="resPill">ALLOWED: true</span>
+        <div class="queries-body">
+          <div class="query-row">
+            <span class="q-lbl">is</span>
+            <select class="fga-select" id="qUser" style="flex:1.1;" onchange="runCheck()">
+              <option value="user:khanh">user:khanh</option>
+              <option value="user:an">user:an</option>
+              <option value="user:duy">user:duy</option>
+              <option value="user:minh">user:minh</option>
+              <option value="user:linh">user:linh</option>
+              <option value="user:cuong">user:cuong</option>
+            </select>
+            <span class="q-lbl">related to</span>
+            <select class="fga-select" id="qObj" style="flex:1.35;" onchange="runCheck()">
+              <option value="lesson:jwt-01">lesson:jwt-01</option>
+              <option value="lesson:intro-preview">lesson:intro-preview</option>
+              <option value="quiz:quiz-auth">quiz:quiz-auth</option>
+              <option value="course:spring-boot">course:spring-boot</option>
+              <option value="course:nextjs-pro">course:nextjs-pro</option>
+              <option value="quiz_attempt:att-khanh-01">quiz_attempt:att-khanh-01</option>
+              <option value="order:ord-khanh-01">order:ord-khanh-01</option>
+            </select>
+            <span class="q-lbl">as</span>
+            <select class="fga-select" id="qRel" style="flex:1.15;" onchange="runCheck()">
+              <option value="can_view">can_view</option>
+              <option value="can_track_progress">can_track_progress</option>
+              <option value="can_attempt">can_attempt</option>
+              <option value="can_edit">can_edit</option>
+              <option value="can_publish">can_publish</option>
+              <option value="can_manage_questions">can_manage_questions</option>
+              <option value="can_draft_or_submit">can_draft_or_submit</option>
+              <option value="can_view_result">can_view_result</option>
+              <option value="can_cancel">can_cancel</option>
+            </select>
+            <button class="btn-fga primary" onclick="runCheck()">CHECK</button>
           </div>
-          <div class="trace-line" id="resTrace">Traversal...</div>
+
+          <div class="query-result">
+            <div class="res-top">
+              <span id="resSummary">Check(user:khanh, can_view, lesson:jwt-01)</span>
+              <span class="res-pill allow" id="resPill">ALLOWED: true</span>
+            </div>
+            <div class="trace-line" id="resTrace">Traversal...</div>
+          </div>
         </div>
       </div>
     </section>
@@ -722,6 +827,42 @@ const MODEL_RULES = {
   }
 };
 
+// Relation dependency arcs (matching OpenFGA Types Previewer curved dashed links)
+const GRAPH_REL_DEPS = {
+  course: [
+    ['can_edit', 'instructor'],
+    ['can_edit', 'platform'],
+    ['can_publish', 'platform'],
+    ['can_manage_questions', 'instructor'],
+    ['can_manage_questions', 'platform'],
+    ['can_view_content', 'enrolled'],
+    ['can_view_content', 'can_edit'],
+    ['can_view_reports', 'can_edit'],
+    ['can_learn', 'enrolled']
+  ],
+  lesson: [
+    ['can_view', 'preview_viewer'],
+    ['can_view', 'parent_course'],
+    ['can_track_progress', 'parent_course']
+  ],
+  quiz: [
+    ['course_reporter', 'parent_course'],
+    ['can_manage_questions', 'parent_course'],
+    ['can_attempt', 'parent_course']
+  ],
+  quiz_attempt: [
+    ['can_draft_or_submit', 'owner'],
+    ['can_view_result', 'owner'],
+    ['can_view_result', 'parent_quiz']
+  ],
+  order: [
+    ['can_view', 'buyer'],
+    ['can_view', 'platform'],
+    ['can_cancel', 'buyer'],
+    ['can_cancel', 'platform']
+  ]
+};
+
 const ASSERTIONS = [
   { user: 'user:khanh', relation: 'can_view', object: 'lesson:jwt-01', expected: true },
   { user: 'user:khanh', relation: 'can_track_progress', object: 'lesson:jwt-01', expected: true },
@@ -746,6 +887,10 @@ const ASSERTIONS = [
 
 let tuples = DEFAULT_TUPLES.map(t => ({ ...t }));
 let modelViewMode = 'dsl';
+let graphScale = 1;
+let graphPanX = 0;
+let graphPanY = 0;
+let lastActiveQuery = null;
 
 function evaluateLocal(user, relation, object, visited = new Set()) {
   const key = `${user}|${relation}|${object}`;
@@ -822,57 +967,186 @@ function renderTuples() {
   `).join('');
 }
 
+function polarPt(cx, cy, deg, r) {
+  const rad = deg * Math.PI / 180;
+  return { x: cx + Math.cos(rad) * r, y: cy + Math.sin(rad) * r };
+}
+
 function renderTypesPreviewer(activeQuery) {
+  lastActiveQuery = activeQuery || lastActiveQuery;
+  const q = lastActiveQuery;
   const svg = document.getElementById('typesGraph');
   if (!svg) return;
-  const cx = 360, cy = 155;
-  const activeObjType = activeQuery ? activeQuery.object.split(':')[0] : '';
-  const activeRel = activeQuery ? activeQuery.relation : '';
 
-  const typeNodes = [
-    { name: 'user', ang: -175, r: 92, rels: [] },
-    { name: 'platform', ang: 132, r: 98, rels: ['system_admin', 'content_admin'] },
-    { name: 'course', ang: -10, r: 120, rels: ['platform', 'instructor', 'enrolled', 'can_edit', 'can_publish', 'can_manage_questions', 'can_view_content', 'can_view_reports', 'can_learn'] },
-    { name: 'lesson', ang: -70, r: 105, rels: ['parent_course', 'preview_viewer', 'can_view', 'can_track_progress'] },
-    { name: 'quiz', ang: -125, r: 105, rels: ['parent_course', 'course_reporter', 'can_manage_questions', 'can_attempt'] },
-    { name: 'quiz_attempt', ang: 78, r: 102, rels: ['parent_quiz', 'owner', 'can_draft_or_submit', 'can_view_result'] },
-    { name: 'order', ang: 32, r: 112, rels: ['platform', 'buyer', 'can_view', 'can_cancel'] }
+  const cx = 410, cy = 230;
+  const activeObjType = q ? q.object.split(':')[0] : '';
+  const activeRel = q ? q.relation : '';
+
+  // Well-spaced radial sectors matching OpenFGA Playground layout
+  const typeSpecs = [
+    { name: 'user', x: cx - 54, y: cy, rels: [] },
+    { name: 'quiz', ang: -148, r: 108, span: 96, baseD: 82, rels: ['can_attempt', 'can_manage_questions', 'course_reporter', 'parent_course'] },
+    { name: 'lesson', ang: -92, r: 102, span: 96, baseD: 82, rels: ['parent_course', 'preview_viewer', 'can_view', 'can_track_progress'] },
+    { name: 'course', ang: -6, r: 112, span: 132, baseD: 94, rels: ['can_learn', 'enrolled', 'can_view_content', 'can_view_reports', 'can_edit', 'can_publish', 'platform', 'instructor', 'can_manage_questions'] },
+    { name: 'platform', ang: 68, r: 92, span: 54, baseD: 76, rels: ['content_admin', 'system_admin'] },
+    { name: 'quiz_attempt', ang: 112, r: 108, span: 84, baseD: 82, rels: ['parent_quiz', 'can_view_result', 'owner', 'can_draft_or_submit'] },
+    { name: 'order', ang: 162, r: 118, span: 84, baseD: 82, rels: ['platform', 'can_view', 'buyer', 'can_cancel'] }
   ];
 
-  let out = `<defs><pattern id="fgaDots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.8" fill="#1e2433"/></pattern></defs><rect width="720" height="310" fill="#0b0d12"/><rect width="720" height="310" fill="url(#fgaDots)"/>`;
+  let inner = '';
+  const relCoords = {};
 
-  typeNodes.forEach(tp => {
-    const rad = tp.ang * Math.PI / 180;
-    const tx = cx + Math.cos(rad) * tp.r;
-    const ty = cy + Math.sin(rad) * tp.r;
+  typeSpecs.forEach(tp => {
+    const tPos = tp.x !== undefined ? { x: tp.x, y: tp.y } : polarPt(cx, cy, tp.ang, tp.r);
     const isActiveType = tp.name === activeObjType;
 
-    out += `<line x1="${cx}" y1="${cy}" x2="${tx}" y2="${ty}" stroke="${isActiveType ? '#a78bfa' : '#334155'}" stroke-width="${isActiveType ? 1.8 : 1.1}"/>`;
+    // Store -> Type solid link
+    inner += `<line x1="${cx}" y1="${cy}" x2="${tPos.x}" y2="${tPos.y}" stroke="${isActiveType ? '#a78bfa' : '#334155'}" stroke-width="${isActiveType ? 2.1 : 1.3}"/>`;
 
+    relCoords[tp.name] = {};
     const n = tp.rels.length;
-    const spread = Math.min(76, Math.max(26, n * 9));
     tp.rels.forEach((rel, i) => {
-      const offset = n === 1 ? 0 : (-spread / 2 + (spread / (n - 1)) * i);
-      const rAng = (tp.ang + offset) * Math.PI / 180;
-      const dist = 48 + (i % 2) * 18;
-      const rx = tx + Math.cos(rAng) * dist;
-      const ry = ty + Math.sin(rAng) * dist;
-      const hitRel = isActiveType && rel === activeRel;
-      const lineColor = hitRel ? (activeQuery.allowed ? '#10b981' : '#f87171') : '#293245';
-      const dotColor = hitRel ? (activeQuery.allowed ? '#10b981' : '#f87171') : '#2dd4bf';
-      out += `<line x1="${tx}" y1="${ty}" x2="${rx}" y2="${ry}" stroke="${lineColor}" stroke-width="${hitRel ? 2 : 0.9}"/>`;
-      out += `<circle cx="${rx}" cy="${ry}" r="${hitRel ? 5.5 : 3.8}" fill="${dotColor}"/>`;
-      out += `<text x="${rx}" y="${ry + (ry < ty ? -7 : 11)}" text-anchor="middle" fill="${hitRel ? '#ffffff' : '#94a3b8'}" font-size="${hitRel ? 9 : 7.8}" font-weight="${hitRel ? 700 : 500}" font-family="monospace">${rel}</text>`;
+      const offset = n <= 1 ? 0 : (-tp.span / 2 + (tp.span / (n - 1)) * i);
+      const ang = tp.ang + offset;
+      // Stagger radial distance smoothly on dense types so text never overlaps
+      const dist = tp.baseD + (n > 5 ? (i % 2 === 0 ? 0 : 28) : (i % 2) * 14);
+      const rPos = polarPt(tPos.x, tPos.y, ang, dist);
+      relCoords[tp.name][rel] = { x: rPos.x, y: rPos.y, ang };
     });
-
-    out += `<circle cx="${tx}" cy="${ty}" r="${isActiveType ? 9 : 7}" fill="#8b5cf6" stroke="${isActiveType ? '#ffffff' : '#0b0d12'}" stroke-width="1.5"/>`;
-    out += `<text x="${tx}" y="${ty + 15}" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-weight="700" font-family="monospace">${tp.name}</text>`;
   });
 
-  out += `<circle cx="${cx}" cy="${cy}" r="11" fill="#64748b" stroke="#0b0d12" stroke-width="2"/>`;
-  out += `<text x="${cx}" y="${cy + 19}" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="700" font-family="monospace">ekila-lms-b2c</text>`;
+  // 1) Draw dashed dependency curves between relations inside each type (like OpenFGA image 2)
+  Object.entries(GRAPH_REL_DEPS).forEach(([typeName, pairs]) => {
+    const coords = relCoords[typeName];
+    if (!coords) return;
+    pairs.forEach(([fromRel, toRel]) => {
+      const a = coords[fromRel];
+      const b = coords[toRel];
+      if (!a || !b) return;
+      const isActiveEdge = typeName === activeObjType && (fromRel === activeRel || toRel === activeRel);
+      const mx = (a.x + b.x) / 2 + (a.y - b.y) * 0.14;
+      const my = (a.y + b.y) / 2 + (b.x - a.x) * 0.14;
+      const edgeColor = isActiveEdge ? (q.allowed ? '#10b981' : '#f87171') : '#475569';
+      inner += `<path d="M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}" fill="none" stroke="${edgeColor}" stroke-width="${isActiveEdge ? 1.7 : 1}" stroke-dasharray="3 3" opacity="${isActiveEdge ? 0.95 : 0.65}"/>`;
+    });
+  });
 
-  svg.innerHTML = out;
+  // 2) Draw Type -> Relation solid links and relation circles + outward-aligned labels
+  typeSpecs.forEach(tp => {
+    const tPos = tp.x !== undefined ? { x: tp.x, y: tp.y } : polarPt(cx, cy, tp.ang, tp.r);
+    const isActiveType = tp.name === activeObjType;
+
+    tp.rels.forEach(rel => {
+      const rp = relCoords[tp.name][rel];
+      const hitRel = isActiveType && rel === activeRel;
+      const lineColor = hitRel ? (q.allowed ? '#10b981' : '#f87171') : '#2e384d';
+      const dotColor = hitRel ? (q.allowed ? '#10b981' : '#f87171') : '#2dd4bf';
+      inner += `<line x1="${tPos.x}" y1="${tPos.y}" x2="${rp.x}" y2="${rp.y}" stroke="${lineColor}" stroke-width="${hitRel ? 2.2 : 1.1}"/>`;
+      inner += `<circle cx="${rp.x}" cy="${rp.y}" r="${hitRel ? 9.5 : 7.5}" fill="${dotColor}" stroke="#0b0d12" stroke-width="1.5"/>`;
+
+      const dy = rp.y < tPos.y ? -12 : 17;
+      inner += `<text x="${rp.x}" y="${rp.y + dy}" text-anchor="middle" fill="${hitRel ? '#ffffff' : '#cbd5e1'}" font-size="${hitRel ? 10 : 9}" font-weight="${hitRel ? 700 : 500}" font-family="monospace">${rel}</text>`;
+    });
+
+    // Type Circle (purple, matching OpenFGA UI)
+    inner += `<circle cx="${tPos.x}" cy="${tPos.y}" r="${isActiveType ? 11.5 : 9.5}" fill="#8b5cf6" stroke="${isActiveType ? '#ffffff' : '#0b0d12'}" stroke-width="1.8"/>`;
+    inner += `<text x="${tPos.x}" y="${tPos.y + 20}" text-anchor="middle" fill="#f8fafc" font-size="10.5" font-weight="700" font-family="monospace">${tp.name}</text>`;
+  });
+
+  // 3) Center Store Node (large grey circle)
+  inner += `<circle cx="${cx}" cy="${cy}" r="14" fill="#64748b" stroke="#0b0d12" stroke-width="2.2"/>`;
+  inner += `<text x="${cx}" y="${cy + 25}" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="700" font-family="monospace">ekila-lms-b2c</text>`;
+
+  const bg = `<defs><pattern id="fgaDots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.85" fill="#1e2433"/></pattern></defs><rect width="820" height="460" fill="#0b0d12"/><rect width="820" height="460" fill="url(#fgaDots)"/>`;
+  svg.innerHTML = bg + `<g id="graphViewport" transform="translate(${graphPanX}, ${graphPanY}) translate(${cx}, ${cy}) scale(${graphScale}) translate(${-cx}, ${-cy})">${inner}</g>`;
+}
+
+function updateGraphTransform() {
+  const vp = document.getElementById('graphViewport');
+  const cx = 410, cy = 230;
+  if (vp) {
+    vp.setAttribute('transform', `translate(${graphPanX}, ${graphPanY}) translate(${cx}, ${cy}) scale(${graphScale}) translate(${-cx}, ${-cy})`);
+  }
+  const pct = document.getElementById('zoomPct');
+  if (pct) pct.textContent = Math.round(graphScale * 100) + '%';
+}
+
+function zoomGraph(delta) {
+  graphScale = Math.min(2.6, Math.max(0.5, +(graphScale + delta).toFixed(2)));
+  updateGraphTransform();
+}
+
+function resetGraphView() {
+  graphScale = 1;
+  graphPanX = 0;
+  graphPanY = 0;
+  updateGraphTransform();
+}
+
+function setupGraphPanZoom() {
+  const wrap = document.getElementById('graphCanvasWrap');
+  if (!wrap) return;
+  wrap.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.12 : -0.12;
+    zoomGraph(delta);
+  }, { passive: false });
+
+  let dragging = false;
+  let startX = 0, startY = 0, origX = 0, origY = 0;
+  wrap.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    origX = graphPanX;
+    origY = graphPanY;
+    wrap.setPointerCapture?.(e.pointerId);
+  });
+  wrap.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const rect = wrap.getBoundingClientRect();
+    const scaleX = 820 / Math.max(1, rect.width);
+    const scaleY = 460 / Math.max(1, rect.height);
+    graphPanX = origX + (e.clientX - startX) * scaleX;
+    graphPanY = origY + (e.clientY - startY) * scaleY;
+    updateGraphTransform();
+  });
+  const stop = () => { dragging = false; };
+  wrap.addEventListener('pointerup', stop);
+  wrap.addEventListener('pointercancel', stop);
+}
+
+function toggleLeftPanel() {
+  const main = document.getElementById('fgaMain');
+  const collapsed = main.classList.toggle('left-collapsed');
+  const arrow = document.getElementById('dividerArrow');
+  const hdrBtn = document.getElementById('btnToggleLeftHeader');
+  if (arrow) {
+    arrow.innerHTML = collapsed
+      ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>'
+      : '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
+  }
+  if (hdrBtn) {
+    hdrBtn.textContent = collapsed ? 'HIỆN BẢNG TRÁI' : 'ẨN BẢNG TRÁI';
+  }
+}
+
+function toggleQueriesPane() {
+  const pane = document.getElementById('queriesPane');
+  const collapsed = pane.classList.toggle('collapsed');
+  const chev = document.getElementById('qChevron');
+  if (chev) {
+    chev.innerHTML = collapsed
+      ? '<polyline points="18 15 12 9 6 15"/>'
+      : '<polyline points="6 9 12 15 18 9"/>';
+  }
+}
+
+function showAssertions() {
+  const main = document.getElementById('fgaMain');
+  if (main.classList.contains('left-collapsed')) toggleLeftPanel();
+  switchLeftTab('assertions');
+  runAllAssertions();
 }
 
 function toggleAddDrawer() {
@@ -915,6 +1189,8 @@ function resetStore() {
 }
 
 function applyPreset(u, r, o) {
+  const pane = document.getElementById('queriesPane');
+  if (pane.classList.contains('collapsed')) toggleQueriesPane();
   document.getElementById('qUser').value = u;
   document.getElementById('qRel').value = r;
   document.getElementById('qObj').value = o;
@@ -960,6 +1236,7 @@ function runAllAssertions() {
 if (typeof document !== 'undefined') {
   renderModelPane();
   renderTuples();
+  setupGraphPanZoom();
   runCheck();
   runAllAssertions();
 }

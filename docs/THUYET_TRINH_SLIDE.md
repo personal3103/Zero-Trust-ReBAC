@@ -198,10 +198,10 @@ Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói tr
 - **Trên giao diện OpenFGA gồm 4 vùng trực quan:**
   - **Trên trái — `AUTHORIZATION MODEL (7 TYPES)`:** Xem toàn bộ model `ekila-lms-model.fga` dạng **DSL** hoặc **JSON**.
   - **Dưới trái — `Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`:** Danh sách 15 quan hệ có sẵn của `ekila-lms-b2c`, thêm/xóa tuple trực tiếp và chạy bộ 19 kiểm thử tự động.
-  - **Trên phải — `TYPES PREVIEWER`:** Đồ thị phân cấp 7 types (`user`, `platform`, `course`, `lesson`, `quiz`, `quiz_attempt`, `order`) và các relations; tự động đổi màu nhánh đang kiểm tra (`xanh` = `ALLOWED`, `đỏ` = `DENIED`).
-  - **Dưới phải — `TUPLE QUERIES`:** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
+  - **Trên phải — `TYPES PREVIEWER`:** Đồ thị phân cấp 7 types + các đường nối nét đứt giữa các relations phụ thuộc; hỗ trợ **cuộn chuột để zoom / kéo để di chuyển / nút `-`, `+`, `Fit`** và nút **ẩn/hiện bảng trái (`<` / `>`)** để bung rộng đồ thị.
+  - **Dưới phải — `TUPLE QUERIES` (thu gọn/mở rộng được):** Truy vấn `is [user] related to [object] as [relation]`, bấm **`CHECK`** hoặc chọn nút tình huống nhanh để xem kết quả + đường đi duyệt đồ thị (`Traversal`).
 - **Kịch bản thao tác demo từng bước (nên bấm `Phóng to Iframe` ngay khi vào Trang 13):**
-  1. **Bấm `Phóng to Iframe`** để bung OpenFGA Playground toàn màn hình cho cả phòng dễ theo dõi.
+  1. **Bấm `Phóng to Iframe`** để bung OpenFGA Playground toàn màn hình cho cả phòng dễ theo dõi (có thể bấm thanh **`<`** ở giữa hoặc **`ẨN BẢNG TRÁI`** + zoom đồ thị để mọi người nhìn rõ cấu trúc quan hệ).
   2. **Giới thiệu nhanh Store `ekila-lms-b2c` (15 Tuples sẵn):**
      - Chỉ vào **Model DSL** bên trái, danh sách **Tuples (15)** bên dưới (*Cường* `system_admin`, *Linh* `content_admin`, *Duy* giảng viên Spring Boot, *Minh* giảng viên Next.js, *Khánh* `enrolled` Spring Boot, *An* chưa mua khóa nào) và đồ thị **Types Previewer** bên phải.
      - Bấm sang tab **`Assertions (19)`** hoặc nút **`ASSERTIONS (19/19)`** trên góc phải để chứng minh toàn bộ 19 kịch bản bảo mật đều **PASS**. Quay lại tab **`Tuples (15)`**.
