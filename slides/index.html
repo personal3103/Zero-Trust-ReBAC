@@ -709,21 +709,21 @@
         </div>
       </section>
 
-      <!-- TRANG 13: OPENFGA OFFICIAL PLAYGROUND IFRAME (DOCKER + PRE-SEEDED STORE) -->
-      <section class="slide" data-group="Phần II — Ekila LMS" data-title="Live Demo: OpenFGA Playground (Docker)">
+      <!-- TRANG 13: OPENFGA PLAYGROUND & EKILA INTERACTIVE STUDIO -->
+      <section class="slide" data-group="Phần II — Ekila LMS" data-title="Live Demo: OpenFGA Playground">
         <div class="slide-top stagger" style="--i:0; margin-bottom: 8px;">
-          <span class="badge p2">Phần II • Live Demo OpenFGA (Docker Local)</span>
-          <span class="slide-tag">Official OpenFGA UI • Store: ekila-lms-b2c • Trang 13</span>
+          <span class="badge p2">Phần II • Live Demo OpenFGA</span>
+          <span class="slide-tag">OpenFGA UI &amp; Studio • Store: ekila-lms-b2c • Trang 13</span>
         </div>
         <h1 class="title stagger" style="--i:1; font-size: 21px; margin-bottom: 4px;">Demo trực tiếp trên <span class="c-primary">OpenFGA Playground</span> (Dữ liệu Ekila LMS có sẵn)</h1>
-        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Nhúng giao diện chính thức của OpenFGA kết nối thẳng vào container Docker <code class="inline">localhost:8090</code> với Store <code class="inline">ekila-lms-b2c</code> (15 Tuples)</p>
+        <p class="subtitle stagger" style="--i:2; margin-bottom: 10px;">Nạp sẵn Store <code class="inline">ekila-lms-b2c</code> (7 Types, 15 Tuples): tự kết nối Docker <code class="inline">:8092</code> nếu có hoặc chạy In-Browser Engine trên GitHub Pages</p>
 
         <div class="iframe-shell stagger" style="--i:3">
           <div class="iframe-bar">
             <div style="display:flex; gap:6px; align-items:center;">
-              <button class="btn active" id="btnFramePlay" onclick="switchOpenFgaFrame('playground')">OpenFGA Playground UI</button>
-              <button class="btn" id="btnFrameLocal" onclick="switchOpenFgaFrame('local')">Docker API Console (Offline)</button>
-              <span class="badge" id="openfgaDockerStatus">Checking Docker :8090...</span>
+              <button class="btn active" id="btnFramePlay" onclick="switchOpenFgaFrame('playground')">OpenFGA Official UI (:3011)</button>
+              <button class="btn" id="btnFrameLocal" onclick="switchOpenFgaFrame('local')">Ekila OpenFGA Studio</button>
+              <span class="badge" id="openfgaDockerStatus">Initializing...</span>
             </div>
             <span class="iframe-url" id="openfgaFrameUrl">Đang nạp store ekila-lms-b2c...</span>
             <div style="display:flex; gap:6px; align-items:center;">
@@ -731,13 +731,13 @@
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 Phóng to Iframe
               </button>
-              <a class="btn" id="openfgaExternalLink" href="http://localhost:3010/playground" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+              <a class="btn" id="openfgaExternalLink" href="openfga-local.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 Mở tab riêng
               </a>
             </div>
           </div>
-          <iframe id="openfgaFrame" class="iframe-frame" src="about:blank" title="OpenFGA Official Playground" allow="local-network-access *; clipboard-read *; clipboard-write *"></iframe>
+          <iframe id="openfgaFrame" class="iframe-frame" src="about:blank" title="OpenFGA Interactive Playground" allow="local-network-access *; clipboard-read *; clipboard-write *"></iframe>
         </div>
       </section>
 

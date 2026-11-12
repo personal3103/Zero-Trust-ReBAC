@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OpenFGA Local Docker Console (localhost:8090)</title>
+<title>Ekila LMS — OpenFGA Interactive Studio (ekila-lms-b2c)</title>
 <style>
   :root {
+    --topbar: #0f172a;
     --bg: #f8fafc;
     --paper: #ffffff;
     --ink: #0f172a;
@@ -21,69 +22,126 @@
     --red: #dc2626;
     --red-soft: #fef2f2;
     --red-border: #fecaca;
+    --amber: #b45309;
+    --amber-soft: #fffbeb;
+    --amber-border: #fde68a;
+    --violet: #6d28d9;
+    --violet-soft: #f5f3ff;
     --sans: "Inter", "Segoe UI", system-ui, sans-serif;
     --mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
+  html, body {
+    height: 100%;
     font-family: var(--sans);
     background: var(--bg);
     color: var(--ink);
-    padding: 12px;
     font-size: 12.5px;
     line-height: 1.45;
+    overflow: hidden;
   }
-  .top-strip {
-    background: var(--paper);
-    border: 1px solid var(--border-strong);
-    border-radius: 6px;
-    padding: 8px 12px;
+  .studio {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    background: var(--topbar);
+    color: #f8fafc;
+    padding: 8px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+    flex-shrink: 0;
+    border-bottom: 1px solid #1e293b;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    background: #6d28d9;
+    color: #ffffff;
+    font-family: var(--mono);
+    font-weight: 800;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .store-chip {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 600;
   }
   .status-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
     padding: 3px 9px;
     border-radius: 4px;
-    border: 1px solid var(--border-strong);
-    background: var(--bg);
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #cbd5e1;
   }
-  .status-pill.ok { color: var(--green); background: var(--green-soft); border-color: var(--green-border); }
-  .status-pill.err { color: var(--red); background: var(--red-soft); border-color: var(--red-border); }
+  .status-pill.docker { color: #86efac; border-color: #166534; background: #052e16; }
+  .status-pill.local { color: #93c5fd; border-color: #1e40af; background: #172554; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-  .meta-kv {
+  .nav-tabs {
     display: flex;
-    gap: 12px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-2);
-    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
   }
-  .btn {
-    background: var(--paper);
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
-    padding: 5px 10px;
-    border-radius: 5px;
+  .tab-btn {
+    background: transparent;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+    padding: 4px 10px;
+    border-radius: 4px;
     font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
     font-family: var(--sans);
   }
-  .btn:hover { border-color: var(--primary); color: var(--primary); }
-  .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .grid {
+  .tab-btn:hover { border-color: #64748b; color: #ffffff; }
+  .tab-btn.active { background: #6d28d9; border-color: #7c3aed; color: #ffffff; }
+  .body-area {
+    flex: 1;
+    min-height: 0;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+  .view-pane {
+    display: none;
+    flex: 1;
+    min-height: 0;
+  }
+  .view-pane.active {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .split-grid {
+    flex: 1;
+    min-height: 0;
     display: grid;
-    grid-template-columns: 1fr 1.15fr;
+    grid-template-columns: 1fr 1.25fr;
     gap: 10px;
   }
   .panel {
@@ -94,6 +152,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-height: 0;
   }
   .panel-title {
     font-size: 11px;
@@ -104,9 +163,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
+  .btn {
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    color: var(--ink);
+    padding: 4px 9px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--primary); color: var(--primary); }
+  .btn.primary { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+  .btn.primary:hover { background: #1e40af; color: #ffffff; }
+  .btn.sm { padding: 2px 7px; font-size: 11px; }
+  .btn.danger { color: var(--red); border-color: var(--red-border); background: var(--red-soft); }
   .tuples-box {
-    max-height: 225px;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     border: 1px solid var(--border);
     border-radius: 5px;
@@ -119,37 +198,63 @@
   .t-row {
     font-family: var(--mono);
     font-size: 11px;
-    padding: 4px 6px;
+    padding: 4px 7px;
     background: var(--paper);
     border: 1px solid var(--border);
     border-radius: 4px;
     color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
   }
-  .row { display: flex; gap: 8px; align-items: center; }
-  select {
-    flex: 1;
-    padding: 6px 8px;
-    border: 1px solid var(--border-strong);
-    border-radius: 5px;
-    font-family: var(--mono);
-    font-size: 11.5px;
-    background: var(--paper);
-    color: var(--ink);
-  }
-  pre {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 8px 10px;
+  .t-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .t-del {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
     font-family: var(--mono);
     font-size: 11px;
-    line-height: 1.45;
-    overflow: auto;
-    max-height: 155px;
-    color: var(--ink);
+    padding: 0 4px;
   }
+  .t-del:hover { color: var(--red); font-weight: 700; }
+  .add-form {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr 1.1fr auto;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  input, select {
+    padding: 5px 7px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--paper);
+    color: var(--ink);
+    min-width: 0;
+  }
+  .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .presets {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .preset-chip {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    color: var(--ink-2);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .preset-chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
   .res-badge {
-    padding: 6px 10px;
+    padding: 7px 10px;
     border-radius: 5px;
     font-family: var(--mono);
     font-size: 12px;
@@ -157,141 +262,650 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
   }
   .res-badge.ok { background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green); }
   .res-badge.no { background: var(--red-soft); border: 1px solid var(--red-border); color: var(--red); }
+  .trace-box {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .assert-grid {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    align-content: start;
+  }
+  .assert-card {
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    border-radius: 5px;
+    padding: 7px 9px;
+    font-family: var(--mono);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .assert-card.pass { border-left: 3px solid var(--green); }
+  .assert-card.fail { border-left: 3px solid var(--red); background: var(--red-soft); }
+  .tag-pass { color: var(--green); font-weight: 700; }
+  .tag-fail { color: var(--red); font-weight: 700; }
+  .dsl-pre {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.55;
+  }
+  .graph-wrap {
+    flex: 1;
+    min-height: 0;
+    background: #ffffff;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .graph-svg {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+  }
+  @media (max-width: 820px) {
+    .split-grid { grid-template-columns: 1fr; }
+    .assert-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
+<div class="studio">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">FGA</span>
+      <span style="font-weight:700; font-size:12.5px;">OpenFGA Studio</span>
+      <span class="store-chip">ekila-lms-b2c</span>
+      <span class="status-pill local" id="enginePill"><span class="dot"></span>Initializing...</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="console" onclick="switchTab('console', this)">Tuples &amp; Check()</button>
+      <button class="tab-btn" data-tab="graph" onclick="switchTab('graph', this)">Relation Graph</button>
+      <button class="tab-btn" data-tab="tests" onclick="switchTab('tests', this)">Assertions (<span id="testPassBadge">12/12</span>)</button>
+      <button class="tab-btn" data-tab="dsl" onclick="switchTab('dsl', this)">Model DSL</button>
+      <button class="tab-btn" onclick="detectDocker(true)">Sync Docker :8092</button>
+    </div>
+  </header>
 
-<div class="top-strip">
-  <div class="row">
-    <span class="status-pill" id="healthPill"><span class="dot"></span>Connecting http://localhost:8090...</span>
-    <div class="meta-kv" id="metaKv"></div>
-  </div>
-  <div class="row">
-    <button class="btn" onclick="loadFromDocker()">Làm mới từ Docker</button>
-  </div>
-</div>
+  <main class="body-area">
+    <!-- TAB 1: TUPLES & CHECK -->
+    <section class="view-pane active" id="tab-console">
+      <div class="split-grid">
+        <div class="panel">
+          <div class="panel-title">
+            <span>Relationship Tuples (<span id="tupleCount">15</span>)</span>
+            <button class="btn sm" onclick="resetTuples()">Reset 15 mặc định</button>
+          </div>
+          <div class="tuples-box" id="tuplesBox"></div>
+          <div class="add-form">
+            <input id="inUser" value="user:an" placeholder="user:an" title="User" />
+            <input id="inRel" value="enrolled" placeholder="relation" title="Relation" />
+            <input id="inObj" value="course:spring-boot" placeholder="course:spring-boot" title="Object" />
+            <button class="btn primary sm" onclick="addTuple()">+ Ghi Tuple</button>
+          </div>
+        </div>
 
-<div class="grid">
-  <div class="panel">
-    <div class="panel-title">
-      <span>Dữ liệu Tuples thật trong PostgreSQL Docker (<span id="tupleCount">0</span>)</span>
-      <span style="font-family:var(--mono); color:var(--muted);">ekila-openfga-postgres</span>
-    </div>
-    <div class="tuples-box" id="tuplesBox">Đang tải từ http://localhost:8090...</div>
-  </div>
+        <div class="panel">
+          <div class="panel-title">
+            <span>Authorization Check(user, relation, object)</span>
+            <span id="apiTimer" style="font-family:var(--mono); color:var(--muted);">-</span>
+          </div>
+          <div class="presets">
+            <button class="preset-chip" onclick="applyPreset('user:khanh','can_view','lesson:jwt-01')">Khánh học JWT</button>
+            <button class="preset-chip" onclick="applyPreset('user:an','can_view','lesson:jwt-01')">An chưa mua</button>
+            <button class="preset-chip" onclick="applyPreset('user:an','can_view','lesson:intro-preview')">An học Preview</button>
+            <button class="preset-chip" onclick="applyPreset('user:duy','can_manage_questions','quiz:quiz-auth')">Duy sửa Quiz</button>
+            <button class="preset-chip" onclick="applyPreset('user:duy','can_edit','course:nextjs-pro')">Duy sửa Next.js (Chéo)</button>
+            <button class="preset-chip" onclick="applyPreset('user:linh','can_cancel','order:ord-khanh-01')">Linh hủy đơn (Chặn)</button>
+            <button class="preset-chip" onclick="applyPreset('user:duy','can_view_result','quiz_attempt:att-khanh-01')">Duy xem điểm</button>
+          </div>
+          <div class="row">
+            <select id="qUser" style="flex:1;" onchange="runCheck()">
+              <option value="user:khanh">user:khanh (Học viên đã mua)</option>
+              <option value="user:an">user:an (Học viên chưa mua)</option>
+              <option value="user:duy">user:duy (Giảng viên Spring)</option>
+              <option value="user:minh">user:minh (Giảng viên Next.js)</option>
+              <option value="user:linh">user:linh (Content Admin)</option>
+              <option value="user:cuong">user:cuong (System Admin)</option>
+            </select>
+            <select id="qRel" style="flex:1;" onchange="runCheck()">
+              <option value="can_view">can_view</option>
+              <option value="can_track_progress">can_track_progress</option>
+              <option value="can_attempt">can_attempt</option>
+              <option value="can_edit">can_edit</option>
+              <option value="can_publish">can_publish</option>
+              <option value="can_manage_questions">can_manage_questions</option>
+              <option value="can_draft_or_submit">can_draft_or_submit</option>
+              <option value="can_view_result">can_view_result</option>
+              <option value="can_cancel">can_cancel</option>
+            </select>
+            <select id="qObj" style="flex:1.15;" onchange="runCheck()">
+              <option value="lesson:jwt-01">lesson:jwt-01</option>
+              <option value="lesson:intro-preview">lesson:intro-preview</option>
+              <option value="quiz:quiz-auth">quiz:quiz-auth</option>
+              <option value="course:spring-boot">course:spring-boot</option>
+              <option value="course:nextjs-pro">course:nextjs-pro</option>
+              <option value="quiz_attempt:att-khanh-01">quiz_attempt:att-khanh-01</option>
+              <option value="order:ord-khanh-01">order:ord-khanh-01</option>
+            </select>
+            <button class="btn primary" onclick="runCheck()">Check</button>
+          </div>
+          <div class="res-badge ok" id="resBadge">
+            <span id="resText">Check(user:khanh, can_view, lesson:jwt-01)</span>
+            <span id="resAllowed">allowed: true</span>
+          </div>
+          <pre class="trace-box" id="jsonOut"></pre>
+        </div>
+      </div>
+    </section>
 
-  <div class="panel">
-    <div class="panel-title">
-      <span>Gọi API thật tới OpenFGA Server (:8090)</span>
-      <span id="apiTimer" style="font-family:var(--mono); color:var(--muted);">-</span>
-    </div>
-    <div class="row">
-      <select id="qUser">
-        <option value="user:khanh">user:khanh</option>
-        <option value="user:an">user:an</option>
-        <option value="user:duy">user:duy</option>
-        <option value="user:linh">user:linh</option>
-        <option value="user:cuong">user:cuong</option>
-      </select>
-      <select id="qRel">
-        <option value="can_view">can_view</option>
-        <option value="can_manage_questions">can_manage_questions</option>
-        <option value="can_publish">can_publish</option>
-        <option value="can_view_result">can_view_result</option>
-        <option value="can_cancel">can_cancel</option>
-      </select>
-      <select id="qObj">
-        <option value="lesson:jwt-01">lesson:jwt-01</option>
-        <option value="lesson:intro-preview">lesson:intro-preview</option>
-        <option value="quiz:quiz-auth">quiz:quiz-auth</option>
-        <option value="course:spring-boot">course:spring-boot</option>
-        <option value="quiz_attempt:att-khanh-01">quiz_attempt:att-khanh-01</option>
-        <option value="order:ord-khanh-01">order:ord-khanh-01</option>
-      </select>
-      <button class="btn primary" onclick="callRealCheck()">POST /check</button>
-    </div>
-    <div class="res-badge ok" id="resBadge">
-      <span id="resText">Sẵn sàng gọi Docker OpenFGA API</span>
-      <span id="resAllowed">-</span>
-    </div>
-    <pre id="jsonOut">{ "hint": "Bấm POST /check để gửi request thật tới OpenFGA container..." }</pre>
-  </div>
+    <!-- TAB 2: RELATION GRAPH -->
+    <section class="view-pane" id="tab-graph">
+      <div class="graph-wrap">
+        <div class="panel-title">
+          <span>Đồ thị phân cấp B2C Ekila LMS (7 Types • Dữ liệu thật từ Store)</span>
+          <span id="graphStatus" style="font-family:var(--mono); color:var(--muted);">Sẵn sàng</span>
+        </div>
+        <svg class="graph-svg" id="graphSvg" viewBox="0 0 920 340"></svg>
+      </div>
+    </section>
+
+    <!-- TAB 3: ASSERTIONS -->
+    <section class="view-pane" id="tab-tests">
+      <div class="panel" style="flex:1;">
+        <div class="panel-title">
+          <span>Bộ kiểm thử Ekila LMS Assertions (<span id="assertSummary">Đang chạy...</span>)</span>
+          <button class="btn sm primary" onclick="runAllAssertions()">Chạy lại Assertions</button>
+        </div>
+        <div class="assert-grid" id="assertGrid"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: DSL -->
+    <section class="view-pane" id="tab-dsl">
+      <pre class="dsl-pre" id="dslPre"></pre>
+    </section>
+  </main>
 </div>
 
 <script>
-const API = 'http://localhost:8090';
-let storeId = '';
-let modelId = '';
+const DOCKER_API = 'http://localhost:8092';
+const MODEL_DSL = `model
+  schema 1.1
 
-async function loadFromDocker() {
-  const pill = document.getElementById('healthPill');
-  try {
-    const h = await fetch(`${API}/healthz`).then(r => r.json());
-    pill.className = 'status-pill ok';
-    pill.innerHTML = `<span class="dot"></span>${h.status || 'SERVING'} • localhost:8090`;
+type user
 
-    const storesRes = await fetch(`${API}/stores`).then(r => r.json());
-    const store = (storesRes.stores || []).find(s => s.name === 'ekila-lms-b2c') || (storesRes.stores || [])[0];
-    if (!store) {
-      document.getElementById('tuplesBox').textContent = 'Chưa có store. Chạy openfga/seed-openfga.ps1 để nạp dữ liệu mẫu.';
-      return;
-    }
-    storeId = store.id;
+type platform
+  relations
+    define system_admin: [user]
+    define content_admin: [user]
 
-    const modelsRes = await fetch(`${API}/stores/${storeId}/authorization-models`).then(r => r.json());
-    const latestModel = (modelsRes.authorization_models || [])[0];
-    modelId = latestModel ? latestModel.id : '';
+type course
+  relations
+    define platform: [platform]
+    define instructor: [user]
+    define enrolled: [user]
 
-    document.getElementById('metaKv').innerHTML =
-      `<span>Store: <strong>${store.name}</strong> (${storeId.slice(0, 10)}...)</span><span>Model: ${modelId ? modelId.slice(0, 10) + '...' : 'N/A'}</span>`;
+    define can_edit: instructor or content_admin from platform or system_admin from platform
+    define can_publish: content_admin from platform or system_admin from platform
+    define can_manage_questions: instructor or content_admin from platform or system_admin from platform
+    define can_view_content: enrolled or can_edit
+    define can_view_reports: can_edit
+    define can_learn: enrolled
 
-    const readRes = await fetch(`${API}/stores/${storeId}/read`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: '{}'
-    }).then(r => r.json());
+type lesson
+  relations
+    define parent_course: [course]
+    define preview_viewer: [user:*]
 
-    const list = readRes.tuples || [];
-    document.getElementById('tupleCount').textContent = list.length;
-    document.getElementById('tuplesBox').innerHTML = list.map(t =>
-      `<div class="t-row">${t.key.object}#${t.key.relation}@${t.key.user}</div>`
-    ).join('');
+    define can_view: preview_viewer or can_view_content from parent_course
+    define can_track_progress: can_learn from parent_course
 
-    await callRealCheck();
-  } catch (e) {
-    pill.className = 'status-pill err';
-    pill.innerHTML = `<span class="dot"></span>OFFLINE — Chạy: docker compose up -d`;
-    document.getElementById('tuplesBox').textContent = 'Không kết nối được tới http://localhost:8090. Hãy kiểm tra Docker OpenFGA.';
+type quiz
+  relations
+    define parent_course: [course]
+    define course_reporter: can_view_reports from parent_course
+
+    define can_manage_questions: can_manage_questions from parent_course
+    define can_attempt: can_learn from parent_course
+
+type quiz_attempt
+  relations
+    define parent_quiz: [quiz]
+    define owner: [user]
+
+    define can_draft_or_submit: owner
+    define can_view_result: owner or course_reporter from parent_quiz
+
+type order
+  relations
+    define platform: [platform]
+    define buyer: [user]
+
+    define can_view: buyer or content_admin from platform or system_admin from platform
+    define can_cancel: buyer or system_admin from platform`;
+
+const DEFAULT_TUPLES = [
+  { user: 'user:cuong', relation: 'system_admin', object: 'platform:ekila' },
+  { user: 'user:linh', relation: 'content_admin', object: 'platform:ekila' },
+  { user: 'platform:ekila', relation: 'platform', object: 'course:spring-boot' },
+  { user: 'user:duy', relation: 'instructor', object: 'course:spring-boot' },
+  { user: 'user:khanh', relation: 'enrolled', object: 'course:spring-boot' },
+  { user: 'platform:ekila', relation: 'platform', object: 'course:nextjs-pro' },
+  { user: 'user:minh', relation: 'instructor', object: 'course:nextjs-pro' },
+  { user: 'course:spring-boot', relation: 'parent_course', object: 'lesson:jwt-01' },
+  { user: 'course:spring-boot', relation: 'parent_course', object: 'lesson:intro-preview' },
+  { user: 'user:*', relation: 'preview_viewer', object: 'lesson:intro-preview' },
+  { user: 'course:spring-boot', relation: 'parent_course', object: 'quiz:quiz-auth' },
+  { user: 'quiz:quiz-auth', relation: 'parent_quiz', object: 'quiz_attempt:att-khanh-01' },
+  { user: 'user:khanh', relation: 'owner', object: 'quiz_attempt:att-khanh-01' },
+  { user: 'platform:ekila', relation: 'platform', object: 'order:ord-khanh-01' },
+  { user: 'user:khanh', relation: 'buyer', object: 'order:ord-khanh-01' }
+];
+
+// Declarative OpenFGA schema 1.1 evaluation rules matching openfga/ekila-lms-model.fga
+const MODEL_RULES = {
+  platform: {
+    system_admin: [{ kind: 'direct' }],
+    content_admin: [{ kind: 'direct' }]
+  },
+  course: {
+    platform: [{ kind: 'direct' }],
+    instructor: [{ kind: 'direct' }],
+    enrolled: [{ kind: 'direct' }],
+    can_edit: [
+      { kind: 'computed', rel: 'instructor' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'content_admin' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'system_admin' }
+    ],
+    can_publish: [
+      { kind: 'ttu', tupleset: 'platform', rel: 'content_admin' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'system_admin' }
+    ],
+    can_manage_questions: [
+      { kind: 'computed', rel: 'instructor' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'content_admin' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'system_admin' }
+    ],
+    can_view_content: [
+      { kind: 'computed', rel: 'enrolled' },
+      { kind: 'computed', rel: 'can_edit' }
+    ],
+    can_view_reports: [{ kind: 'computed', rel: 'can_edit' }],
+    can_learn: [{ kind: 'computed', rel: 'enrolled' }]
+  },
+  lesson: {
+    parent_course: [{ kind: 'direct' }],
+    preview_viewer: [{ kind: 'direct', wildcard: true }],
+    can_view: [
+      { kind: 'computed', rel: 'preview_viewer' },
+      { kind: 'ttu', tupleset: 'parent_course', rel: 'can_view_content' }
+    ],
+    can_track_progress: [{ kind: 'ttu', tupleset: 'parent_course', rel: 'can_learn' }]
+  },
+  quiz: {
+    parent_course: [{ kind: 'direct' }],
+    course_reporter: [{ kind: 'ttu', tupleset: 'parent_course', rel: 'can_view_reports' }],
+    can_manage_questions: [{ kind: 'ttu', tupleset: 'parent_course', rel: 'can_manage_questions' }],
+    can_attempt: [{ kind: 'ttu', tupleset: 'parent_course', rel: 'can_learn' }]
+  },
+  quiz_attempt: {
+    parent_quiz: [{ kind: 'direct' }],
+    owner: [{ kind: 'direct' }],
+    can_draft_or_submit: [{ kind: 'computed', rel: 'owner' }],
+    can_view_result: [
+      { kind: 'computed', rel: 'owner' },
+      { kind: 'ttu', tupleset: 'parent_quiz', rel: 'course_reporter' }
+    ]
+  },
+  order: {
+    platform: [{ kind: 'direct' }],
+    buyer: [{ kind: 'direct' }],
+    can_view: [
+      { kind: 'computed', rel: 'buyer' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'content_admin' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'system_admin' }
+    ],
+    can_cancel: [
+      { kind: 'computed', rel: 'buyer' },
+      { kind: 'ttu', tupleset: 'platform', rel: 'system_admin' }
+    ]
   }
+};
+
+const ASSERTIONS = [
+  { user: 'user:khanh', relation: 'can_view', object: 'lesson:jwt-01', expected: true },
+  { user: 'user:khanh', relation: 'can_track_progress', object: 'lesson:jwt-01', expected: true },
+  { user: 'user:an', relation: 'can_view', object: 'lesson:jwt-01', expected: false },
+  { user: 'user:an', relation: 'can_track_progress', object: 'lesson:jwt-01', expected: false },
+  { user: 'user:an', relation: 'can_view', object: 'lesson:intro-preview', expected: true },
+  { user: 'user:an', relation: 'can_track_progress', object: 'lesson:intro-preview', expected: false },
+  { user: 'user:khanh', relation: 'can_attempt', object: 'quiz:quiz-auth', expected: true },
+  { user: 'user:an', relation: 'can_attempt', object: 'quiz:quiz-auth', expected: false },
+  { user: 'user:duy', relation: 'can_edit', object: 'course:spring-boot', expected: true },
+  { user: 'user:duy', relation: 'can_publish', object: 'course:spring-boot', expected: false },
+  { user: 'user:duy', relation: 'can_manage_questions', object: 'quiz:quiz-auth', expected: true },
+  { user: 'user:duy', relation: 'can_edit', object: 'course:nextjs-pro', expected: false },
+  { user: 'user:khanh', relation: 'can_draft_or_submit', object: 'quiz_attempt:att-khanh-01', expected: true },
+  { user: 'user:an', relation: 'can_view_result', object: 'quiz_attempt:att-khanh-01', expected: false },
+  { user: 'user:duy', relation: 'can_draft_or_submit', object: 'quiz_attempt:att-khanh-01', expected: false },
+  { user: 'user:duy', relation: 'can_view_result', object: 'quiz_attempt:att-khanh-01', expected: true },
+  { user: 'user:linh', relation: 'can_publish', object: 'course:spring-boot', expected: true },
+  { user: 'user:linh', relation: 'can_cancel', object: 'order:ord-khanh-01', expected: false },
+  { user: 'user:cuong', relation: 'can_cancel', object: 'order:ord-khanh-01', expected: true }
+];
+
+let tuples = DEFAULT_TUPLES.map(t => ({ ...t }));
+let dockerConnected = false;
+let dockerStoreId = '';
+let dockerModelId = '';
+
+function evaluateLocal(user, relation, object, visited = new Set()) {
+  const key = `${user}|${relation}|${object}`;
+  if (visited.has(key)) return { allowed: false, trace: [] };
+  visited.add(key);
+
+  const [objType] = object.split(':');
+  const typeRules = MODEL_RULES[objType];
+  if (!typeRules || !typeRules[relation]) {
+    return { allowed: false, trace: [`Relation ${relation} không tồn tại trên type ${objType}`] };
+  }
+
+  for (const branch of typeRules[relation]) {
+    if (branch.kind === 'direct') {
+      const exact = tuples.find(t => t.object === object && t.relation === relation && t.user === user);
+      if (exact) {
+        return { allowed: true, trace: [`MATCH direct tuple: (${exact.user}, ${exact.relation}, ${exact.object})`] };
+      }
+      if (branch.wildcard && user.startsWith('user:')) {
+        const wild = tuples.find(t => t.object === object && t.relation === relation && t.user === 'user:*');
+        if (wild) {
+          return { allowed: true, trace: [`MATCH wildcard tuple: (user:*, ${wild.relation}, ${wild.object})`] };
+        }
+      }
+    } else if (branch.kind === 'computed') {
+      const sub = evaluateLocal(user, branch.rel, object, new Set(visited));
+      if (sub.allowed) {
+        return {
+          allowed: true,
+          trace: [`${object}#${relation} -> computed ${branch.rel}`, ...sub.trace]
+        };
+      }
+    } else if (branch.kind === 'ttu') {
+      const parents = tuples.filter(t => t.object === object && t.relation === branch.tupleset);
+      for (const p of parents) {
+        const sub = evaluateLocal(user, branch.rel, p.user, new Set(visited));
+        if (sub.allowed) {
+          return {
+            allowed: true,
+            trace: [`${object}#${relation} -> traverse ${branch.tupleset}=${p.user}#${branch.rel}`, ...sub.trace]
+          };
+        }
+      }
+    }
+  }
+  return { allowed: false, trace: [`NO PATH FOUND: (${user}, ${relation}, ${object})`] };
 }
 
-async function callRealCheck() {
-  if (!storeId) return;
+function renderTuples() {
+  document.getElementById('tupleCount').textContent = tuples.length;
+  document.getElementById('tuplesBox').innerHTML = tuples.map((t, idx) => `
+    <div class="t-row">
+      <span class="t-text">${t.object}#${t.relation}@${t.user}</span>
+      <button class="t-del" onclick="removeTuple(${idx})" title="Xóa tuple">x</button>
+    </div>
+  `).join('');
+  renderGraph();
+}
+
+async function addTuple() {
+  const user = document.getElementById('inUser').value.trim();
+  const relation = document.getElementById('inRel').value.trim();
+  const object = document.getElementById('inObj').value.trim();
+  if (!user || !relation || !object) return;
+  if (tuples.some(t => t.user === user && t.relation === relation && t.object === object)) return;
+
+  if (dockerConnected && dockerStoreId) {
+    try {
+      await fetch(`${DOCKER_API}/stores/${dockerStoreId}/write`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ writes: { tuple_keys: [{ user, relation, object }] } })
+      });
+    } catch (_) {}
+  }
+  tuples.push({ user, relation, object });
+  renderTuples();
+  runCheck();
+  runAllAssertions();
+}
+
+async function removeTuple(idx) {
+  const t = tuples[idx];
+  if (!t) return;
+  if (dockerConnected && dockerStoreId) {
+    try {
+      await fetch(`${DOCKER_API}/stores/${dockerStoreId}/write`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deletes: { tuple_keys: [t] } })
+      });
+    } catch (_) {}
+  }
+  tuples.splice(idx, 1);
+  renderTuples();
+  runCheck();
+  runAllAssertions();
+}
+
+function resetTuples() {
+  tuples = DEFAULT_TUPLES.map(t => ({ ...t }));
+  renderTuples();
+  runCheck();
+  runAllAssertions();
+}
+
+function applyPreset(u, r, o) {
+  document.getElementById('qUser').value = u;
+  document.getElementById('qRel').value = r;
+  document.getElementById('qObj').value = o;
+  runCheck();
+}
+
+async function runCheck() {
   const user = document.getElementById('qUser').value;
   const relation = document.getElementById('qRel').value;
   const object = document.getElementById('qObj').value;
-  const payload = { tuple_key: { user, relation, object }, authorization_model_id: modelId };
 
   const t0 = performance.now();
-  const resp = await fetch(`${API}/stores/${storeId}/check`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).then(r => r.json());
-  const ms = (performance.now() - t0).toFixed(1);
+  const localRes = evaluateLocal(user, relation, object);
+  let allowed = localRes.allowed;
+  let engine = 'In-Browser ReBAC Engine (schema 1.1)';
+  let rawDockerResp = null;
 
-  document.getElementById('apiTimer').textContent = `HTTP ${ms} ms`;
+  if (dockerConnected && dockerStoreId) {
+    try {
+      const resp = await fetch(`${DOCKER_API}/stores/${dockerStoreId}/check`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tuple_key: { user, relation, object }, authorization_model_id: dockerModelId || undefined })
+      }).then(r => r.json());
+      if (typeof resp.allowed === 'boolean') {
+        allowed = resp.allowed;
+        rawDockerResp = resp;
+        engine = 'Docker OpenFGA Server (:8092)';
+      }
+    } catch (_) {}
+  }
+  const ms = (performance.now() - t0).toFixed(2);
+
+  document.getElementById('apiTimer').textContent = `${engine} • ${ms} ms`;
   const badge = document.getElementById('resBadge');
-  badge.className = 'res-badge ' + (resp.allowed ? 'ok' : 'no');
+  badge.className = 'res-badge ' + (allowed ? 'ok' : 'no');
   document.getElementById('resText').textContent = `Check(${user}, ${relation}, ${object})`;
-  document.getElementById('resAllowed').textContent = `allowed: ${resp.allowed}`;
-  document.getElementById('jsonOut').textContent = JSON.stringify({ request: payload, response: resp }, null, 2);
+  document.getElementById('resAllowed').textContent = `allowed: ${allowed}`;
+
+  document.getElementById('jsonOut').textContent = JSON.stringify({
+    store: 'ekila-lms-b2c',
+    engine,
+    request: { user, relation, object },
+    response: rawDockerResp || { allowed },
+    resolution_trace: localRes.trace
+  }, null, 2);
+
+  renderGraph({ user, relation, object, allowed });
 }
 
-loadFromDocker();
+function runAllAssertions() {
+  let passed = 0;
+  const html = ASSERTIONS.map(a => {
+    const res = evaluateLocal(a.user, a.relation, a.object);
+    const ok = res.allowed === a.expected;
+    if (ok) passed++;
+    return `
+      <div class="assert-card ${ok ? 'pass' : 'fail'}">
+        <span>${a.user} → <strong>${a.relation}</strong>(${a.object}) = ${a.expected}</span>
+        <span class="${ok ? 'tag-pass' : 'tag-fail'}">${ok ? 'PASS' : 'FAIL (' + res.allowed + ')'}</span>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('assertGrid').innerHTML = html;
+  document.getElementById('assertSummary').textContent = `${passed}/${ASSERTIONS.length} Passed`;
+  document.getElementById('testPassBadge').textContent = `${passed}/${ASSERTIONS.length}`;
+}
+
+function renderGraph(activeQuery) {
+  const svg = document.getElementById('graphSvg');
+  if (!svg) return;
+  const nodes = [
+    { id: 'platform:ekila', x: 110, y: 170, w: 135, c: '#eff6ff', b: '#1d4ed8' },
+    { id: 'course:spring-boot', x: 320, y: 110, w: 150, c: '#f0fdf4', b: '#15803d' },
+    { id: 'course:nextjs-pro', x: 320, y: 245, w: 150, c: '#f0fdf4', b: '#15803d' },
+    { id: 'lesson:jwt-01', x: 560, y: 55, w: 140, c: '#fffbeb', b: '#b45309' },
+    { id: 'lesson:intro-preview', x: 560, y: 120, w: 155, c: '#fffbeb', b: '#b45309' },
+    { id: 'quiz:quiz-auth', x: 560, y: 195, w: 140, c: '#f5f3ff', b: '#6d28d9' },
+    { id: 'quiz_attempt:att-khanh-01', x: 785, y: 195, w: 175, c: '#f5f3ff', b: '#6d28d9' },
+    { id: 'order:ord-khanh-01', x: 320, y: 305, w: 155, c: '#f8fafc', b: '#475569' }
+  ];
+  const edges = [
+    ['platform:ekila', 'course:spring-boot', 'platform'],
+    ['platform:ekila', 'course:nextjs-pro', 'platform'],
+    ['platform:ekila', 'order:ord-khanh-01', 'platform'],
+    ['course:spring-boot', 'lesson:jwt-01', 'parent_course'],
+    ['course:spring-boot', 'lesson:intro-preview', 'parent_course'],
+    ['course:spring-boot', 'quiz:quiz-auth', 'parent_course'],
+    ['quiz:quiz-auth', 'quiz_attempt:att-khanh-01', 'parent_quiz']
+  ];
+  const nodeMap = Object.fromEntries(nodes.map(n => [n.id, n]));
+  let out = `<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>`;
+
+  edges.forEach(([from, to, lbl]) => {
+    const a = nodeMap[from], b = nodeMap[to];
+    out += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>`;
+    out += `<text x="${(a.x + b.x) / 2}" y="${(a.y + b.y) / 2 - 5}" text-anchor="middle" fill="#64748b" font-size="9.5" font-family="monospace">${lbl}</text>`;
+  });
+
+  nodes.forEach(n => {
+    const isTarget = activeQuery && activeQuery.object === n.id;
+    const stroke = isTarget ? (activeQuery.allowed ? '#15803d' : '#dc2626') : n.b;
+    const sw = isTarget ? 2.6 : 1.5;
+    out += `<rect x="${n.x - n.w/2}" y="${n.y - 16}" width="${n.w}" height="32" rx="5" fill="${n.c}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    out += `<text x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="#0f172a" font-size="10.5" font-weight="700" font-family="monospace">${n.id}</text>`;
+  });
+
+  const userSummary = tuples
+    .filter(t => t.user.startsWith('user:'))
+    .slice(0, 7)
+    .map((t, i) => `<text x="16" y="${26 + i * 16}" fill="#334155" font-size="10" font-family="monospace">${t.user} -[${t.relation}]-> ${t.object}</text>`)
+    .join('');
+  out += `<rect x="8" y="8" width="335" height="122" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="#e2e8f0"/>` + userSummary;
+
+  svg.innerHTML = out;
+  if (activeQuery) {
+    document.getElementById('graphStatus').textContent =
+      `Active: ${activeQuery.user} -> ${activeQuery.relation}(${activeQuery.object}) = ${activeQuery.allowed}`;
+  }
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id)?.classList.add('active');
+  btn?.classList.add('active');
+  if (id === 'graph') renderGraph();
+}
+
+async function detectDocker(manual) {
+  const pill = document.getElementById('enginePill');
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 1200);
+  try {
+    const storesRes = await fetch(`${DOCKER_API}/stores`, { signal: controller.signal }).then(r => r.json());
+    clearTimeout(timer);
+    const store = (storesRes.stores || []).find(s => s.name === 'ekila-lms-b2c') || (storesRes.stores || [])[0];
+    if (store) {
+      dockerConnected = true;
+      dockerStoreId = store.id;
+      const modelsRes = await fetch(`${DOCKER_API}/stores/${dockerStoreId}/authorization-models`).then(r => r.json());
+      dockerModelId = (modelsRes.authorization_models || [])[0]?.id || '';
+      const readRes = await fetch(`${DOCKER_API}/stores/${dockerStoreId}/read`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+      }).then(r => r.json());
+      if (Array.isArray(readRes.tuples) && readRes.tuples.length > 0) {
+        tuples = readRes.tuples.map(t => t.key);
+      }
+      pill.className = 'status-pill docker';
+      pill.innerHTML = `<span class="dot"></span>DOCKER :8092 LIVE (${store.name})`;
+      renderTuples();
+      runCheck();
+      runAllAssertions();
+      return;
+    }
+  } catch (_) {
+    clearTimeout(timer);
+  }
+  dockerConnected = false;
+  pill.className = 'status-pill local';
+  pill.innerHTML = `<span class="dot"></span>IN-BROWSER ENGINE (15 TUPLES)`;
+  if (manual) runCheck();
+}
+
+document.getElementById('dslPre').textContent = MODEL_DSL;
+renderTuples();
+runCheck();
+runAllAssertions();
+detectDocker(false);
 </script>
 </body>
 </html>

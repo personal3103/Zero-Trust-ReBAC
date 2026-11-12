@@ -46,7 +46,17 @@ jobs:
             const html = fs.readFileSync("slides/index.html", "utf8");
             const count = (html.match(/<section class="slide/g) || []).length;
             if (count !== 15) throw new Error("Expected 15 slides, found " + count);
-            console.log("Slides & tuples validation passed:", count, "slides,", tuples.length, "tuples.");
+            new Function(fs.readFileSync("slides/app.js", "utf8"));
+            const studio = fs.readFileSync("slides/openfga-local.html", "utf8");
+            const m = studio.match(/<script>([\s\S]*?)<\/script>/);
+            const core = m[1].replace(/document\.getElementById\('dslPre'\)[\s\S]*$/, "");
+            const { DEFAULT_TUPLES, ASSERTIONS, evaluateLocal } = new Function(core + "\nreturn { DEFAULT_TUPLES, ASSERTIONS, evaluateLocal };")();
+            if (JSON.stringify(DEFAULT_TUPLES) !== JSON.stringify(tuples)) throw new Error("Studio tuples out of sync");
+            for (const a of ASSERTIONS) {
+              const r = evaluateLocal(a.user, a.relation, a.object);
+              if (r.allowed !== a.expected) throw new Error(`Studio assertion failed: ${a.user} ${a.relation} ${a.object}`);
+            }
+            console.log("Slides, tuples & in-browser ReBAC assertions passed:", count, "slides,", tuples.length, "tuples,", ASSERTIONS.length, "assertions.");
           '
 
       - name: Validate OpenFGA Docker Compose syntax
