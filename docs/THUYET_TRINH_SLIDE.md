@@ -1,6 +1,6 @@
-# KỊCH BẢN THUYẾT TRÌNH CHI TIẾT THEO SLIDE (TRANG 01 → TRANG 15)
+# KỊCH BẢN THUYẾT TRÌNH MC CHI TIẾT THEO SLIDE (TRANG 01 → TRANG 15)
 
-> **Người trình bày:** Trần Đức Anh (Team Ekila LMS) | **Ngày:** 15/11/2026 | **Thời lượng:** 40–45 phút trình bày & demo + 15–20 phút Q&A  
+> **Người trình bày:** Trần Đức Anh (Team Ekila LMS) | **Ngày:** 15/11/2026 | **Thời lượng:** 40–45 phút trình bày & demo + 15–20 phút trao đổi  
 > **Link Slide Trực tuyến:** `https://personal3103.github.io/Zero-Trust-ReBAC/` ([`../slides/index.html`](../slides/index.html))  
 >
 > **Hệ thống tài liệu liên kết (chuyển nhanh theo mục đích):**  
@@ -11,271 +11,292 @@
 
 ---
 
-## Cách sử dụng tài liệu này khi thuyết trình
-Mỗi trang gồm 3 phần bám sát đúng màn hình slide để bạn nói trôi chảy mà không cần học vẹt:
-1. **Trên màn hình slide có gì:** Nhắc nhanh các khối/sơ đồ/bảng để bạn đưa tay chỉ đúng chỗ.
-2. **Ý hiểu đơn giản (cho mọi thành viên cùng nắm):** Ví dụ đời thường giúp cả bạn Frontend, QA/Tester, BA lẫn Dev Backend đều hiểu ngay.
-3. **Lời thuyết trình gợi ý:** Lời nói đầy đủ, giải thích rõ thuật ngữ, có câu chuyển mượt sang trang tiếp theo.
+## Ghi chú cho người nói trước giờ lên sóng
+Tài liệu này được viết theo dạng **kịch bản dẫn nói liền mạch như một buổi Tech Talk trao đổi giữa đồng nghiệp với nhau**. Trong phần lời nói sẽ **không dùng kiểu liệt kê gạch đầu dòng khô cứng** mà đi thành từng đoạn văn nói hoàn chỉnh: vừa giải thích rõ từng từ viết tắt chuyên ngành, vừa chỉ thẳng vào mục đích của từng sơ đồ, luồng chạy thực tế trên màn hình và câu dẫn nối mượt mà sang trang kế tiếp. Các dòng `[Chỉ màn hình: ...]` hoặc `[Thao tác: ...]` là nhịp dừng để bạn đưa tay hoặc trỏ chuột đúng vị trí trên slide.
 
 ---
 
 ## MỞ ĐẦU (TRANG 01 – TRANG 02)
 
 ### Trang 01 — Trang bìa & Bố cục (`00:00 – 01:30`)
-- **Trên màn hình slide:** Tên đề tài *Zero Trust & Phân quyền thế hệ mới (Google Zanzibar / ReBAC)*, phạm vi *Ekila Academy LMS (B2C)*, tên diễn giả và 3 thẻ tóm tắt: *Phần I. Lý thuyết cốt lõi*, *Phần II. Thực tế Ekila LMS*, *Phần III. Trade-off & Q&A*.
-- **Lời thuyết trình gợi ý:**
-  > "Chào các anh chị Mentor, Tech Lead và tất cả mọi người. Mình là Trần Đức Anh, thành viên team **Ekila LMS**.  
-  > Trong chuỗi Tech Talk tuần này, chúng ta đã đi qua 2 chủ đề nền tảng là *Keycloak SSO* (giải quyết bài toán đăng nhập tập trung) và *RBAC trong Microservices* (phân quyền theo vai trò). Hôm nay mình xin phép chia sẻ mảnh ghép hoàn thiện bức tranh bảo mật đó: **Zero Trust & Phân quyền thế hệ mới theo mô hình Google Zanzibar / ReBAC**, gắn trực tiếp lên hệ thống **Ekila Academy LMS (B2C)** mà team mình đang phát triển.  
-  > Bài chia sẻ dài khoảng 40–45 phút gồm 3 phần rõ ràng như trên màn hình:  
-  > - **Phần I — Lý thuyết cốt lõi:** Vì sao tư duy tường lửa cũ không còn đủ, Zero Trust hoạt động thế nào, và vì sao Google phải tạo ra Zanzibar / ReBAC.  
-  > - **Phần II — Thực tế Ekila LMS:** Đi thẳng vào kiến trúc 6 microservices của dự án, những lớp Zero Trust đã làm được, điểm nghẽn có thật khi tách DB và **Demo trực tiếp** trên OpenFGA với dữ liệu khóa học của Ekila.  
-  > - **Phần III — Đánh giá Trade-off & Lộ trình Hybrid:** Nói thẳng chi phí, rủi ro, thời điểm nên áp dụng và dành 15–20 phút cuối để mọi người trao đổi, phản biện."
+
+`[Chỉ màn hình: Đứng tại trang bìa, đưa tay lướt nhẹ qua tiêu đề lớn "Zero Trust & Phân quyền thế hệ mới (Google Zanzibar / ReBAC)", dòng phạm vi "Ekila Academy LMS (B2C)" và 3 thẻ tóm tắt bố cục ở phía dưới.]`
+
+"Chào các anh chị Mentor, Tech Lead và tất cả mọi người đã có mặt trong buổi Tech Talk hôm nay. Mình là Trần Đức Anh, hiện đang làm trong team **Ekila LMS**.
+
+Nếu mọi người còn nhớ thì trong chuỗi seminar kỹ thuật tuần này, anh em mình đã đi qua hai mảnh ghép rất quan trọng để bảo vệ một hệ thống backend hiện đại. Đầu tiên là **Keycloak SSO** — viết tắt của *Single Sign-On*, tức cơ chế đăng nhập một lần dùng chung cho nhiều dịch vụ. Tiếp theo là **RBAC** — *Role-Based Access Control*, nghĩa là phân quyền dựa trên vai trò khi gọi vào các dịch vụ nhỏ. Hôm nay, mình xin phép mang tới mảnh ghép thứ ba để khép kín bức tranh bảo mật đó: **Zero Trust và phân quyền thế hệ mới theo mô hình Google Zanzibar / ReBAC**, và điều thú vị là mình sẽ không nói suông lý thuyết mà gắn thẳng vào hệ thống **Ekila Academy LMS** mô hình **B2C** — viết tắt của *Business-to-Consumer*, tức nền tảng bán khóa học trực tuyến trực tiếp cho học viên cá nhân mà team mình đang xây dựng.
+
+Để mọi người ở các vai trò khác nhau từ Backend, Frontend cho tới QA hay BA đều dễ theo dõi và tiện trao đổi, bài chia sẻ dài khoảng 40 đến 45 phút hôm nay sẽ đi theo đúng ba chặng như ba thẻ màu tím, xanh lá và vàng cam ngay trên màn hình. Ở **Phần I**, chúng ta sẽ cùng nhìn lại lý thuyết cốt lõi để hiểu vì sao tư duy tường lửa cũ không còn trụ được khi chuyển sang kiến trúc chia nhỏ dịch vụ, ý nghĩa thật sự của mô hình không mặc định tin tưởng là gì, và vì sao Google lại phải tạo ra mô hình đồ thị quan hệ thay cho cách phân quyền theo vai trò truyền thống. Sang **Phần II**, mình sẽ mở thẳng bức tranh kiến trúc sáu dịch vụ thực tế của Ekila LMS lên để chỉ ra những chốt chặn bảo mật mà team đã làm được, một điểm nghẽn có thật khi tách cơ sở dữ liệu, rồi mình sẽ bấm demo trực tiếp ngay trên công cụ OpenFGA bằng dữ liệu khóa học thật của dự án. Cuối cùng ở **Phần III**, anh em mình sẽ ngồi lại với nhau để đánh giá thẳng thắn mặt được và cái giá phải trả, chốt một lộ trình áp dụng từng bước gọi là mô hình lai thay vì đập đi xây lại, rồi dành khoảng 15 đến 20 phút cuối để mọi người phản biện và hỏi đáp thoải mái.
+
+Để bắt đầu câu chuyện, mời mọi người nhìn sang **Trang 02**, nơi chúng ta gỡ một hiểu nhầm rất hay gặp khi nối tiếp hai buổi chia sẻ trước."
 
 ---
 
 ### Trang 02 — AuthN vs AuthZ: Kết nối chuỗi Seminar (`01:30 – 04:00`)
-- **Trên màn hình slide:** 3 cột đặt cạnh nhau: *1. Keycloak SSO / Identity (AuthN)* → *2. RBAC Microservices (AuthZ Thô)* → *3. Zero Trust & ReBAC (AuthZ Mịn)*, kèm câu chốt *Key Takeaway*.
-- **Ví dụ dễ hiểu cho cả phòng:**
-  > Hãy tưởng tượng bạn tới rạp chiếu phim hoặc vào một tòa nhà công ty:  
-  > - **AuthN (Đăng nhập):** Là quầy lễ tân kiểm tra CCCD/vé để xác nhận *"Bạn đúng là anh A"*.  
-  > - **RBAC (AuthZ thô):** Là phân loại thẻ *"Khách xem phim"* được vào khu vực rạp, không được vào phòng máy chiếu. Nhưng nếu chỉ kiểm tra thẻ *"Khách xem phim"*, ai cũng cầm thẻ đó vào ngồi nhầm ghế hoặc vào nhầm phòng chiếu phim khác thì sao?  
-  > - **ReBAC (AuthZ mịn):** Là người soát vé tại từng cửa phòng kiểm tra xem **đúng vé của bạn** có khớp với **đúng phòng 3, ghế G5, suất chiếu 20h** hay không.
-- **Lời thuyết trình gợi ý:**
-  > "Trước khi đi sâu vào kỹ thuật, mình muốn làm rõ một hiểu nhầm rất hay gặp: nhiều bạn nghĩ chỉ cần làm xong đăng nhập SSO và gắn Role là hệ thống đã an toàn. Thực tế có 3 tầng câu hỏi hoàn toàn khác nhau:  
-  > - **Cột 1 — Identity / Keycloak SSO (AuthN):** Trả lời câu hỏi *'Bạn có đúng là Trần Đức Anh không?'*. Nó xử lý đăng nhập, Google OAuth2, khóa tạm khi sai mật khẩu, cấp phát JWT. Nhưng JWT này chỉ chứa danh tính và vai trò chung, **không hề biết bạn đã mua khóa học nào hay chưa**.  
-  > - **Cột 2 — RBAC Microservices (AuthZ Thô):** Trả lời câu hỏi *'Vai trò INSTRUCTOR có được phép gọi API sửa khóa học không?'*. RBAC cực kỳ gọn để chặn Học viên gọi nhầm API của Admin. Nhưng giới hạn chí mạng của nó là: nếu Giảng viên Duy sửa `course_id` trên URL từ khóa của mình sang khóa của Giảng viên Minh, RBAC thấy Duy vẫn mang role `INSTRUCTOR` nên vẫn cho qua nếu ta không kiểm tra thêm!  
-  > - **Cột 3 — Zero Trust & ReBAC (AuthZ Mịn):** Mới giải quyết câu hỏi ở từng bản ghi dữ liệu: *'User X có quan hệ gì với đúng khóa học Y, bài giảng Z tại thời điểm hiện tại không?'* — đồng thời không mặc định tin bất kỳ request nội bộ nào. Đây chính là lớp chặn đứng lỗ hổng **IDOR** (lỗi thay đổi ID để xem/sửa trộm dữ liệu người khác, đứng **#1 OWASP API Top 10**)."
+
+`[Chỉ màn hình: Đưa mắt từ trái sang phải qua 3 cột "1. Keycloak SSO / Identity (AuthN)", "2. RBAC Microservices (AuthZ Thô)", "3. Zero Trust & ReBAC (AuthZ Mịn)", rồi dừng ở thanh "Key Takeaway" dưới đáy.]`
+
+"Trước khi đụng tới bất kỳ công nghệ mới nào, mình muốn thống nhất với cả phòng một sự thật rất quan trọng: có được hệ thống đăng nhập tập trung và gắn xong vai trò cho người dùng không có nghĩa là dữ liệu bên trong đã an toàn. Trên slide hiện tại là ba cột đặt cạnh nhau, tượng trưng cho ba tầng câu hỏi hoàn toàn khác biệt mà bất kỳ request nào đi vào hệ thống cũng phải vượt qua.
+
+Hãy thử tưởng tượng một ví dụ cực kỳ đời thường là chuyện bạn đi xem phim ở rạp. Bước vào quầy lễ tân, bạn đưa căn cước công dân để nhân viên xác nhận bạn đúng là anh A. Đó chính là **cột thứ nhất — Keycloak SSO hay Identity Service**, nơi xử lý **AuthN** — viết tắt của *Authentication*, nghĩa là xác thực danh tính. Tầng này lo chuyện đăng nhập, liên kết tài khoản Google qua chuẩn OAuth2, khóa tạm khi nhập sai mật khẩu và cấp ra một tấm vé thông hành gọi là **JWT** (*JSON Web Token*). Nhưng vấn đề của tấm thẻ danh tính này là nó chỉ biết bạn là ai và giữ chức danh chung gì, chứ nó hoàn toàn không biết tối nay bạn đã mua vé phim nào, hay bạn đã mua khóa học nào trên sàn Ekila hay chưa.
+
+Qua được quầy lễ tân, bạn bước vào khu vực rạp với tấm thẻ phân loại ghi chữ 'Khách xem phim', nhờ đó bạn được phép đi vào sảnh chờ chứ không thể mở cửa bước vào phòng máy chiếu của nhân viên kỹ thuật. Đây chính là **cột thứ hai — RBAC trong Microservices**, đại diện cho **AuthZ Thô**, trong đó *AuthZ* viết tắt của *Authorization*, tức là phân quyền. Tầng này làm cực kỳ gọn nhiệm vụ ánh xạ xem một vai trò có được gọi một nhóm API hay không, chẳng hạn chặn không cho học viên bấm gọi API sửa khóa học của giảng viên. Nhưng hãy nhìn kỹ giới hạn chí mạng của lớp bảo vệ thô này: nếu có hai giảng viên là Duy và Minh, cả hai đều mang chung vai trò `INSTRUCTOR` trong JWT. Một hôm Duy mở công cụ gọi API sửa khóa học, nhưng thay vì truyền ID khóa của mình, Duy cố tình sửa ID trên đường dẫn URL thành ID khóa học của Minh. Lúc này RBAC kiểm tra thấy Duy vẫn có vai trò giảng viên hợp lệ nên cho đi qua luôn. Lỗi thay đổi mã định danh trên đường dẫn để xem hoặc sửa trộm dữ liệu của người khác như vậy trong ngành gọi là **IDOR** — viết tắt của *Insecure Direct Object Reference*, và nó luôn đứng ở vị trí số một trong bảng xếp hạng lỗ hổng bảo mật API của tổ chức **OWASP** (*Open Worldwide Application Security Project*).
+
+Và để ngăn chặn chuyện đó, rạp chiếu phim luôn phải có một anh soát vé đứng ngay trước cửa từng phòng chiếu, kiểm tra xem đúng tấm vé trên tay bạn có khớp với đúng phòng số 3, ghế G5, suất chiếu 20 giờ tối nay hay không. Đó chính là vai trò của **cột thứ ba — Zero Trust và ReBAC** (*Relationship-Based Access Control* — phân quyền dựa trên mối quan hệ), tức là **AuthZ Mịn**. Tầng này không chỉ nhìn vào chức danh chung chung nữa, mà kiểm tra tận gốc xem người dùng X tại đúng thời điểm này có mối quan hệ hợp lệ gì với đúng khóa học Y, đúng bài giảng Z hay đúng đơn hàng W hay không, đồng thời kiểm tra lại từng bước gọi giữa các dịch vụ bên trong chứ không tin mặc định nhau.
+
+Tóm gọn đúng như thanh **Key Takeaway** ở cuối slide: tầng Identity chỉ lo danh tính, RBAC lo quyền chức năng theo nhóm vai trò, còn ReBAC kết hợp với Zero Trust mới là thứ bảo vệ từng bản ghi dữ liệu và từng ngữ cảnh gọi dịch vụ. Vậy câu hỏi đặt ra là, tại sao khi tách nhỏ hệ thống thành nhiều dịch vụ mà một request đã vượt qua cổng ngoài rồi, chúng ta vẫn không được phép tin tưởng mạng nội bộ? Mời mọi người sang **Phần I ở Trang 03** để nhìn tận mắt kịch bản tấn công bên trong."
 
 ---
 
 ## PHẦN I — NỀN TẢNG LÝ THUYẾT CỐT LÕI (TRANG 03 – TRANG 07)
 
 ### Trang 03 — Sự sụp đổ của Castle-and-Moat & Kịch bản Lateral Movement (`04:00 – 07:00`)
-- **Trên màn hình slide:** Sơ đồ bên trái (*Attacker → API Gateway → Service phụ bị chiếm → di chuyển ngang sang Commerce / Identity*), bên phải liệt kê 3 nguyên nhân thất bại.
-- **Ví dụ dễ hiểu:** Giống như một tòa lâu đài xây hào nước và tường thành thật cao ở cổng ngoài (*Castle-and-Moat*), nhưng bên trong mọi căn phòng đều mở toang không khóa cửa. Kẻ trộm chỉ cần trèo rào lọt qua một nhà kho phụ là đi thẳng vào kho bạc trung tâm.
-- **Lời thuyết trình gợi ý:**
-  > "Trước đây khi hệ thống chạy dạng nguyên khối (Monolith) trong một mạng công ty đóng kín, người ta hay dùng mô hình **Castle-and-Moat**: chỉ kiểm tra chặt ở API Gateway hoặc firewall ngoài cùng; một khi request đã lọt vào trong mạng nội bộ thì các service mặc định tin tưởng nhau.  
-  > Nhìn vào sơ đồ bên trái, khi chuyển sang Microservices, hàng chục container giao tiếp với nhau liên tục, tư duy đó sụp đổ bởi 2 kịch bản thực tế:  
-  > 1. **Header Spoofing (Giả mạo danh tính nội bộ):** Nhiều hệ thống cho Gateway đọc JWT xong rồi nhét `X-User-Id` vào header gửi xuống các service bên dưới. Nếu attacker gửi thẳng header giả đó qua một kẽ hở mạng hoặc Gateway quên lọc sạch header từ client, service phía sau sẽ tin sái cổ và thực thi dưới quyền Admin.  
-  > 2. **Lateral Movement (Di chuyển ngang):** Giả sử một service phụ (ví dụ xử lý upload file hoặc webhook) dính lỗi SSRF hay RCE. Nếu các service lõi như *Commerce* hay *Identity* không kiểm tra chữ ký và quyền cho từng bước gọi nội bộ, kẻ tấn công từ service phụ sẽ gọi ngang sang để tạo đơn hàng miễn phí hoặc lấy token quản trị, gây sập dây chuyền.  
-  > Vì vậy ở trang tiếp theo, chúng ta cần đổi tư duy: **ranh giới bảo mật không nằm ở bức tường mạng, mà nằm trên từng request**."
+
+`[Chỉ màn hình: Trỏ vào sơ đồ bên trái, đi từ hộp "Attacker (Khai thác / SSRF)" qua "API Gateway" vào hộp nét đứt "MẠNG NỘI BỘ", lên "Service Phụ (Bị chiếm)" rồi kéo thẳng theo mũi tên đỏ "Lateral Movement" xuống "Commerce / Identity" và hộp cảnh báo đỏ ở đáy; sau đó đối chiếu sang thẻ đỏ bên phải.]`
+
+"Sơ đồ bên trái trên trang này được vẽ ra để phơi bày một cái bẫy tư duy rất lớn mà nhiều hệ thống hay mắc phải khi chuyển từ mô hình nguyên khối sang kiến trúc chia nhỏ dịch vụ. Ngày xưa khi cả ứng dụng chạy gọn trên một máy chủ duy nhất trong mạng công ty đóng kín, người ta hay dùng chiến lược bảo mật gọi là **Castle-and-Moat**, dịch nôm na là *Lâu đài và Hào nước*. Tư duy của nó giống như việc bạn đào hào thật sâu và xây tường thành thật cao ở cổng ngoài — chính là vị trí của **API Gateway** trên sơ đồ — còn một khi request đã bước qua cổng để vào được khung nét đứt màu xám ghi chữ *'Mạng nội bộ'* ở bên phải, thì tất cả các dịch vụ đứng bên trong mặc định coi nhau là người một nhà và tin tưởng nhau tuyệt đối.
+
+Thế nhưng nhìn lên sơ đồ này trong thế giới Microservices, khi hệ thống bị xé lẻ thành hàng chục container và hàng đợi giao tiếp liên tục qua mạng, cái khung nét đứt *'vùng tin cậy'* đó lập tức trở thành điểm chết. Luồng tấn công trên sơ đồ cho thấy hai kịch bản rất thực tế khiến tòa lâu đài sụp đổ từ bên trong.
+
+Kịch bản đầu tiên xảy ra ngay ở dòng chữ **Giả mạo `X-User-Id`** — thuật ngữ chuyên ngành gọi là **Header Spoofing**. Để tránh việc service nào cũng phải tự giải mã lại chuỗi JWT, nhiều team chọn cách để API Gateway đọc token xong rồi nhét mã người dùng vào HTTP header tên là `X-User-Id` rồi chuyển xuống dưới. Nếu kẻ tấn công tìm được một kẽ hở mạng để gọi thẳng vào cổng nội bộ của service bỏ qua Gateway, hoặc chính Gateway quên xóa sạch header lạ do người dùng tự ý đính sẵn từ trình duyệt gửi lên, thì chỉ cần tự điền `X-User-Id` là mã của Admin, service phía sau sẽ tin sái cổ và mở toang toàn bộ dữ liệu quản trị.
+
+Kịch bản thứ hai còn đáng ngại hơn, chính là đường mũi tên màu đỏ đậm đâm thẳng từ trên xuống dưới mang tên **Lateral Movement** — nghĩa là *di chuyển ngang*. Bạn hãy theo dõi đường đi từ hộp **Attacker** bên ngoài: kẻ tấn công không hề đánh trực diện vào hai dịch vụ tối quan trọng là **Commerce** giữ tiền bạc hay **Identity** giữ tài khoản, vì hai nơi này thường được anh em chăm chút kỹ. Thay vào đó, họ tìm một **Service Phụ** ít được để ý hơn — chẳng hạn dịch vụ chuyên xử lý upload ảnh, xuất hóa đơn PDF hay nhận webhook — và khai thác một lỗ hổng phổ biến như **SSRF** (*Server-Side Request Forgery* — giả mạo yêu cầu từ phía máy chủ để bắt server tự gọi vào địa chỉ nội bộ) hoặc **RCE** (*Remote Code Execution* — thực thi mã từ xa để chiếm quyền điều khiển container). Một khi đã đứng chân được bên trong service phụ đó, kẻ tấn công nghiễm nhiên đang ngồi sẵn trong vùng mạng nội bộ. Và vì Commerce hay Identity bên dưới vẫn giữ thói quen *tin mặc định mọi cuộc gọi nội bộ*, attacker chỉ cần đứng từ service phụ bắn thẳng một request sang để tạo đơn hàng không đồng hoặc lấy cắp token quản trị, tạo ra hiệu ứng lây lan sập dây chuyền toàn hệ thống đúng như dải băng đỏ cảnh báo ở đáy sơ đồ.
+
+Ý nghĩa lớn nhất mà slide này muốn khắc sâu vào tư duy thiết kế của anh em chúng ta nằm ở hộp chốt góc dưới bên phải: trong Microservices, **ranh giới bảo mật không còn nằm ở bức tường mạng bên ngoài nữa, mà phải dời vào đặt ngay trên từng request, từng danh tính và từng đối tượng dữ liệu**. Vậy làm sao để thiết kế hệ thống theo nguyên tắc không tin ai đó mà code nghiệp vụ không bị rối tung lên? Mời mọi người chuyển sang **Trang 04**."
 
 ---
 
 ### Trang 04 — Zero Trust Architecture: 3 Trụ cột & Mô hình PEP / PDP (`07:00 – 10:30`)
-- **Trên màn hình slide:** 3 thẻ trụ cột NIST SP 800-207 ở trên (*Verify Explicitly*, *Least Privilege*, *Assume Breach*) và sơ đồ luồng `Client + JWT → Gateway (AuthN) → Microservice (PEP) ⇄ AuthZ Engine (PDP)` ở dưới.
-- **Ví dụ dễ hiểu:** PEP giống anh bảo vệ đứng ngay cửa phòng thu âm (**thực thi** mở/đóng cửa), còn PDP giống quyển sổ quy định + hệ thống tra cứu trung tâm (**ra quyết định** `Allow` hay `Deny`). Bảo vệ không tự nhớ hết luật trong đầu, mà hỏi hệ thống trung tâm rồi mới mở cửa hoặc từ chối.
-- **Lời thuyết trình gợi ý:**
-  > "Khẩu hiệu của Zero Trust theo chuẩn **NIST SP 800-207** là *'Never Trust, Always Verify'* — không tin mặc định ai, kể cả service nằm cùng một mạng Docker. Nó đứng trên **3 trụ cột**:  
-  > - **Verify Explicitly (Xác minh tường minh):** Mỗi request đều phải kiểm tra đủ ngữ cảnh: JWT còn hạn không, chữ ký nội bộ giữa service có hợp lệ không, gọi từ endpoint nào.  
-  > - **Least Privilege (Quyền tối thiểu):** Chỉ cấp quyền vừa khít với thứ người dùng được phép làm — chỉ xem đúng khóa đã mua, chỉ sửa đúng bài giảng thuộc khóa của mình.  
-  > - **Assume Breach (Giả định đã bị xâm nhập):** Luôn thiết kế như thể hacker đã lọt được vào mạng nội bộ để cô lập dịch vụ nhạy cảm, giới hạn bán kính sát thương và ghi log bất biến phục vụ truy vết.  
-  >  
-  > Xuống sơ đồ phía dưới là kiến trúc tách vai kinh điển của Zero Trust ở tầng ứng dụng:  
-  > - **PEP (Policy Enforcement Point — Điểm thực thi):** Nằm tại API Gateway hoặc trong từng Microservice. PEP nhận request đã qua AuthN, gửi câu hỏi sang PDP và thực thi kết quả — nếu bị từ chối thì chặn ngay hoặc trả lỗi `404` che giấu tài nguyên.  
-  > - **PDP (Policy Decision Point — Điểm ra quyết định):** Là một AuthZ Engine độc lập (như OpenFGA) chỉ chuyên trả lời `Allow` hoặc `Deny`. Tách PEP và PDP giúp code nghiệp vụ của các microservice cực kỳ sạch, không phải tự viết lại logic phân quyền ở khắp nơi."
+
+`[Chỉ màn hình: Lướt qua 3 thẻ trụ cột ở nửa trên ("1. Verify Explicitly", "2. Least Privilege", "3. Assume Breach"), sau đó đặt tay vào sơ đồ luồng ở nửa dưới từ "Client + JWT" → "Gateway (AuthN)" → "Microservice (PEP)" ⇄ "AuthZ Engine (PDP)", nhấn mạnh mũi tên "Check?" đi qua và mũi tên "Allow / Deny" quay về.]`
+
+"Để thay thế hoàn toàn tư duy lâu đài hào nước, Viện Tiêu chuẩn và Công nghệ Quốc gia Hoa Kỳ — viết tắt là **NIST** — đã chuẩn hóa kiến trúc **Zero Trust** trong tài liệu **NIST SP 800-207** xoay quanh câu châm ngôn ngắn gọn: *'Never Trust, Always Verify'*, tức là không bao giờ mặc định tin tưởng mà luôn luôn phải xác minh lại.
+
+Nhìn vào ba thẻ ở nửa trên slide, đây không phải ba khẩu hiệu lý thuyết suông mà là ba nguyên tắc định hình cách anh em mình viết code mỗi ngày. Trụ cột thứ nhất là **Verify Explicitly** — xác minh tường minh. Nghĩa là không có chuyện đi qua cổng một lần rồi thôi, mà mỗi request đi vào từng dịch vụ đều phải chứng minh đủ ngữ cảnh hợp lệ: token JWT còn hạn hay không, chữ ký xác thực nội bộ giữa các dịch vụ có khớp hay không, và phiên làm việc đó có bị thu hồi chưa. Trụ cột thứ hai là **Least Privilege** — nguyên tắc quyền tối thiểu. Người dùng chỉ được chạm vào đúng phần dữ liệu tối thiểu phục vụ việc của họ ngay lúc đó: học viên mua khóa nào chỉ mở được video của khóa đó, giảng viên chỉ sửa được đúng bài giảng do mình phụ trách. Và trụ cột thứ ba mới là thứ thay đổi thói quen thiết kế sâu sắc nhất: **Assume Breach** — luôn giả định rằng hệ thống đã bị xâm nhập rồi. Khi thiết kế mà luôn đặt câu hỏi *'Nếu ngay lúc này hacker đã chui vào được một container bên trong mạng rồi thì sao?'*, tự nhiên bạn sẽ biết cách cô lập những dịch vụ nhạy cảm như gửi email hay thanh toán, bắt buộc xác thực qua từng chặng gọi nội bộ và ghi nhật ký truy vết không cho phép ai sửa xóa.
+
+Nhưng nói thật với mọi người, nếu bảo dịch vụ nào cũng tự ôm hết đống quy tắc Zero Trust đó vào trong code nghiệp vụ thì chẳng khác nào biến code thành một bãi chiến trường. Vì thế người ta mới vẽ ra sơ đồ **tách vai PEP và PDP** ở nửa dưới slide để giải quyết bài toán kiến trúc ở tầng phần mềm. Hãy theo dõi luồng chạy từ trái sang phải trên sơ đồ này: đầu tiên, trình duyệt của người dùng gửi **Client + JWT** vào **API Gateway**. Tại đây, Gateway lo phần xác thực danh tính và đóng dấu chữ ký nội bộ rồi đẩy request vào **Microservice**. Bên trong mỗi Microservice sẽ có một lớp gác cổng đóng vai trò là **PEP** — viết tắt của *Policy Enforcement Point*, nghĩa là **Điểm thực thi chính sách**. Nếu lấy một hình ảnh thật dễ nhớ thì PEP giống như anh bảo vệ đứng ngay cửa phòng thu âm: anh ta không cần thuộc lòng hàng trăm quy định phức tạp trong đầu, mà cứ có người tới cửa là anh ta quay sang hỏi hệ thống tra cứu trung tâm. Hệ thống trung tâm nằm ở khối màu tím bên phải chính là **PDP** — viết tắt của *Policy Decision Point*, nghĩa là **Điểm ra quyết định chính sách**, chẳng hạn như OpenFGA chạy mô hình đồ thị Zanzibar.
+
+Luồng giao tiếp giữa hai khối này rất tinh gọn: Microservice gửi đúng một câu hỏi `Check?` sang cho PDP hỏi xem người dùng này có được làm hành động này trên đối tượng kia không; PDP duyệt đồ thị xong chỉ trả về đúng hai khả năng là `Allow` hoặc `Deny`. Nhận câu trả lời về, PEP trong Microservice mới là người ra tay thực thi: nếu `Allow` thì cho đi tiếp vào xử lý nghiệp vụ và truy vấn database, còn nếu `Deny` thì chặn đứng ngay tại cửa hoặc chủ động trả về mã lỗi `404` để giấu sự tồn tại của tài nguyên.
+
+Ý nghĩa kiến trúc cực kỳ đắt giá của sơ đồ này nằm ở việc **tách bạch hai phần việc**: code nghiệp vụ trong các dịch vụ của anh em giữ được sự sạch sẽ tối đa vì không phải tự đẻ ra hàng chục hàm kiểm tra quyền chồng chéo, trong khi toàn bộ luật lệ phân quyền được gom về một bộ não tập trung duy nhất để kiểm soát và cập nhật đồng bộ. Nhưng câu hỏi nối tiếp ngay lập tức là: bên trong bộ não PDP đó, tại sao ta không giữ nguyên mô hình RBAC quen thuộc mà lại phải đổi sang ReBAC? Mời mọi người nhìn vào bảng so sánh ở **Trang 05**."
 
 ---
 
 ### Trang 05 — Giới hạn RBAC truyền thống & So sánh 4 mô hình (`10:30 – 14:00`)
-- **Trên màn hình slide:** Bảng so sánh 4 cột **ACL vs RBAC vs ABAC vs ReBAC (Zanzibar)** theo 5 tiêu chí (*Đơn vị cốt lõi*, *Phân cấp & Kế thừa*, *Độ mịn theo dữ liệu*, *Kiểm toán "Ai có quyền gì?"*, *Phù hợp nhất cho*), cùng 2 hộp cảnh báo ở dưới (*Role Explosion* và *Logic kiểm tra sở hữu rải rác*).
-- **Giải thích 4 mô hình thật dễ hiểu:**
-  - **ACL:** Gắn thẳng danh sách tên người vào từng file (`File A: [An, Bình]`). Đơn giản nhưng khi có 1 triệu bài học thì sửa tay rất khổ.
-  - **RBAC:** Gom quyền theo chức danh (`INSTRUCTOR`, `STUDENT`). Rất tốt cho menu/API, nhưng thô theo dữ liệu.
-  - **ABAC:** Viết luật `IF ... ELSE ...` dựa theo thuộc tính (vd: chỉ truy cập từ IP văn phòng trong giờ hành chính). Mạnh về ngữ cảnh nhưng khi cây dữ liệu nhiều tầng, bộ rule `IF/ELSE` phình to rất khó kiểm soát.
-  - **ReBAC:** Quyền sinh ra tự nhiên từ **mối quan hệ thực tế** giữa người và đồ vật (Bạn là *tác giả* của khóa học → khóa học có *bài giảng* → bạn nghiễm nhiên sửa được bài giảng).
-- **Lời thuyết trình gợi ý:**
-  > "Nhìn vào bảng so sánh trên slide, mỗi mô hình có một đất diễn riêng. Thực tế không có mô hình nào vứt bỏ mô hình nào — RBAC vẫn rất tốt để kiểm tra quyền thô theo API và hiển thị menu. Nhưng khi cố ép RBAC đi xuống kiểm tra chi tiết từng bản ghi trong Microservices, ta dính 2 cái bẫy rất đau:  
-  > 1. **Role Explosion (Bùng nổ vai trò):** Nếu bạn thử nhét ID tài nguyên vào tên Role, ví dụ `INSTRUCTOR_COURSE_101`, `ENROLLED_COURSE_205`... Khi hệ thống có 10.000 khóa học và 50.000 học viên, danh sách Role trong JWT sẽ phình to đến mức tràn header HTTP và không thể quản trị được.  
-  > 2. **Logic kiểm tra sở hữu rải rác:** Để vá lỗ hổng IDOR, developer đành viết tay `if (course.getInstructorId() != currentUserId)` rải khắp mọi Service và mọi câu query SQL. Đến lúc Tech Lead hoặc Auditor hỏi một câu đơn giản: *'Hiện tại những ai đang có quyền xem đề thi này?'*, hệ thống không trả lời nhanh được vì quy tắc nằm rải rác ở 4–5 chỗ code khác nhau."
+
+`[Chỉ màn hình: Quét tay qua 4 cột tiêu đề của bảng so sánh "ACL", "RBAC", "ABAC", "ReBAC (Zanzibar)" và đối chiếu qua 5 hàng tiêu chí, sau đó dừng lại ở 2 hộp cảnh báo màu vàng và đỏ dưới đáy ("Role Explosion" và "Logic kiểm tra sở hữu rải rác").]`
+
+"Ở đây chắc chắn có nhiều anh em sẽ thắc mắc: mô hình RBAC chạy ổn định trong ngành hàng chục năm nay rồi, tại sao sang Microservices lại chê nó chưa đủ mà phải lôi thêm những khái niệm mới như ReBAC vào cho nặng đầu? Bảng so sánh bốn mô hình phân quyền phổ biến trên slide này được lập ra để trả lời câu hỏi đó một cách thật công bằng, bởi vì thực tế không có mô hình nào thay thế tuyệt đối mô hình nào cả, mà mỗi mô hình chỉ tỏa sáng ở đúng đất diễn tối ưu của nó như hàng cuối cùng có tô màu xanh.
+
+Nhìn từ trái sang phải, đầu tiên là **ACL** — viết tắt của *Access Control List*, tức danh sách kiểm soát truy cập gắn trực tiếp lên từng tài nguyên, kiểu như trên mỗi tệp tin bạn ghi thẳng một danh sách `[An, Bình]`. Cách này cực kỳ dễ hiểu nếu hệ thống chỉ có vài tệp tin rời rạc, nhưng nhìn xuống hàng thứ hai sẽ thấy nó không có cơ chế kế thừa phân cấp: nếu một khóa học có hàng trăm bài giảng và hàng nghìn học viên, mỗi lần thêm một học viên hay thêm một bài giảng mới mà phải đi sửa tay danh sách trên từng bản ghi thì hoàn toàn bất khả thi.
+
+Cột thứ hai chính là **RBAC** — *Role-Based Access Control*, gom quyền theo các vai trò tĩnh như `INSTRUCTOR` hay `STUDENT`. Đất diễn tối ưu của RBAC là phân quyền ở mức thô cho API và hiển thị menu trên giao diện, nhưng nhìn vào hàng thứ ba về độ mịn theo bản ghi thì nó lại quá thô: RBAC chỉ biết bạn mang thẻ Giảng viên, chứ nó hoàn toàn mù tịt về việc khóa học này có phải do bạn tạo ra hay không.
+
+Cột thứ ba là **ABAC** — *Attribute-Based Access Control*, phân quyền dựa trên thuộc tính ngữ cảnh như địa chỉ IP, phòng ban hay khung giờ làm việc. ABAC cực kỳ mạnh khi bạn cần viết những luật môi trường kiểu *chỉ cho phép truy cập hệ thống kế toán từ IP văn phòng trong giờ hành chính*. Thế nhưng khi dùng ABAC để mô tả một cây dữ liệu nhiều tầng lồng nhau giữa khóa học, chương học, bài giảng và bài kiểm tra, bộ luật `IF / ELSE` sẽ phình to rất nhanh, dẫn tới nhược điểm chí mạng ở hàng thứ tư: khi kiểm toán bảo mật hỏi xem *tổng cộng hiện tại có những ai đang xem được đề thi này*, hệ thống rất khó truy vết ngược lại toàn bộ tổ hợp điều kiện thuộc tính.
+
+Và cột thứ tư là **ReBAC** — *Relationship-Based Access Control*, mô hình mà Google Zanzibar đại diện. Thay vì gắn cứng chức danh hay viết luật điều kiện rối rắm, ReBAC coi quyền hạn là kết quả tự nhiên sinh ra từ đồ thị mối quan hệ thực tế giữa người dùng và đối tượng dữ liệu: một khóa học tự nhiên chứa nhiều bài giảng và bài kiểm tra, nên hễ bạn có quan hệ sở hữu hoặc ghi danh với khóa học cha thì quyền tự động chảy xuống các tài nguyên con bên dưới, đồng thời hệ thống có sẵn các hàm như `ListObjects` hay `Expand` để trả lời câu hỏi kiểm toán trong nháy mắt.
+
+Điều đáng nói là khi một sản phẩm bắt đầu lớn lên mà đội ngũ vẫn cố ép mô hình RBAC cũ gánh luôn phần kiểm tra quyền chi tiết theo từng bản ghi, anh em sẽ rơi thẳng vào đúng hai cái bẫy màu vàng và màu đỏ ở đáy màn hình. Cái bẫy đầu tiên là **Role Explosion**, tức bùng nổ vai trò: có team thử lách luật bằng cách nhét luôn mã tài nguyên vào tên vai trò, ví dụ như `INSTRUCTOR_COURSE_101` hay `ENROLLED_COURSE_205`. Hãy thử hình dung đến lúc sàn có mười nghìn khóa học và một học viên tích cực mua vài chục khóa, chuỗi danh sách vai trò nhét trong JWT của người đó sẽ phình to đến mức vượt quá giới hạn kích thước HTTP header của trình duyệt và gateway, đồng thời bảng vai trò trong cơ sở dữ liệu trở nên không thể quản trị nổi. Thấy cách đó không ổn, nhiều team chuyển sang cách lách thứ hai là cái bẫy màu đỏ bên phải: **logic kiểm tra sở hữu rải rác**. Lúc này lập trình viên phải tự viết tay các câu kiểm tra kiểu `if` chủ sở hữu không trùng với người đang đăng nhập thì chặn lại, rải rác khắp mọi service và lồng vào từng câu truy vấn SQL. Code thì vẫn chạy được lúc đầu, nhưng chỉ vài tháng sau, ngay cả người viết ra cũng không dám chắc đã kiểm tra đủ hết mọi nhánh API hay chưa, và mỗi lần sếp hay kiểm toán hỏi ai đang có quyền truy cập vào một tài nguyên nhạy cảm nào đó thì cả team lại phải đi đọc lại code ở bốn năm chỗ khác nhau.
+
+Vậy cụ thể mô hình đồ thị quan hệ của Google Zanzibar thiết kế thế nào để vừa dẹp gọn hai cái bẫy đó, vừa chạy nhanh ở quy mô hàng tỷ người dùng? Mời mọi người sang **Trang 06**."
 
 ---
 
 ### Trang 06 — Tư duy ReBAC & Kiến trúc Google Zanzibar (`14:00 – 18:30`)
-- **Trên màn hình slide:** Bên trái là 3 dòng Relation Tuples mẫu + 2 khái niệm *New Enemy & Zookie* và *Leopard / Request Hedging*; bên phải là đồ thị 5 node minh họa `user:duy` (`instructor`), `user:khanh` (`enrolled`) nối vào `course:spring-boot`, kế thừa xuống `lesson:jwt-01` và `quiz:quiz-auth`.
-- **Ví dụ dễ hiểu cho đồ thị bên phải:** Một khóa học có 50 video và 10 bài quiz. Với ACL cũ, khi học viên Khánh mua khóa, bạn phải chèn 60 dòng quyền vào 60 video/quiz; đến khi giảng viên thêm bài thứ 51, bạn lại phải chạy đi cập nhật cho hàng nghìn học viên. Với **ReBAC**, bạn chỉ cần nối **1 sợi dây duy nhất**: `Khánh --[enrolled]--> Khóa Spring Boot`. Vì các bài giảng đã nối `parent_course` về Khóa Spring Boot, hệ thống tự bắc cầu cho Khánh xem đủ cả 50 bài lẫn bài thứ 51 vừa thêm!
-- **Lời thuyết trình gợi ý:**
-  > "Năm 2019, Google công bố bài báo về **Zanzibar** — hệ thống phân quyền tập trung đứng sau Google Drive, YouTube, Calendar, Maps... xử lý hàng triệu lượt kiểm tra quyền mỗi giây với độ trễ p95 dưới 10 mili-giây.  
-  > Tư duy cốt lõi của Zanzibar (ReBAC) cực kỳ trực quan, biểu diễn mọi quyền dưới dạng các bộ ba **Relation Tuple**: `object#relation@user`. Nhìn 3 dòng code và sơ đồ bên phải:  
-  > - `course:spring-boot#instructor@user:duy` (Duy là giảng viên khóa Spring Boot)  
-  > - `course:spring-boot#enrolled@user:khanh` (Khánh đã ghi danh khóa Spring Boot)  
-  > - `lesson:jwt-01#parent_course@course:spring-boot` (Bài JWT thuộc khóa Spring Boot)  
-  > Nhờ từ khóa kế thừa bắc cầu (`from`), chỉ cần nối 1 cạnh `enrolled` tới khóa học, OpenFGA sẽ tự suy diễn từ cha xuống toàn bộ `lesson` và `quiz` con.  
-  >  
-  > Ngoài mô hình đồ thị, Zanzibar giải quyết 2 bài toán hóc búa ở quy mô lớn mà mọi người hay thắc mắc:  
-  > - **Bài toán New Enemy & Zookie (Consistency Token):** Ví dụ Khánh vừa bị hoàn tiền/thu hồi quyền học, nhưng ngay 1 giây sau giảng viên vừa up đề thi mới lên khóa. Nếu server dùng cache cũ chưa kịp xóa quyền của Khánh, Khánh có thể nhìn trộm đề mới vừa tạo (*New Enemy*). Zanzibar giải bằng **Zookie**: mỗi lần thay đổi dữ liệu sinh ra một mốc thời gian nhất quán; lần kiểm tra quyền tiếp theo bắt buộc đọc dữ liệu ít nhất từ mốc đó trở về sau.  
-  > - **Hiệu năng < 10ms:** Họ dùng **Leopard Indexing** (tính trước tập nhóm lồng nhiều tầng) và **Request Hedging** (gửi song song tới replica khác nếu 1 replica phản hồi chậm để triệt tiêu độ trễ đuôi)."
+
+`[Chỉ màn hình: Trỏ vào đồ thị 5 node bên phải ("user:duy", "user:khanh" nối qua "instructor", "enrolled" vào "course:spring-boot", và "lesson:jwt-01", "quiz:quiz-auth" nối "parent_course" vào khóa học), sau đó đưa tay sang hộp code xanh và hộp vàng bên trái.]`
+
+"Năm 2019, Google công bố bài báo kỹ thuật về **Zanzibar** — hệ thống phân quyền tập trung đứng sau gần như toàn bộ các sản phẩm tỷ người dùng của họ như Google Drive, YouTube, Calendar hay Google Maps. Điểm khiến giới kỹ thuật choáng ngợp là hệ thống này xử lý hàng triệu lượt kiểm tra quyền mỗi giây trên toàn cầu nhưng vẫn giữ được độ trễ ở mức **p95 dưới 10 mili-giây** — trong đó chỉ số *p95* (*95th percentile*) nghĩa là 95 phần trăm tổng số lượt kiểm tra quyền đều trả kết quả về nhanh hơn một phần trăm giây.
+
+Thoạt nghe có vẻ rất cao siêu, nhưng mọi người nhìn sang **sơ đồ đồ thị năm nút ở bên phải slide** sẽ thấy tư duy của Zanzibar lại gần gũi đến bất ngờ. Đồ thị này được vẽ ra để minh họa cách toàn bộ thế giới phân quyền phức tạp được quy về những sợi dây nối giữa các thực thể. Ở chính giữa màu xanh dương là tài nguyên cha `course:spring-boot`. Bên trái là hai người dùng: giảng viên `user:duy` nối vào khóa học bằng sợi dây mang nhãn `instructor`, còn học viên `user:khanh` nối vào khóa học bằng sợi dây mang nhãn `enrolled`. Phía bên phải là hai tài nguyên con màu tím gồm bài giảng `lesson:jwt-01` và bài kiểm tra `quiz:quiz-auth`, cả hai đều nối ngược về khóa học thông qua sợi dây mang nhãn `parent_course`.
+
+Mỗi sợi dây trên đồ thị đó khi lưu xuống cơ sở dữ liệu chính là một bộ ba gọi là **Relation Tuple** theo đúng cú pháp ở hộp code màu xanh bên trái: `object#relation@user` — mẹo để đọc thuận miệng là đọc từ phải sang trái: người dùng này đang giữ mối quan hệ kia với đối tượng đó. Chẳng hạn `course:spring-boot#enrolled@user:khanh` có nghĩa là Khánh đã ghi danh vào khóa Spring Boot. Và **ý nghĩa tạo nên sức mạnh đột phá của mô hình này nằm ở hai chữ kế thừa bắc cầu (`from`)**. Hãy lấy một tình huống rất thực tế: một khóa học của mình có 50 bài video và 10 bài quiz. Nếu làm theo kiểu danh sách ACL phẳng ngày xưa, hễ bạn Khánh bấm mua khóa học là hệ thống phải chèn tới 60 dòng quyền vào 60 bài học và bài quiz đó; rồi đến tuần sau giảng viên đăng thêm bài giảng thứ 51, hệ thống lại phải chạy một công việc ngầm đi cập nhật bù quyền cho hàng nghìn học viên đã mua từ trước. Còn với đồ thị bên phải, khi Khánh mua khóa, chúng ta chỉ cần ghi **đúng một sợi dây duy nhất** nối Khánh với khóa học mẹ. Khi giảng viên thêm bài thứ 51 và gắn nhãn `parent_course` về khóa mẹ, máy chủ phân quyền sẽ tự động suy diễn bắc cầu từ bài giảng qua khóa học về tới Khánh, cho phép Khánh xem ngay bài mới mà không cần chép nhân bản dữ liệu quyền đi đâu cả.
+
+Tất nhiên khi nghe đến một hệ thống phân quyền tập trung cho cả hạ tầng lớn, anh em kỹ sư hệ thống sẽ lập tức đặt ra hai câu hỏi hóc búa nhất nằm ngay ở hộp màu vàng bên trái: tính nhất quán dữ liệu và hiệu năng khi đồ thị sâu nhiều tầng.
+
+Câu hỏi thứ nhất gắn với thuật ngữ **New Enemy và Zookie**. Hãy tưởng tượng một kịch bản rất oái oăm về mặt thời gian: đúng 10 giờ 00 phút 00 giây, học viên Khánh yêu cầu hoàn tiền và hệ thống thu hồi quyền học của Khánh khỏi khóa Spring Boot; chỉ một giây sau, lúc 10 giờ 00 phút 01 giây, giảng viên Duy đăng một đề thi cuối kỳ mới tinh lên khóa học đó. Nếu máy chủ kiểm tra quyền vì muốn chạy nhanh mà dùng lại bản bộ nhớ đệm (*cache*) cũ từ 9 giờ 59 phút 59 giây — thời điểm mà Khánh chưa bị xóa quyền — thì Khánh sẽ vô tình nhìn trộm được đề thi mới tạo ra sau khi mình đã mất quyền! Google đặt tên cho lỗ hổng rò rỉ dữ liệu mới qua cache cũ này là bài toán **New Enemy** (*Kẻ thù mới*). Cách Zanzibar giải quyết triệt để vấn đề này là phát minh ra **Zookie** — một *Consistency Token*, tức mã đánh dấu mốc thời gian nhất quán. Mỗi khi có thay đổi về dữ liệu tài nguyên hay quan hệ quyền, hệ thống lưu kèm một giá trị Zookie mới; lần kiểm tra quyền kế tiếp bắt buộc phải đọc trạng thái từ mốc Zookie đó trở về sau, tuyệt đối không được tin dùng bản cache cũ hơn mốc đó.
+
+Câu hỏi thứ hai là làm sao duyệt một đồ thị quan hệ nhiều tầng lồng nhau mà vẫn giữ được độ trễ dưới 10 mili-giây? Google giải bằng hai kỹ thuật kết hợp: thứ nhất là **Leopard Indexing**, hiểu nôm na là kỹ thuật lập chỉ mục tính toán trước và làm phẳng các nhóm người dùng lồng sâu nhiều lớp để khi kiểm tra không phải leo từng bậc từ đầu; thứ hai là **Request Hedging**, nghĩa là khi một yêu cầu tra cứu gửi tới một bản sao cơ sở dữ liệu mà thấy hơi có dấu hiệu chậm hơn ngưỡng vài mili-giây, hệ thống không ngồi chờ bị nghẽn mà chủ động bắn song song yêu cầu đó sang một bản sao khác, bản nào trả về trước thì lấy kết quả ngay để triệt tiêu độ trễ đuôi.
+
+Google không mở mã nguồn của Zanzibar, nhưng tinh thần và thuật toán của bản thiết kế đó đã được cộng đồng mã nguồn mở hiện thực hóa cực kỳ xuất sắc. Vậy nếu muốn mang công nghệ này về chạy cho dự án của team mình thì chọn công cụ nào là hợp lý nhất? Mời mọi người sang **Trang 07**."
 
 ---
 
 ### Trang 07 — Hệ sinh thái mã nguồn mở: OpenFGA vs SpiceDB vs Ory Keto (`18:30 – 21:00`)
-- **Trên màn hình slide:** 3 thẻ so sánh **OpenFGA (Khuyên dùng)**, **SpiceDB (AuthZed)**, **Ory Keto**, và hộp chốt lựa chọn cho Ekila LMS.
-- **Lời thuyết trình gợi ý:**
-  > "Google Zanzibar chỉ là bản thiết kế nội bộ không mở mã nguồn, nhưng cộng đồng đã xây dựng 3 bản hiện thực hóa nổi bật nhất theo chuẩn này:  
-  > 1. **OpenFGA** (dự án thuộc CNCF, do Auth0/Okta khởi xướng): Ngôn ngữ DSL rất sạch và dễ đọc — ngay cả người không code backend nhìn vào cũng hiểu ai được làm gì. Quan trọng nhất là chạy tốt trên **PostgreSQL**, có SDK cho Java/Node, và có sẵn công cụ test tự động bằng YAML (`fga model test`).  
-  > 2. **SpiceDB** (của AuthZed): Kiến trúc bám rất sát bài báo gốc, nổi bật với cơ chế **ZedToken** xử lý bài toán *New Enemy* cực kỳ nghiêm ngặt và hợp với hệ thống lớn dùng CockroachDB phân tán.  
-  > 3. **Ory Keto:** Phù hợp nhất nếu cả hệ thống của bạn đã dùng trọn bộ Ory Stack (Hydra, Kratos).  
-  >  
-  > Với team Ekila LMS đang chạy sẵn PostgreSQL 16 và cần đồ thị dễ hiểu để mọi thành viên cùng review trên PR, **OpenFGA** là lựa chọn cân bằng và ít ma sát nhất để chuyển sang Phần II — áp dụng lên chính dự án của chúng ta."
+
+`[Chỉ màn hình: Trỏ lần lượt qua 3 thẻ ngang ("OpenFGA" có nhãn "Khuyên dùng", "SpiceDB (AuthZed)", "Ory Keto") rồi dừng lại ở thanh xanh dưới đáy "Lựa chọn cho Ekila LMS".]`
+
+"Hiện nay trong thế giới mã nguồn mở có ba bộ máy phân quyền theo chuẩn Google Zanzibar nổi tiếng nhất, được đặt cạnh nhau ngay trên màn hình. Kinh nghiệm của mình khi chọn công cụ đưa vào dự án thật là không chọn thứ nghe có vẻ hào nhoáng nhất, mà chọn thứ khớp nhất với hạ tầng có sẵn và thói quen làm việc của cả team.
+
+Thẻ đầu tiên bên trái là **OpenFGA** — chữ *FGA* viết tắt của *Fine-Grained Authorization*, tức phân quyền mịn. Đây là dự án thuộc tổ chức **CNCF** (*Cloud Native Computing Foundation* — quỹ bảo trợ các dự án nền tảng đám mây như Kubernetes), ban đầu được đội ngũ Auth0 và Okta khởi xướng. Điểm sáng lớn nhất khiến OpenFGA rất được lòng các team phát triển sản phẩm nằm ở ngôn ngữ đặc tả của nó — gọi là **DSL** (*Domain-Specific Language*, ngôn ngữ chuyên biệt cho một miền bài toán). Lát nữa sang phần sau mọi người sẽ thấy file DSL của OpenFGA đọc gần như tiếng Anh tự nhiên, ngay cả bạn Frontend hay QA không viết backend nhìn vào cũng kiểm chứng được đúng sai ngay trên **PR** (*Pull Request* — yêu cầu gộp mã nguồn để team review). Hơn nữa, OpenFGA chạy trực tiếp trên **PostgreSQL**, có bộ công cụ phát triển **SDK** (*Software Development Kit*) chính thức cho Java và Node, lại có sẵn công cụ dòng lệnh **CLI** (*Command-Line Interface*) cho phép viết kịch bản kiểm thử tự động bằng định dạng **YAML** thông qua lệnh `fga model test` để kẹp thẳng vào quy trình kiểm tra tự động trước khi triển khai.
+
+Sang thẻ ở giữa là **SpiceDB** do công ty AuthZed phát triển. Nếu nói về độ trung thành từng dòng với bài báo Zanzibar gốc của Google thì SpiceDB là cái tên bám sát nhất, cực kỳ mạnh với cơ chế **ZedToken** xử lý bài toán nhất quán *New Enemy* một cách nghiêm ngặt. SpiceDB sẽ là ứng viên số một nếu bạn đang vận hành một hệ thống khổng lồ phân tán đa vùng địa lý trên nền cơ sở dữ liệu như CockroachDB hay Google Spanner.
+
+Thẻ thứ ba bên phải là **Ory Keto**, sử dụng cú pháp **OPL** (*Ory Permission Language*) viết theo phong cách ngôn ngữ TypeScript. Công cụ này phát huy hiệu quả nhất khi toàn bộ dự án của bạn đã đầu tư dùng trọn gói hệ sinh thái của hãng Ory, chẳng hạn dùng Ory Hydra để cấp phát token và Ory Kratos để quản lý tài khoản người dùng.
+
+Đặt lên bàn cân với thực tế của dự án **Ekila LMS** ở thanh màu xanh dưới đáy: chúng ta đang chạy sẵn **PostgreSQL 16**, không đi theo hệ sinh thái Ory, và điều team cần nhất là một mô hình phân quyền rõ ràng để mọi thành viên cùng đọc hiểu, kiểm thử tự động được ngay mà không tăng gánh nặng học tập quá lớn. Vì vậy **OpenFGA** là lựa chọn cân bằng và ít ma sát nhất.
+
+Đến đây, mình xin phép khép lại phần lý thuyết nền tảng để bước sang **Phần II** — mang toàn bộ những khái niệm vừa nói đặt xuống đúng kiến trúc đang chạy của **Ekila Academy LMS**."
 
 ---
 
 ## PHẦN II — THỰC TẾ EKILA LMS (B2C) & LIVE DEMO (TRANG 08 – TRANG 13)
 
 ### Trang 08 — Bức tranh kiến trúc 6 Microservices Ekila LMS (`21:00 – 24:00`)
-- **Trên màn hình slide:** Sơ đồ luồng `Next.js 16 (Web B2C) → Traefik Proxy → API Gateway (:8080)` chia xuống 5 service (`Identity`, `Catalog`, `Learning`, `Assessment`, `Commerce`), đường gọi chéo màu cam từ `Assessment → Catalog`, đường `Outbox` từ `Commerce`, và `Notification (:8086 — Cô lập)` không public qua Gateway; bên phải giải thích vị trí *Identity tự xây vs Keycloak*.
-- **Lời thuyết trình gợi ý:**
-  > "Bây giờ chúng ta đặt lý thuyết xuống đúng hệ thống **Ekila Academy LMS** — một nền tảng học trực tuyến **B2C** nơi học viên mua từng khóa học qua thanh toán VietQR, học video và làm Quiz trắc nghiệm tự chấm.  
-  > Nhìn vào sơ đồ kiến trúc hiện tại của team: người dùng từ trình duyệt Next.js đi qua Traefik và vào **API Gateway (:8080)**. Đằng sau Gateway là **6 Microservices độc lập** theo đúng nguyên tắc **Database-per-Service**:  
-  > - **Identity:** Quản lý tài khoản, xác minh email, đăng nhập, Google OAuth2, khóa tạm sau 5 lần nhập sai mật khẩu, xoay vòng Refresh Token.  
-  > - **Catalog:** Quản lý khóa học, chương/bài giảng và video/tài liệu trên MinIO S3.  
-  > - **Learning:** Ghi danh học viên và lưu tiến độ xem bài học.  
-  > - **Assessment:** Ngân hàng câu hỏi, đề thi Quiz và lượt làm bài (**hệ thống tự động chấm điểm**).  
-  > - **Commerce:** Giỏ hàng, đơn hàng và webhook thanh toán VietQR.  
-  > - **Notification (:8086):** Cô lập hoàn toàn, **không mở route qua Gateway**, chỉ nhận lệnh nội bộ để gửi email.  
-  >  
-  > Ở đây mọi người chú ý 2 điểm: Thứ nhất, team mình tự xây **Identity Service** chứ chưa dùng Keycloak SSO — nhưng dù dùng loại nào thì nó cũng chỉ lo **AuthN**. Thứ hai, vì 6 service giữ **6 database PostgreSQL tách biệt**, không service nào được phép `JOIN` bảng sang DB của service khác. Chính điều này sẽ dẫn tới điểm nghẽn kiểm tra quyền mà mình trình bày ngay sau đây."
+
+`[Chỉ màn hình: Trỏ vào sơ đồ kiến trúc bên trái từ trên xuống ("Next.js 16" → "Traefik Proxy" → "API Gateway"), quét ngang qua 5 dịch vụ ("Identity", "Catalog", "Learning", "Assessment", "Commerce"), chỉ kỹ vào đường mũi tên màu cam nối từ "Assessment" sang "Catalog", đường xanh nét đứt "Outbox" từ "Commerce", và hộp màu đỏ "Notification (Cô lập hoàn toàn)" ở góc dưới; sau đó chỉ sang thẻ tím bên phải.]`
+
+"Sơ đồ bên trái trên màn hình là bức tranh kiến trúc thực tế hiện tại của hệ thống **Ekila Academy LMS** — nền tảng học trực tuyến theo mô hình B2C, nơi học viên cá nhân chọn mua từng khóa học qua thanh toán chuyển khoản VietQR, xem video bài giảng và làm các bài trắc nghiệm Quiz do hệ thống tự động chấm điểm.
+
+Chúng ta cùng đi theo đúng dòng chảy của một request trên sơ đồ này từ trên xuống dưới. Người dùng tương tác qua giao diện web xây bằng **Next.js 16**, đi qua cổng điều phối ngược **Traefik Proxy** để chạm tới **API Gateway** — chốt chặn biên đứng trước toàn bộ hệ thống backend. Ngay bên dưới Gateway là **năm dịch vụ nghiệp vụ chính** cùng một dịch vụ gửi thông báo cô lập ở góc dưới, tạo thành **sáu Microservices độc lập** được thiết kế chặt chẽ theo nguyên tắc **Database-per-Service** trên nền PostgreSQL 16, Redis 7 và kho lưu trữ đối tượng **MinIO S3**.
+
+Đi từ trái sang phải, đầu tiên là dịch vụ **Identity** giữ cơ sở dữ liệu `identity_db`. Như ở thẻ tím bên phải có ghi chú rất rõ, team mình tự xây dịch vụ Identity này để xử lý đăng ký, xác minh email, khóa tạm tài khoản sau năm lần nhập sai mật khẩu, xoay vòng Refresh Token và đăng nhập Google OAuth2 chứ chưa cần dựng thêm máy chủ Keycloak riêng. Thế nhưng về mặt nguyên lý kiến trúc thì hoàn toàn tương đồng với buổi seminar Keycloak trước đó: dịch vụ Identity của mình chỉ lo phần xác thực danh tính **AuthN** và gắn Role tổng quát vào token. Kế bên là **Catalog** giữ `catalog_db`, quản lý thông tin khóa học, chương mục, bài giảng và kết nối với MinIO S3 để cấp quyền tải video tài liệu. Tiếp theo là **Learning** giữ `learning_db`, chuyên theo dõi trạng thái ghi danh vào khóa học và tiến độ xem từng bài của học viên. Thứ tư là **Assessment** giữ `assessment_db`, chứa ngân hàng câu hỏi, đề thi Quiz và các lượt làm bài tự chấm. Thứ năm là **Commerce** giữ `commerce_db`, lo giỏ hàng, đơn hàng và tiếp nhận webhook báo thanh toán thành công từ VietQR, sau đó dùng mẫu thiết kế **Outbox Pattern** — biểu diễn bằng các đường xanh từ Commerce — để đẩy sự kiện ghi danh sang Learning và đẩy lệnh gửi email xuống hộp màu đỏ ở góc dưới cùng là dịch vụ **Notification**. Mọi người chú ý hộp đỏ Notification này được thiết kế **cô lập hoàn toàn**, không mở bất kỳ đường dẫn nào ra ngoài qua API Gateway để tránh bị lạm dụng gửi thư rác hay tấn công từ bên ngoài.
+
+Nhưng điều quan trọng nhất mà sơ đồ này muốn làm nổi bật để chuẩn bị cho các trang sau nằm ở hai điểm: một là **sáu cái tên database hoàn toàn tách biệt** ở đáy các khối — nghĩa là không một dịch vụ nào được phép chạy câu lệnh SQL `JOIN` chéo sang database của dịch vụ khác; và hai là **sợi dây mũi tên màu cam cong lên từ Assessment sang Catalog** mang dòng chữ *'Gọi chéo kiểm tra chủ sở hữu khóa'*. Trước khi đi sâu vào điểm nghẽn do mũi tên cam đó gây ra, mời mọi người xem **Trang 09** để thấy ở tầng bảo vệ nội bộ hiện tại team mình đã dựng sẵn những chốt chặn Zero Trust nào rất đáng ghi nhận."
 
 ---
 
 ### Trang 09 — 4 Chốt chặn Zero Trust Ekila LMS đang vận hành (`24:00 – 27:00`)
-- **Trên màn hình slide:** Sơ đồ luồng bảo vệ 4 bước (`Client + JWT → 1. Gateway Edge → 2. HMAC 5-Tuple → 3. Service + IDOR Shield → 4. Audit DB`) và 2 thẻ tóm tắt phía dưới.
-- **Giải thích dễ hiểu về 403 → 404 và HMAC 5-Tuple:**
-  - *Vì sao ẩn 403 thành 404?* Nếu hệ thống trả `403 Forbidden`, kẻ tấn công biết chắc *"À, ID bài thi/đơn hàng này có tồn tại trong DB, chỉ là mình không có quyền"* và tiếp tục dò quét. Trả `404 Not Found` khiến kẻ tấn công không biết bản ghi đó có tồn tại hay không.
-  - *Vì sao HMAC phải ký đủ 5 thành phần?* Nếu chỉ ký `UserId`, hacker cướp được chữ ký từ một API `GET` xem danh sách rồi đem tái sử dụng cho API `DELETE` hoặc `POST` sẽ lọt. Ký cả `METHOD : PATH : USER_ID : ROLES : TIMESTAMP` (±60 giây) khóa chặt chữ ký vào đúng hành động và đúng thời điểm đó.
-- **Lời thuyết trình gợi ý:**
-  > "Trước khi nói về những gì cần nâng cấp, cần ghi nhận là dự án của chúng ta không bắt đầu từ con số 0. Nhìn vào sơ đồ chuỗi bảo vệ từ trái sang phải, team đã triển khai sẵn 4 chốt chặn rất sát tinh thần Zero Trust:  
-  > 1. **Tước bỏ header giả mạo tại Gateway:** Gateway xác thực JWT và xóa sạch mọi header định danh mà client tự ý nhét vào trước khi chuyển request xuống service nội bộ.  
-  > 2. **Chữ ký nội bộ HMAC-SHA256 (5-Tuple):** Mọi lời gọi từ Gateway vào microservices đều được ký trên 5 thành phần: `METHOD`, `PATH`, `USER_ID`, `ROLES` và `TIMESTAMP` trong cửa sổ ±60 giây. Điều này chặn triệt để kịch bản giả mạo `X-User-Id` hay lấy nhầm chữ ký từ API đọc sang API ghi.  
-  > 3. **Cô lập Notification & Cơ chế 403 → 404:** Service gửi mail không lộ ra ngoài Internet; và với tài nguyên riêng tư của user khác, hệ thống chủ động trả **404 Not Found** thay vì 403 để chống dò ID.  
-  > 4. **Audit Log Append-only:** Bảng nhật ký IAM chỉ cho phép ghi thêm, chặn sửa và xóa ngay ở tầng database. Hướng cải tiến tiếp theo của lớp này là bổ sung **Redis Nonce** để chặn gọi lại nhiều lần trong đúng cửa sổ 60s, và bật **mTLS** mã hóa kênh truyền giữa các container."
+
+`[Chỉ màn hình: Đi theo luồng mũi tên từ trái sang phải qua 5 khối ("Client + JWT" → "1. Gateway Edge" → "2. HMAC 5-Tuple" → "3. Service + IDOR Shield" → "4. Audit DB"), đồng thời đối chiếu với 2 thẻ tóm tắt ở phía dưới.]`
+
+"Sơ đồ luồng bốn bước trên slide này vẽ lại chuỗi bảo vệ nhiều lớp mà team Ekila LMS đã triển khai sẵn ngay từ giai đoạn đầu, chứ chúng ta không hề làm lại từ con số không. Nhìn vào đây mọi người sẽ thấy bốn chốt chặn này bám rất sát tinh thần Zero Trust ở Trang 04.
+
+Chặn ngay ở cửa ngõ đầu tiên là **khối số 1 — Gateway Edge**. Khi trình duyệt **Client + JWT** gửi yêu cầu vào hệ thống — mà trên hình có dòng cảnh báo đỏ là *'Có thể giả header'* — API Gateway sau khi kiểm tra chữ ký và hạn sử dụng của JWT sẽ thực hiện một thao tác bắt buộc là **tước sạch toàn bộ các HTTP header định danh nội bộ** do phía ngoài tự ý đính kèm. Chỉ một bước làm sạch này ở rìa Gateway đã triệt tiêu khả năng kẻ xấu tự nhét header giả mạo danh tính từ bên ngoài.
+
+Nhưng như kịch bản ở Trang 03, nếu chỉ tin vào cái header sau Gateway thì lỡ có ai gọi vòng bên trong mạng Docker vẫn có thể giả mạo được. Vì vậy chúng ta có **khối số 2 — HMAC 5-Tuple**. Trong đó **HMAC** là viết tắt của *Hash-based Message Authentication Code* dùng thuật toán băm **SHA-256** với một khóa bí mật chia sẻ nội bộ. Điều tinh tế ở đây là Gateway không ký bừa mỗi mã người dùng, mà ký chặt trên một bộ **năm thành phần (5-Tuple)**: `METHOD` là phương thức HTTP như `GET` hay `DELETE`, `PATH` là đường dẫn API cụ thể, `UID` là mã định danh người dùng (*User ID*), `ROLE` là vai trò của họ, và `TS` là dấu thời gian (*Timestamp*) tính trong một cửa sổ ngắn **cộng trừ 60 giây**. Vì sao phải ký đủ cả năm ký tự viết tắt đó? Hãy thử nghĩ nếu chỉ ký mỗi `UID`, lỡ có lúc chữ ký từ một request `GET` xem danh sách bị rò rỉ, kẻ xấu có thể lấy đúng chữ ký đó gắn sang request `DELETE` để xóa khóa học mà service phía dưới vẫn thấy chữ ký khớp! Nhờ khóa chặt cả phương thức, đường dẫn lẫn thời điểm 60 giây, mỗi chữ ký chỉ dùng đúng một lần cho đúng hành động ở đúng khoảnh khắc đó, chặn đứng hoàn toàn việc ký lậu hay di chuyển ngang nội bộ.
+
+Vượt qua được hai lớp kiểm tra truyền tải đó, request đi vào **khối số 3 — Service + IDOR Shield**. Bên cạnh việc cô lập dịch vụ Notification không mở ra Gateway, ở đây team áp dụng một chiêu phòng thủ rất hay cho các tài nguyên riêng tư của cá nhân như bài làm Quiz hay đơn hàng VietQR: khi phát hiện người dùng cố tình đổi ID để truy cập dữ liệu không thuộc về mình, thay vì trả về mã lỗi `403 Forbidden` (*Cấm truy cập*), hệ thống chủ động **ẩn lỗi `403` thành `404 Not Found`** (*Không tìm thấy*). Ý nghĩa bảo mật của việc này nằm ở chỗ chống dò quét dữ liệu: nếu bạn trả `403`, kẻ tấn công biết chắc chắn rằng mã đơn hàng hay mã bài thi đó có tồn tại thật trong cơ sở dữ liệu, chỉ là mình chưa có quyền xem thôi, từ đó tiếp tục dò tìm các lỗ hổng khác; còn khi trả `404`, người ngoài hoàn toàn mù thông tin, không phân biệt được là ID đó không tồn tại hay do không có quyền.
+
+Và chốt chặn cuối cùng bên phải là **khối số 4 — Audit DB**. Mọi nhật ký xác thực và phân quyền trong hệ thống **IAM** (*Identity and Access Management* — Quản lý danh tính và truy cập) đều được ghi theo chế độ **Append-only**, tức là khóa cứng quyền sửa và xóa ngay ở tầng cơ sở dữ liệu để đảm bảo bằng chứng điều tra không bị tẩy xóa nếu có sự cố. Và như dòng chữ ghi chú ở đáy khối số 4, hai mảnh ghép bảo mật tiếp theo mà team dự kiến bổ sung cho tầng truyền tải này là thêm **Redis Nonce** — dùng một mã ngẫu nhiên chỉ dùng một lần lưu trên Redis để chặn việc bắn lặp lại cùng một request trong chính cửa sổ 60 giây — và bật **mTLS** (*Mutual TLS*, tức bắt tay xác thực chứng chỉ số hai chiều giữa các container để mã hóa toàn bộ lưu lượng nội bộ).
+
+Như vậy, tầng truyền tải từ ngoài vào tới cửa service đã rất vững. Thế nhưng khi đi vào **bên trong code nghiệp vụ của từng microservice**, việc phân quyền dữ liệu hiện tại đang vận hành ra sao và cái mũi tên màu cam lúc nãy gây ra rắc rối gì? Mời mọi người nhìn sang **Trang 10**."
 
 ---
 
 ### Trang 10 — Phân quyền 3 lớp hiện tại & Điểm nghẽn thực tế (`27:00 – 30:30`)
-- **Trên màn hình slide:** Sơ đồ bên trái thể hiện **3 lớp phòng thủ** (`Lớp 1 RBAC tĩnh` → `Lớp 2 Sở hữu IDOR` → `Lớp 3 Scope Query`) và khung đứt nét đỏ chỉ ra **Điểm nghẽn: Assessment gọi HTTP sang Catalog (`503`)**; bên phải tóm tắt 3 giới hạn khi B2C mở rộng.
-- **Lời thuyết trình gợi ý:**
-  > "Hiện tại, phân quyền bên trong Ekila LMS đang vận hành theo mô hình **3 lớp** khá chắc chắn cho giai đoạn MVP với đúng 4 vai trò B2C: Học viên (`STUDENT`), Giảng viên (`INSTRUCTOR`), Quản trị nội dung (`CONTENT_ADMIN`) và Quản trị hệ thống (`SYSTEM_ADMIN`):  
-  > - **Lớp 1 (RBAC tĩnh theo API):** Khớp đúng ma trận nghiệp vụ — ví dụ Giảng viên được tạo/sửa khóa học, nhưng chỉ Content Admin hoặc System Admin mới có quyền duyệt xuất bản; Content Admin được xem đơn hàng hỗ trợ khách nhưng **không** được hủy đơn như System Admin.  
-  > - **Lớp 2 (Kiểm tra sở hữu chống IDOR):** Mỗi service tự kiểm tra chủ sở hữu trước khi trả dữ liệu (khóa học, lượt làm Quiz tự chấm, đơn hàng VietQR) và trả 404 nếu sai chủ.  
-  > - **Lớp 3 (Scope Query):** Lọc danh sách theo phạm vi cá nhân, khóa học hoặc toàn hệ thống.  
-  >  
-  > Tuy nhiên nhìn sang cột bên phải, khi vận hành thực tế đã lộ ra một **điểm nghẽn có thật**:  
-  > Vì tách DB, dịch vụ **Assessment** (chứa câu hỏi & Quiz) không có bảng thông tin Giảng viên sở hữu khóa học (bảng đó nằm ở `catalog_db`). Do đó mỗi khi Giảng viên vào sửa ngân hàng câu hỏi, **Assessment buộc phải gọi HTTP sang Catalog** để hỏi *'Ông Duy này có đúng là tác giả khóa Spring Boot không?'*. Kết quả là 2 dịch vụ bị dính chùm (coupling): **nếu Catalog đang khởi động lại hoặc quá tải, trang quản lý câu hỏi ở Assessment lăn ra lỗi `503` theo!** Ngoài ra quy tắc sở hữu đang viết rải rác ở từng service, sau này muốn làm tính năng *nhiều giảng viên cùng soạn 1 khóa* hoặc *gói combo nhiều khóa* sẽ phải sửa code kiểm tra quyền ở nhiều nơi."
+
+`[Chỉ màn hình: Chỉ từ trên xuống 3 thanh ngang bên trái ("Lớp 1 — RBAC tĩnh", "Lớp 2 — Sở hữu (IDOR)", "Lớp 3 — Scope Query"), sau đó dừng lâu ở khung đứt nét màu đỏ bên dưới nối "Assessment Service" → "Catalog Service" kèm dòng chữ "Catalog lỗi → 503", và đối chiếu với 3 ý ở thẻ đỏ bên phải.]`
+
+"Nhìn vào sơ đồ xếp tầng bên trái, hiện tại bên trong mỗi microservice của Ekila LMS đang vận hành mô hình phân quyền **ba lớp** khớp với đúng bốn vai trò B2C của dự án gồm Học viên (`STUDENT`), Giảng viên (`INSTRUCTOR`), Quản trị nội dung (`CONTENT_ADMIN`) và Quản trị hệ thống (`SYSTEM_ADMIN`).
+
+Ở **Lớp 1 — RBAC tĩnh**, hệ thống chặn ngay ở tầng điều phối API dựa theo vai trò: chẳng hạn giảng viên được tạo và chỉnh sửa nội dung khóa học của mình, nhưng chỉ hai vai trò quản trị là Content Admin hoặc System Admin mới được bấm nút duyệt xuất bản khóa học lên sàn; hay Content Admin được xem thông tin đơn hàng để hỗ trợ chăm sóc học viên, nhưng tuyệt đối không được phép hủy đơn như System Admin. Xuống **Lớp 2 — Sở hữu chống IDOR**, từng dịch vụ tự kiểm tra chủ sở hữu trước khi trả dữ liệu ra, như kiểm tra đúng giảng viên tạo khóa, đúng học viên làm bài Quiz tự chấm, hay đúng người mua đơn hàng VietQR và trả `404` nếu không khớp. Và ở **Lớp 3 — Scope Query**, khi truy vấn danh sách, câu lệnh SQL tự động lọc phạm vi dữ liệu theo cá nhân, theo khóa học hoặc toàn sàn tùy thuộc vai trò người gọi.
+
+Mô hình ba lớp này giúp team hoàn thành giai đoạn **MVP** (*Minimum Viable Product* — sản phẩm khả dụng tối thiểu) rất nhanh và gọn gàng. Nhưng mọi người nhìn thẳng xuống **khung nét đứt màu đỏ ở phía dưới sơ đồ**, đó là nơi thực tế bắt đầu phơi bày một điểm nghẽn rất rõ khi tuân thủ kiến trúc tách database: khi giảng viên vào dịch vụ **Assessment** để thêm hoặc sửa câu hỏi cho một bài Quiz, Assessment cần xác minh xem ông giảng viên này có đúng là chủ sở hữu của khóa học chứa bài Quiz đó hay không. Ngặt nỗi bảng thông tin *khóa học thuộc về giảng viên nào* lại nằm hoàn toàn bên `catalog_db` do **Catalog Service** giữ! Không thể `JOIN` chéo cơ sở dữ liệu, Assessment buộc phải thực hiện một cuộc gọi mạng HTTP đồng bộ sang Catalog để hỏi xác nhận quyền.
+
+Và hệ quả nằm ngay ở dòng chữ đỏ dưới mũi tên và ba ý ở thẻ bên phải. Thứ nhất là sự dính chùm phụ thuộc chéo dịch vụ — gọi là **Coupling chéo DB**: dù nghiệp vụ chấm thi và quản lý câu hỏi ở Assessment không hề liên quan đến việc hiển thị danh mục bên Catalog, nhưng **chỉ cần Catalog đang khởi động lại để cập nhật tính năng mới hoặc bị quá tải tạm thời, toàn bộ trang quản lý câu hỏi bên Assessment lập tức lăn ra báo lỗi `503`** (*Service Unavailable* — dịch vụ không khả dụng) theo! Thứ hai là **code phân mảnh**: những đoạn kiểm tra chủ sở hữu bằng tay bị lặp lại rải rác ở từng dịch vụ, khiến việc rà soát đồng bộ trở nên khó khăn. Và thứ ba là **khó mở rộng về sau**: nếu sắp tới sản phẩm phát triển thêm tính năng cho phép nhiều giảng viên cùng cộng tác soạn một khóa học, hay bán các gói combo nhiều khóa với thời hạn truy cập khác nhau, phần code kiểm tra thủ công và những cuộc gọi chéo giữa các dịch vụ sẽ phình ra rất nhanh.
+
+Vậy nếu chúng ta tách phần ra quyết định quyền đó ra khỏi cả Catalog lẫn Assessment để đặt vào **OpenFGA**, kiến trúc của Ekila LMS sẽ giải tỏa điểm nghẽn này như thế nào? Mời mọi người nhìn sang **Trang 11**."
 
 ---
 
 ### Trang 11 — Kiến trúc đích: Tách OpenFGA (PDP) cho Ekila LMS (`30:30 – 33:00`)
-- **Trên màn hình slide:** Sơ đồ mới: `API Gateway → [Catalog PEP / Assessment PEP / Commerce PEP] → OpenFGA (PDP) + PostgreSQL AuthZ Store → TRUE (200) / FALSE (404 giữ lá chắn chống IDOR)`, kèm mũi tên `Sync Tuple` từ `Commerce (Outbox)`. Bên dưới là 3 thẻ highlight: *1. Tách coupling*, *2. Outbox Sync*, *3. Bảo toàn 404*.
-- **Lời thuyết trình gợi ý:**
-  > "Đây là kiến trúc đích khi đưa **OpenFGA** vào đóng vai trò **PDP trung tâm**:  
-  > 1. **Gỡ nút thắt gọi chéo:** Bây giờ `Catalog`, `Learning`, `Assessment` và `Commerce` đóng vai trò là các **PEP** độc lập. Khi Giảng viên sửa đề thi ở **Assessment**, Assessment không cần gọi sang Catalog nữa mà hỏi thẳng OpenFGA: `Check(user:duy, can_manage_questions, quiz:quiz-auth)`. Cho dù Catalog có đang nâng cấp hay bảo trì, Assessment vẫn kiểm tra quyền bình thường!  
-  > 2. **Đồng bộ tự nhiên qua Outbox Pattern sẵn có:** Dự án đã dùng **Outbox Pattern** cho luồng thanh toán VietQR: khi khách chuyển khoản xong, `Commerce` cập nhật trạng thái đơn hàng thành công đồng thời phát sự kiện ghi danh sang `Learning`. Ta chỉ việc gắn thêm bước đẩy Tuple `course#enrolled@user` vào OpenFGA ngay trong luồng Outbox đó để đảm bảo nhất quán dữ liệu.  
-  > 3. **Giữ nguyên 100% cơ chế chống IDOR:** Nhiều người lo dùng thư viện ngoài thì mất logic trả 404 của mình. Không hề: OpenFGA chỉ trả về `allowed: true` hoặc `allowed: false`; phần **PEP** trong service của ta vẫn toàn quyền dịch `allowed=false` thành HTTP **404** cho tài nguyên ẩn hoặc **403** cho thao tác sai vai trò quản trị."
+
+`[Chỉ màn hình: Theo dõi luồng từ trái sang phải trên sơ đồ ("API Gateway" → 3 khối xanh "Catalog / Learning (PEP)", "Assessment (PEP)", "Commerce (PEP)" → khối tím lớn "OpenFGA (PDP) + PostgreSQL AuthZ Store" → hộp kết quả "TRUE → 200 OK / FALSE → 404"), chú ý chỉ vào mũi tên tím "Sync Tuple" từ Commerce đi vào OpenFGA và 3 thẻ callout ở dưới.]`
+
+"Sơ đồ trên Trang 11 là bản thiết kế kiến trúc đích khi chúng ta đưa **OpenFGA** vào giữ vai trò **PDP trung tâm** cho toàn bộ hệ thống Ekila LMS. Mọi người hãy đặt hình này cạnh hình ở Trang 10 vừa rồi để thấy điểm khác biệt lớn nhất: **sợi dây gọi chéo giữa Assessment và Catalog đã hoàn toàn biến mất**.
+
+Theo dõi luồng chạy trên sơ đồ từ trái sang phải, sau khi request đi qua **API Gateway** — nơi vẫn đảm nhiệm phần AuthN kiểm tra JWT và đóng dấu HMAC 5-Tuple như cũ — nó đi vào từng dịch vụ nghiệp vụ là **Catalog / Learning**, **Assessment** và **Commerce**. Lúc này cả ba dịch vụ đó đóng vai trò là các **PEP** độc lập. Khi giảng viên vào sửa ngân hàng câu hỏi bên **Assessment**, Assessment không còn phải gọi HTTP sang hỏi thăm Catalog nữa, mà gọi thẳng sang **OpenFGA (PDP)** qua hàm `Check()`. Nhờ toàn bộ quan hệ giữa giảng viên, khóa học và bài Quiz đã được lưu sẵn dưới dạng đồ thị trong kho dữ liệu **PostgreSQL AuthZ Store** của OpenFGA, Assessment nhận câu trả lời độc lập chỉ trong vài mili-giây; cho dù dịch vụ Catalog có đang tắt đi bảo trì thì chức năng của Assessment vẫn chạy bình thường. Đó chính là giá trị ở thẻ xanh thứ nhất bên dưới: **tách coupling**.
+
+Tiếp theo nhìn xuống mũi tên màu tím mang nhãn **`Sync Tuple`** nối từ dịch vụ **Commerce** sang OpenFGA — ứng với thẻ thứ hai là **Outbox Sync**. Một câu hỏi rất chính đáng của anh em backend là nếu tách kho dữ liệu quyền ra ngoài thì làm sao đảm bảo khi học viên vừa chuyển khoản xong, OpenFGA có ngay quyền để cho họ vào học mà không bị lệch dữ liệu? Rất thuận lợi là trong luồng thanh toán VietQR hiện tại, Commerce của team mình đã cài đặt sẵn **Outbox Pattern**: trong cùng một giao dịch cơ sở dữ liệu khi webhook báo thanh toán thành công, Commerce vừa cập nhật trạng thái đơn hàng, vừa ghi một sự kiện vào bảng Outbox để worker gửi thông báo ghi danh sang Learning một cách đảm bảo. Chúng ta chỉ cần móc thêm một bước gọi API đẩy Tuple `course#enrolled@user` sang OpenFGA ngay trong luồng Outbox sẵn có đó, không phải đẻ ra thêm hạ tầng đồng bộ phức tạp nào mới.
+
+Và nhìn sang hộp kết quả màu trắng ở ngoài cùng bên phải — ứng với thẻ thứ ba là **Bảo toàn 404**. Có bạn lo ngại rằng dùng một engine bên ngoài để check quyền thì có bị mất đi cơ chế ẩn lỗi `403` thành `404` chống IDOR mà team đã dày công làm hay không? Thực tế hoàn toàn không mất chút nào! OpenFGA với tư cách là PDP chỉ trả về đúng hai chữ boolean **`TRUE`** hoặc **`FALSE`**. Quyền quyết định trả về mã trạng thái HTTP nào cho trình duyệt vẫn nằm trọn trong tay **PEP** của từng microservice: nhận `TRUE` thì xử lý bình thường trả `200 OK`; còn nhận `FALSE` thì tùy ngữ cảnh — nếu là tài nguyên riêng tư của người khác thì PEP vẫn trả `404 Not Found` để giấu ID, còn nếu là thao tác bấm nhầm nút quản trị thì trả `403 Forbidden`.
+
+Vậy bên trong hộp màu tím OpenFGA đó, toàn bộ ma trận quyền của Ekila LMS được viết thành luật cụ thể trông ra sao? Mời mọi người nhìn nguyên văn bản thiết kế ở **Trang 12**."
 
 ---
 
 ### Trang 12 — Authorization Model (OpenFGA DSL) chuẩn quyền B2C (`33:00 – 36:00`)
-- **Trên màn hình slide:** Toàn bộ file `ekila-lms-model.fga` (Schema 1.1) gồm 7 loại đối tượng: `user`, `platform`, `course`, `lesson`, `quiz`, `quiz_attempt`, `order` và hộp xanh tóm tắt 4 quy tắc then chốt bên dưới.
-- **Hướng dẫn đọc nhanh để ai nhìn vào cũng hiểu DSL:**
-  - `type ...`: tên đối tượng trong hệ thống (`course`, `lesson`, `quiz`...).
-  - `define relation: [loại_nguồn]`: quan hệ trực tiếp được lưu thành dữ liệu trong DB.
-  - `define quyền: A or B from C`: quyền tính toán tự động (hoặc là `A`, hoặc đi theo cạnh `C` lên đối tượng cha lấy quan hệ `B`).
-- **Lời thuyết trình gợi ý:**
-  > "Trang này là bản thiết kế phân quyền hoàn chỉnh (`schema 1.1`) viết bằng OpenFGA DSL, khớp 100% ma trận quyền B2C của Ekila LMS — chỉ khoảng 50 dòng nhưng bao quát toàn bộ quan hệ của hệ thống:  
-  > - Cấp cao nhất là **`platform`** chứa `system_admin` và `content_admin`.  
-  > - Dưới đó là **`course`**, gắn tới `platform`, có `instructor` và `enrolled`. Hãy nhìn cách DSL tách rạch ròi 2 quyền:  
-  >   - `can_edit`: cho phép `instructor` hoặc `content_admin / system_admin from platform`.  
-  >   - `can_publish`: **cố tình bỏ `instructor` ra ngoài**, chỉ cho phép 2 vai trò Admin duyệt xuất bản.  
-  > - Với **`lesson`**: ngoài việc kế thừa `can_view_content from parent_course`, ta có `preview_viewer: [user:*]` — ký hiệu `user:*` cho phép **mọi học viên chưa mua** đều xem được các bài học thử miễn phí (`can_view`), nhưng **`can_track_progress` vẫn chặn** (chỉ ai `can_learn` mới lưu tiến độ).  
-  > - Với **`quiz` và `quiz_attempt`**: vì Quiz của Ekila là trắc nghiệm **hệ thống tự động chấm điểm**, quyền `can_draft_or_submit` khóa cứng chỉ thuộc về `owner` (chính học viên đó nộp bài, Admin cũng không nộp thay được). Còn `can_view_result` mở cho `owner` hoặc đi ngược 3 cấp (`quiz_attempt → quiz → course`) để Giảng viên khóa đó xem báo cáo điểm.  
-  > - Cuối cùng là **`order`**: `can_view` cho người mua + cả 2 Admin, nhưng **`can_cancel` loại trừ `content_admin`**, chỉ cho người mua hoặc `system_admin` hủy đơn."
+
+`[Chỉ màn hình: Giới thiệu tổng quan 2 khung code chia làm 7 khối "type" ("user", "platform", "course" bên trái; "lesson", "quiz", "quiz_attempt", "order" bên phải), sau đó trỏ xuống hộp xanh "4 quy tắc chính" ở góc dưới phải.]`
+
+"Trên màn hình hiện tại là trọn vẹn file mô hình phân quyền `ekila-lms-model.fga` viết theo chuẩn **OpenFGA DSL** phiên bản **Schema 1.1** — chỉ dài khoảng 50 dòng nhưng bao phủ trọn vẹn và khớp 100% với ma trận phân quyền thực tế của bốn vai trò trong mô hình B2C tại Ekila LMS.
+
+Trước khi đọc vào từng dòng, mình chỉ cần nắm hai quy ước cú pháp cực kỳ đơn giản của ngôn ngữ này. Dòng nào có dấu ngoặc vuông kiểu `define instructor: [user]` nghĩa là **quan hệ gốc** được lưu thành dữ liệu thật trong database. Còn dòng nào viết thành biểu thức như `define can_edit: instructor or content_admin from platform` nghĩa là **quyền tự suy diễn**: hệ thống sẽ tự kiểm tra xem bạn có nằm trong tập `instructor` hay không, hoặc đi men theo cạnh `platform` lên cấp cha để kiểm tra xem bạn có phải `content_admin` trên sàn hay không.
+
+Hãy lướt qua từ cột trái sang cột phải để thấy cái hay của cách viết khai báo này trong việc khóa chặt **bốn quy tắc nghiệp vụ quan trọng nhất** được tóm tắt ở hộp xanh góc dưới phải. Ở cột bên trái, dưới `type user` và `type platform` giữ hai vai trò quản trị toàn sàn là `system_admin` và `content_admin`, chúng ta có `type course` nối với `platform`, giữ danh sách `instructor` và `enrolled`. Mọi người để ý ngay hai dòng bên dưới: quyền `can_edit` cho phép giảng viên hoặc hai Admin chỉnh sửa khóa học, nhưng ngay dòng `can_publish` bên dưới thì **cố tình loại `instructor` ra ngoài**, chỉ cho phép `content_admin` hoặc `system_admin` từ `platform` duyệt xuất bản khóa học lên sàn.
+
+Chuyển mắt sang cột bên phải, ở `type lesson`, ngoài việc kế thừa quyền xem nội dung `can_view_content from parent_course` dành cho học viên đã mua và giảng viên, ta khai báo thêm quan hệ `preview_viewer: [user:*]`. Ký hiệu dấu hoa thị **`user:*`** trong OpenFGA có nghĩa là *tất cả mọi người dùng*, nhờ đó bất kỳ ai dù chưa mua khóa học đều có thể xem được những bài học cho phép học thử miễn phí qua quyền `can_view`. Thế nhưng nhìn ngay dòng kế tiếp: quyền **`can_track_progress` lại chỉ lấy từ `can_learn from parent_course`**, mà `can_learn` thì chỉ mở cho `enrolled`. Ý nghĩa nghiệp vụ ở đây cực kỳ chặt chẽ: khách vãng lai xem video học thử thoải mái, nhưng hệ thống chặn tuyệt đối không cho phép ghi nhận tiến độ học tập vào cơ sở dữ liệu hay tính điều kiện cấp chứng chỉ.
+
+Tiếp tục xuống hai loại đối tượng bên dưới là `quiz` và `quiz_attempt`, bên cạnh có ghi chú rất rõ là **hệ thống tự động chấm**. Vì bài kiểm tra trắc nghiệm ở Ekila do hệ thống chấm tự động chứ không phải giảng viên chấm tay, nên trên `quiz_attempt`, quyền **`can_draft_or_submit` (lưu nháp và nộp bài) được khóa cứng chỉ thuộc về duy nhất `owner`** — tức chính học viên làm bài đó mới có quyền nộp, ngay cả giảng viên hay System Admin cũng không thể bấm nộp bài thay được. Trong khi đó, quyền `can_view_result` lại mở cho `owner` hoặc đi ngược ba cấp từ lượt làm bài lên bài Quiz rồi lên khóa học thông qua `course_reporter`, giúp giảng viên đứng lớp xem được báo cáo điểm tổng hợp của khóa mình.
+
+Và cuối cùng ở đáy cột phải là `type order`: quyền `can_view` mở cho người mua `buyer` cùng cả hai vai trò Admin để Content Admin hỗ trợ kiểm tra đơn khi học viên nhắn tin hỏi, nhưng quyền **`can_cancel` chủ động loại trừ `content_admin`**, chỉ giữ lại đúng `buyer` hoặc `system_admin` được phép hủy đơn hàng.
+
+Chỉ với 50 dòng code ngắn ngủi, dễ đọc như văn xuôi như thế này, cả team Backend, Frontend lẫn QA có thể mở ra đọc chung trên một Pull Request là phát hiện ngay chỗ nào hở quyền hay sai nghiệp vụ. Và để chứng minh mô hình này chạy thật ngoài đời như thế nào chứ không chỉ là chữ viết trên slide, mời mọi người sang **Trang 13** để mình thao tác trực tiếp trên **OpenFGA Playground**."
 
 ---
 
 ### Trang 13 — Live Demo: OpenFGA Playground (`36:00 – 41:30`)
-- **Trên màn hình slide:** Khung nhúng giao diện **OpenFGA Playground** với dữ liệu Store `ekila-lms-b2c` (7 Types, 15 Tuples) chạy thuật toán duyệt đồ thị ReBAC trực tiếp trên trình duyệt, kèm nút **`Phóng to Iframe`** và **`Mở tab riêng`**.
-- **Giới thiệu nhanh 4 vùng giao diện trước khi chạy luồng:**
-  - **Trên trái (`AUTHORIZATION MODEL`):** Schema 1.1 của Ekila LMS gồm 7 Types (xem dạng **DSL** hoặc **JSON**).
-  - **Dưới trái (`Tuples (15)` | `Assertions (19)` + `+ ADD TUPLE >`):** Danh sách 15 quan hệ đang có trong hệ thống; có thể thêm/xóa tuple sống hoặc bấm **`ASSERTIONS (19/19)`** để chạy toàn bộ 19 kịch bản kiểm thử tự động.
-  - **Trên phải (`TYPES PREVIEWER`):** Đồ thị phân cấp 7 Types + các đường nối cong nét đứt thể hiện mối phụ thuộc quyền; hỗ trợ **cuộn chuột zoom / kéo di chuyển / `-`, `+`, `Fit`** và nút **`<` / `ẨN BẢNG TRÁI`** để bung rộng đồ thị.
-  - **Dưới phải (`TUPLE QUERIES`):** Hộp truy vấn `is [user] related to [object] as [relation]` + nút preset tình huống, trả kết quả **`ALLOWED (allowed: true)`** / **`DENIED (allowed: false)`** kèm đường đi duyệt đồ thị (**`Traversal`**).
 
-- **Chuẩn bị dữ liệu mẫu cho cả phòng nắm trước khi bấm (15 giây):**
-  > "Trong Store `ekila-lms-b2c`, mình đã dựng sẵn 6 nhân vật đúng bối cảnh B2C: anh **Cường** (`system_admin`), chị **Linh** (`content_admin`), giảng viên **Duy** dạy khóa `spring-boot`, giảng viên **Minh** dạy khóa `nextjs-pro`, học viên **Khánh** đã mua khóa `spring-boot`, và học viên **An** chưa mua khóa nào. Mình sẽ bấm **`Phóng to Iframe`** để cả phòng dễ theo dõi 6 luồng demo thực tế sau:"
+`[Thao tác: Bấm nút "Phóng to Iframe" ở góc trên bên phải khung nhúng để mở toàn màn hình OpenFGA Playground cho cả phòng nhìn rõ.]`
 
-- **Giải thích chi tiết từng luồng Demo (Thao tác + Cơ chế đồ thị + Cách PEP xử lý + Lời nói):**
+"Trên màn hình lúc này là giao diện của **OpenFGA Playground** được nạp sẵn toàn bộ mô hình và dữ liệu mẫu của Store **`ekila-lms-b2c`** gồm bảy loại đối tượng và mười lăm quan hệ dữ liệu ban đầu. Trước khi bấm chạy thử các tình huống, mình xin phép giới thiệu nhanh bố cục bốn vùng trên màn hình này để mọi người nhìn phát hiểu ngay nó đang vận hành ra sao.
 
-  1. **Luồng 1 — Học viên đã mua khóa học (`Khánh học JWT`):**
-     - **Thao tác:** Bấm preset **`Khánh học JWT`** (`is user:khanh related to lesson:jwt-01 as can_view`).
-     - **Kết quả:** **`ALLOWED (allowed: true)`** — *Traversal:* `lesson:jwt-01#can_view -> (parent_course) course:spring-boot#can_view_content -> enrolled -> course:spring-boot#enrolled@user:khanh`.
-     - **Giải thích rõ để nói:**
-       > "Các bạn để ý: trong bảng `Tuples` bên trái **không hề có dòng nào gán trực tiếp Khánh với bài giảng `lesson:jwt-01`**. Nhưng OpenFGA đọc model thấy bài giảng nối `parent_course` về `course:spring-boot`, và thấy Khánh có tuple `enrolled` ở khóa học đó → tự suy diễn bắc cầu ra `allowed: true`. Nhờ vậy một khóa có 100 bài học và 10 bài quiz chỉ cần lưu **đúng 1 tuple ghi danh ở cấp khóa**, không bị phình dữ liệu. Phía service Catalog/Learning (PEP) nhận `true` thì trả `200 OK` và cấp link video."
+`[Chỉ màn hình: Trỏ lần lượt theo 4 góc của giao diện OpenFGA Playground.]`
 
-  2. **Luồng 2 — Chống IDOR khi học viên chưa mua bài trả phí (`An chưa mua`):**
-     - **Thao tác:** Bấm preset **`An chưa mua`** (`is user:an related to lesson:jwt-01 as can_view`).
-     - **Kết quả:** **`DENIED (allowed: false)`** — *Traversal:* `Checked lesson:jwt-01#preview_viewer=[trống] | course:spring-boot#enrolled=[user:khanh] | course:spring-boot#instructor=[user:duy] | ...`
-     - **Giải thích rõ để nói:**
-       > "Bây giờ giả sử bạn **An** chưa mua khóa học nhưng cố tình đổi ID trên URL để mở trộm bài `lesson:jwt-01` (tấn công IDOR). Trên dòng `Traversal`, OpenFGA đi kiểm tra hết: bài này không mở `preview_viewer`, tập `enrolled` của khóa chỉ có mỗi Khánh, cũng không phải giảng viên hay admin → trả **`allowed: false`**. Điểm mấu chốt ở đây là **PEP của Ekila LMS sẽ dịch `false` này thành HTTP `404 Not Found` thay vì `403`**, để kẻ tấn công dò ID không biết bài giảng đó có tồn tại hay không."
+Ở **góc trên bên trái** là ô **`AUTHORIZATION MODEL`**, chính là toàn bộ 50 dòng DSL mình vừa giải thích ở Trang 12; ở đây còn có nút chuyển qua lại giữa dạng `DSL` dễ đọc cho người và dạng `JSON` mà hệ thống biên dịch để chạy. Ngay phía dưới là **góc dưới bên trái** chứa hai tab **`Tuples (15)`** và **`Assertions (19)`** kèm nút **`+ ADD TUPLE >`**: tab Tuples đang liệt kê đúng 15 sợi dây quan hệ hiện có trong bộ nhớ, còn tab Assertions là nơi chứa 19 ca kiểm thử tự động luôn chạy xanh `19/19` mỗi khi mô hình thay đổi.
 
-  3. **Luồng 3 — Tách quyền học thử miễn phí (`user:*`) khỏi quyền lưu tiến độ (`An học Preview`):**
-     - **Thao tác 1:** Bấm preset **`An học Preview`** (`is user:an related to lesson:intro-preview as can_view`) → **`ALLOWED (allowed: true)`**.
-     - **Thao tác 2 (đổi action ngay tại chỗ):** Giữ nguyên `user:an` và `lesson:intro-preview`, đổi dropdown `as` từ `can_view` sang **`can_track_progress`** → **`DENIED (allowed: false)`**.
-     - **Giải thích rõ để nói:**
-       > "Với các bài giới thiệu miễn phí, ta chỉ cần thêm đúng 1 tuple `lesson:intro-preview#preview_viewer@user:*` (dấu `*` đại diện cho mọi user). Nhờ đó **An** chưa mua khóa vẫn xem được bài học thử (`can_view` = `true`). Nhưng nhìn bước thứ hai: khi đổi sang **`can_track_progress`**, OpenFGA trả **`false`** ngay lập tức, vì model quy định chỉ học viên đã `can_learn` (`enrolled`) mới được lưu tiến độ học và tính điều kiện cấp chứng chỉ — khách vãng lai xem thử sẽ không ghi rác vào database tiến độ."
+Bây giờ mọi người đưa mắt sang **góc trên bên phải** — đây chính là **sơ đồ đồ thị `TYPES PREVIEWER`** rất đặc trưng của OpenFGA, vẽ ra để giúp kỹ sư quan sát toàn bộ cấu trúc phân cấp và đường phụ thuộc quyền chỉ trong một cái liếc mắt. Nhìn bảng chú giải màu ở góc dưới bên trái của vùng đồ thị này: chấm tròn màu xám ở chính giữa đại diện cho **STORE (`ekila-lms-b2c`)**. Từ cái tâm màu xám đó, bảy đường thẳng tỏa ra bảy chấm tròn màu tím đại diện cho bảy **TYPE** trong hệ thống của chúng ta gồm `user`, `platform`, `course`, `lesson`, `quiz`, `quiz_attempt` và `order`. Tiếp tục từ mỗi chấm tím Type lại tỏa ra các chấm tròn nhỏ màu xanh ngọc đại diện cho các **RELATIONS** — tức là các quan hệ và quyền định nghĩa trên đối tượng đó, ví dụ xung quanh `course` tỏa ra `instructor`, `enrolled`, `can_edit`, `can_publish`... Và điều hay nhất trên sơ đồ này là những **đường cong nét đứt** nối giữa các chấm xanh ngọc với nhau: chúng vẽ ra lộ trình phụ thuộc logic bên trong model, chẳng hạn từ `can_view` của `lesson` sẽ có hai đường cong nét đứt móc sang `preview_viewer` và `parent_course`. Khi mình chạy một câu truy vấn kiểm tra quyền ở hộp bên dưới, đồ thị này sẽ tự động phát sáng đúng nhánh đang kiểm tra — biến thành **màu xanh lá** nếu hợp lệ và **màu đỏ** nếu bị từ chối.
 
-  4. **Luồng 4 — Gỡ phụ thuộc chéo Assessment ↔ Catalog & Chống giảng viên sửa chéo khóa (`Duy sửa Quiz` vs `Duy sửa chéo`):**
-     - **Thao tác 1:** Bấm preset **`Duy sửa Quiz`** (`is user:duy related to quiz:quiz-auth as can_manage_questions`) → **`ALLOWED (allowed: true)`**.
-     - **Thao tác 2:** Bấm preset **`Duy sửa chéo`** (`is user:duy related to course:nextjs-pro as can_edit`) → **`DENIED (allowed: false)`** (*Traversal:* `course:nextjs-pro#instructor=[user:minh] | ...`).
-     - **Giải thích rõ để nói:**
-       > "Đây chính là ca giải quyết **điểm nghẽn ở Trang 10**: trước đây khi giảng viên Duy vào **Assessment** sửa câu hỏi của `quiz:quiz-auth`, Assessment phải gọi HTTP sang **Catalog** để hỏi chủ khóa; nếu Catalog sập là Assessment báo `503`. Giờ Assessment hỏi thẳng OpenFGA, chỉ mất dưới 1ms để suy ra Duy là `instructor` của khóa cha → cho phép sửa câu hỏi độc lập hoàn toàn với Catalog!  
-       > Ngược lại khi bấm **`Duy sửa chéo`**: dù JWT của Duy vẫn mang Role `INSTRUCTOR` (RBAC thông thường dễ lọt), nhưng sang khóa `course:nextjs-pro` do Minh đứng tên, OpenFGA thấy `instructor=[user:minh]` chứ không phải Duy → chặn đứng luôn."
+Và vùng cuối cùng ở **góc dưới bên phải** là **`TUPLE QUERIES`**, nơi ta hỏi trực tiếp engine câu hỏi kinh điển *`is [user] related to [object] as [relation]`*, kèm sáu nút tình huống nhanh mình đã chuẩn bị sẵn, dòng hiển thị kết quả **`ALLOWED` / `DENIED`**, thời gian thực thi tính bằng mili-giây và dòng **`Traversal`** vết lại đúng từng bước máy đã đi trên đồ thị.
 
-  5. **Luồng 5 — Ranh giới quyền Admin & Bảo vệ bài làm Quiz tự chấm (`Linh hủy đơn` + Kiểm tra `quiz_attempt`):**
-     - **Thao tác 1:** Bấm preset **`Linh hủy đơn`** (`is user:linh related to order:ord-khanh-01 as can_cancel`) → **`DENIED (allowed: false)`**. Sau đó đổi `as` sang **`can_view`** → **`ALLOWED (allowed: true)`**.
-     - **Thao tác 2 (tùy chọn nếu còn thời gian):** Chọn `user:duy` | `quiz_attempt:att-khanh-01` | `can_draft_or_submit` → **`DENIED (allowed: false)`**; đổi sang `can_view_result` → **`ALLOWED (allowed: true)`**.
-     - **Giải thích rõ để nói:**
-       > "Luồng này chứng minh mô hình khớp chính xác ma trận quyền B2C của dự án: chị **Linh (`CONTENT_ADMIN`)** được xem đơn hàng (`can_view` = `true`) để hỗ trợ học viên, nhưng **bị cấm hủy đơn (`can_cancel` = `false`)** vì việc hủy/hoàn tiền thuộc quyền `buyer` hoặc `SYSTEM_ADMIN` (anh Cường). Tương tự với **`quiz_attempt`** (hệ thống tự động chấm điểm): giảng viên Duy hay Admin không thể nộp bài thay học viên (`can_draft_or_submit` = `false`), nhưng Duy vẫn xem được điểm báo cáo (`can_view_result` = `true`) nhờ kế thừa 3 cấp từ `quiz_attempt → quiz → course`."
+Để dễ theo dõi sáu kịch bản demo sắp tới, mọi người nhớ giúp mình sáu nhân vật trong dữ liệu mẫu này: anh **Cường** là `system_admin`, chị **Linh** là `content_admin`, giảng viên **Duy** phụ trách khóa `spring-boot`, giảng viên **Minh** phụ trách khóa `nextjs-pro`, học viên **Khánh** đã bỏ tiền mua khóa `spring-boot`, còn học viên **An** là tài khoản mới chưa mua bất kỳ khóa học nào. Bây giờ mình bắt đầu chạy từng tình huống thực tế của Ekila LMS.
 
-  6. **Luồng 6 — Live Mutation: Mô phỏng thanh toán VietQR Outbox cấp quyền tức thì (`+ ADD TUPLE >`):**
-     - **Thao tác:** Bấm **`+ ADD TUPLE >`** ở bảng Tuples bên trái (đã điền sẵn `user:an` | `enrolled` | `course:spring-boot`) → bấm **`SAVE`** → bấm lại preset **`An chưa mua`** (`user:an` | `lesson:jwt-01` | `can_view`) → kết quả lập tức lật sang **`ALLOWED (allowed: true)`** và nhánh đồ thị bên phải sáng màu xanh! (Thử đổi sang `quiz:quiz-auth` + `can_attempt` cũng thành `true`. Cuối cùng bấm **`RESET (15)`** để khôi phục dữ liệu mẫu).
-     - **Giải thích rõ để nói:**
-       > "Cuối cùng, hãy xem kịch bản thanh toán thực tế: ngay giây phút bạn **An** quét VietQR thanh toán xong, worker **Outbox** của dịch vụ Commerce vừa ghi danh sang Learning, vừa gọi API ghi thêm **đúng 1 tuple** `course:spring-boot#enrolled@user:an` vào OpenFGA. Quay lại check quyền vào bài `lesson:jwt-01` của An: lập tức chuyển từ `DENIED` sang **`ALLOWED`**. Đặc biệt là **An không cần đăng xuất để xin cấp lại JWT mới** như cách nhét quyền vào token — vừa realtime, vừa tách rời hoàn toàn logic phân quyền khỏi tầng AuthN!"
+`[Thao tác Luồng 1: Bấm nút preset "Khánh học JWT" → chỉ vào kết quả ALLOWED và dòng Traversal ở dưới cùng, rồi chỉ lên chấm xanh phát sáng trên đồ thị lesson -> can_view.]`
 
-  - **Kết thúc phần Demo:** Bấm **`Thu nhỏ (Esc)`** (hoặc phím `Esc`) để thu gọn iframe về slide và chuyển sang **Trang 14**.
+Tình huống đầu tiên là **Khánh học JWT** — kiểm tra xem học viên Khánh đã mua khóa học thì có xem được bài giảng `lesson:jwt-01` hay không. Mọi người nhìn thấy kết quả trả về **`ALLOWED (allowed: true)`** ngay tức thì và trên đồ thị `lesson`, nút `can_view` cùng đường cong sang `parent_course` sáng màu xanh lá. Điều thú vị là nếu liếc sang bảng `Tuples (15)` bên trái, hoàn toàn **không có bất kỳ dòng dữ liệu nào gán trực tiếp Khánh với bài giảng `lesson:jwt-01`**. Nhưng nhìn vào dòng `Traversal` ở dưới đáy: OpenFGA tự động đi từ bài `lesson:jwt-01` qua cạnh `parent_course` lên khóa `course:spring-boot`, kiểm tra tiếp thấy có dòng `enrolled` gắn với `user:khanh` và suy diễn ra kết quả cho phép. Điều này chứng minh một khóa có hàng trăm bài học và bài kiểm tra cũng chỉ cần lưu đúng một dòng dữ liệu ghi danh ở cấp khóa học là đủ.
+
+`[Thao tác Luồng 2: Bấm nút preset "An chưa mua" → chỉ vào kết quả DENIED (allowed: false) màu đỏ và nhánh đỏ trên đồ thị.]`
+
+Sang tình huống thứ hai, giả sử bạn **An** chưa mua khóa học nhưng cố tình sửa ID bài giảng trên thanh địa chỉ trình duyệt để xem trộm bài `lesson:jwt-01` — đúng kịch bản tấn công IDOR. Khi mình bấm nút **An chưa mua**, ngay lập tức đồ thị đổi sang màu đỏ và kết quả trả về **`DENIED (allowed: false)`**. Dòng `Traversal` giải thích rất minh bạch lý do từ chối: máy đã kiểm tra mục `preview_viewer` của bài này đang trống, tập `enrolled` của khóa học chỉ có mình Khánh, và An cũng không phải giảng viên hay admin. Khi nhận kết quả `false` này từ OpenFGA, code PEP bên phía Ekila LMS sẽ lập tức chuyển thành mã lỗi HTTP **`404 Not Found`** để An không thể biết được ID bài giảng này có tồn tại trong hệ thống hay không.
+
+`[Thao tác Luồng 3: Bấm nút preset "An học Preview" → chỉ vào ALLOWED; sau đó giữ nguyên user:an và lesson:intro-preview, mở dropdown "as" đổi "can_view" thành "can_track_progress" → chỉ vào DENIED.]`
+
+Bây giờ đến tình huống thứ ba — kiểm tra sự tinh tế khi tách quyền học thử miễn phí khỏi quyền lưu tiến độ. Mình bấm nút **An học Preview**: vì bài giới thiệu `lesson:intro-preview` được gắn thẻ `preview_viewer` là `user:*`, nên dù chưa mua khóa, bạn An vẫn xem video bình thường với kết quả **`ALLOWED (allowed: true)`**. Nhưng ngay tại đây, mình thử giữ nguyên người dùng `user:an` và bài học `lesson:intro-preview`, chỉ đổi hành động ở ô cuối từ `can_view` sang **`can_track_progress`**. Mọi người thấy điều gì xảy ra? Hệ thống lập tức lật sang **`DENIED (allowed: false)`**! Bởi vì mô hình DSL quy định chỉ ai đã ghi danh mới có quyền lưu tiến độ và tính điều kiện cấp chứng chỉ, nhờ vậy khách vãng lai vào xem thử miễn phí không bao giờ ghi rác được vào cơ sở dữ liệu học tập.
+
+`[Thao tác Luồng 4: Bấm nút preset "Duy sửa Quiz" → chỉ vào ALLOWED; tiếp theo bấm preset "Duy sửa chéo" → chỉ vào DENIED.]`
+
+Tình huống thứ tư trả lời trực diện cho điểm nghẽn lỗi 503 mà mình chỉ ra ở Trang 10. Khi mình bấm nút **Duy sửa Quiz** — tức là kiểm tra trong dịch vụ Assessment xem giảng viên Duy có được sửa ngân hàng câu hỏi của `quiz:quiz-auth` hay không — OpenFGA trả về **`ALLOWED (allowed: true)`** trong tích tắc mà Assessment hoàn toàn không phải gọi một lời nào sang Catalog. Thế nhưng ngay khi mình bấm sang nút **Duy sửa chéo**, giả sử Duy cố tình gọi API sửa khóa `course:nextjs-pro` do giảng viên Minh đứng tên: dù trong JWT của Duy vẫn mang vai trò giảng viên giống hệt Minh, OpenFGA soi thấy `instructor` của khóa Next.js là `user:minh` chứ không phải Duy nên chặn đứng **`DENIED (allowed: false)`** ngay lập tức.
+
+`[Thao tác Luồng 5: Bấm preset "Linh hủy đơn" → chỉ DENIED, rồi đổi dropdown "as" sang "can_view" → chỉ ALLOWED; nếu dư thời gian, chọn thêm user:duy | quiz_attempt:att-khanh-01 | can_draft_or_submit → DENIED và đổi sang can_view_result → ALLOWED.]`
+
+Ở tình huống thứ năm mang tên **Linh hủy đơn**, mình kiểm chứng ranh giới quyền giữa các vai trò quản trị trên sàn B2C: khi kiểm tra quyền `can_cancel` trên đơn hàng của Khánh đối với chị Linh (`CONTENT_ADMIN`), kết quả là **`DENIED`**; nhưng chỉ cần đổi hành động sang `can_view`, kết quả lại chuyển sang **`ALLOWED`**, khớp đúng nghiệp vụ cho phép nhân viên nội dung xem đơn hỗ trợ khách nhưng không được phép hủy đơn hoàn tiền. Tương tự, nếu mình kiểm tra nhanh trên lượt làm bài trắc nghiệm `quiz_attempt:att-khanh-01`, ngay cả giảng viên Duy khi kiểm tra quyền `can_draft_or_submit` cũng bị **`DENIED`** vì bài Quiz tự động chấm chỉ cho phép chính chủ học viên nộp bài, nhưng đổi sang `can_view_result` thì Duy lại được **`ALLOWED`** nhờ cơ chế kế thừa ba cấp từ lượt làm bài lên đề Quiz rồi lên khóa học.
+
+`[Thao tác Luồng 6: Bấm nút "+ ADD TUPLE >" ở bảng Tuples bên trái (đã điền sẵn user:an | enrolled | course:spring-boot) → bấm "SAVE" → bấm lại nút preset "An chưa mua" → chỉ màn hình lúc kết quả lật từ DENIED sang ALLOWED và nhánh đồ thị bật xanh; cuối cùng bấm "RESET (15)" và bấm "Thu nhỏ (Esc)" để về slide 14.]`
+
+Và tình huống thứ sáu là màn trình diễn thực tế nhất để khép lại phần demo: hãy nhớ lại lúc nãy bạn **An** vừa bị chặn đỏ ở nút **An chưa mua** khi cố mở bài giảng `lesson:jwt-01`. Bây giờ giả sử ngay giây phút này An quét mã VietQR thanh toán thành công khóa Spring Boot, và worker **Outbox** của dịch vụ Commerce tự động gọi API ghi thêm đúng một sợi dây quan hệ mới vào OpenFGA. Mình bấm **`+ ADD TUPLE >`**, kiểm tra đúng ba ô đã điền sẵn `user:an`, `enrolled`, `course:spring-boot` rồi bấm **`SAVE`**. Bây giờ không cần làm gì thêm, mình bấm lại đúng nút **`An chưa mua`**: mọi người nhìn lên kết quả — lập tức lật sang **`ALLOWED (allowed: true)`** và cả nhánh đồ thị bên phải sáng xanh rực rỡ! Ý nghĩa đắt giá nhất của khoảnh khắc này là **học viên vừa thanh toán xong có thể vào học ngay lập tức mà hoàn toàn không cần phải đăng xuất rồi đăng nhập lại để xin cấp lại JWT mới** như cách nhét quyền cứng vào token.
+
+Mình xin phép bấm nút `RESET` để trả dữ liệu về trạng thái sạch ban đầu và thu gọn màn hình demo để chúng ta đi tiếp sang **Phần III**, nơi mình bàn thẳng thắn về cái giá phải trả và lộ trình áp dụng thực tế."
 
 ---
 
 ## PHẦN III — TRADE-OFF & KẾT THÚC (TRANG 14 – TRANG 15)
 
 ### Trang 14 — Đánh giá Trade-off & Lộ trình áp dụng thực tế (`41:30 – 44:00`)
-- **Trên màn hình slide:** 2 hộp so sánh *Được gì khi dùng OpenFGA?* (xanh) vs *Đánh đổi (Chi phí & Rủi ro)* (đỏ), và 3 thẻ **Lộ trình Hybrid 3 giai đoạn** (*Giai đoạn 1 MVP* → *Giai đoạn 2 Thí điểm Hybrid* → *Giai đoạn 3 Chuẩn hóa PDP*).
-- **Lời thuyết trình gợi ý:**
-  > "Trong kỹ thuật không có viên đạn bạc — dùng OpenFGA có lợi ích rất rõ nhưng cũng đi kèm 3 cái giá phải trả mà team cần cân nhắc thẳng thắn:  
-  > - **Độ phức tạp vận hành:** Thêm 1 service lõi trong kiến trúc đồng nghĩa với việc phải lo High Availability, monitoring, backup DB riêng cho AuthZ. Nếu OpenFGA chết mà cấu hình fail-closed thì API toàn hệ thống bị ảnh hưởng.  
-  > - **Độ trễ mạng:** Thêm 1 network hop trên mỗi request (cần dùng gRPC, keep-alive và caching hợp lý để giữ dưới vài mili-giây).  
-  > - **Đồng bộ dữ liệu:** Bắt buộc đảm bảo mọi giao dịch mua khóa học, hoàn tiền hay đổi giảng viên không bị lệch Tuple so với DB nghiệp vụ.  
-  >  
-  > Vì vậy mình **không** đề xuất đập hệ thống hiện tại đi viết lại hết ngay, mà nên đi theo **lộ trình Hybrid 3 giai đoạn**:  
-  > - **Giai đoạn 1 (Hiện tại — MVP):** Giữ nguyên RBAC 4 vai trò + lớp chống IDOR trả 404 đang chạy ổn định; ưu tiên làm trước phần **Redis Nonce** chống replay HMAC và hoàn thiện bảo mật Gateway.  
-  > - **Giai đoạn 2 (Thí điểm Hybrid):** Chỉ đưa OpenFGA vào đúng nơi đang đau nhất là cụm **Assessment ↔ Catalog ↔ Learning** (xóa lời gọi HTTP kiểm tra chéo từ Assessment sang Catalog) và móc đồng bộ Tuple vào worker **Outbox VietQR** sẵn có.  
-  > - **Giai đoạn 3 (Chuẩn hóa PDP):** Khi hệ thống mở rộng thêm nhiều giảng viên đồng sở hữu, gói combo hay chia sẻ tài nguyên phức tạp, hợp nhất toàn bộ phân quyền đối tượng qua OpenFGA và bật `ListObjects` cho các API lọc danh sách lớn."
+
+`[Chỉ màn hình: Trỏ vào hai hộp đối lập ở nửa trên ("Lợi ích khi dùng OpenFGA" màu xanh vs "Chi phí & Đánh đổi" màu đỏ), rồi lướt tay lần lượt qua 3 thẻ lộ trình ở nửa dưới ("Giai đoạn 1 (Hiện tại — MVP)", "Giai đoạn 2 (Thí điểm Hybrid)", "Giai đoạn 3 (Chuẩn hóa PDP)").]`
+
+"Nhìn demo chạy mượt mà như vậy, nhưng với tư cách là những người trực tiếp code và vận hành hệ thống mỗi ngày, anh em mình phải nói chuyện thẳng thắn với nhau rằng trong kỹ thuật phần mềm không hề có viên đạn bạc nào hoàn hảo cả. Đặt lên bàn cân ở nửa trên slide, hộp màu xanh ghi nhận những lợi ích rất rõ ràng: chúng ta gỡ được hoàn toàn đường gọi chéo HTTP giữa Assessment và Catalog, gom toàn bộ quy tắc phân quyền về một nguồn chân lý duy nhất để viết kiểm thử tự động bằng YAML, và sẵn sàng mở rộng cho những tính năng tương lai như đồng giảng viên hay bán gói combo.
+
+Thế nhưng nhìn sang hộp màu đỏ ngay bên cạnh, đó là ba cái giá hoàn toàn có thật mà team phải tính tới nếu đưa OpenFGA vào chạy thực tế. Thứ nhất là gánh nặng **vận hành**: đưa thêm một dịch vụ lõi vào kiến trúc nghĩa là mình phải lo thêm cấu hình dự phòng sẵn sàng cao — gọi là **HA** (*High Availability*) — kèm theo giám sát, cảnh báo và sao lưu cho chính kho dữ liệu phân quyền đó. Đặc biệt, trong bảo mật người ta thường chọn chế độ **fail-closed**, tức là nếu OpenFGA lỡ gặp sự cố không phản hồi thì hệ thống thà từ chối request chứ không cho đi qua bừa; điều đó đồng nghĩa nếu OpenFGA sập mà không có dự phòng, toàn bộ các API kiểm tra quyền sẽ bị ảnh hưởng theo. Thứ hai là **độ trễ mạng**: mỗi lượt kiểm tra quyền đều phát sinh thêm một chặng gọi qua mạng tới OpenFGA, cho nên bắt buộc phải dùng giao thức hiệu năng cao **gRPC** (*Google Remote Procedure Call*), giữ kết nối thường trực và tính toán chiến lược bộ nhớ đệm hợp lý để giữ thời gian phản hồi chỉ ở mức vài mili-giây. Và thứ ba là **kỷ luật đồng bộ dữ liệu**: mọi biến động nghiệp vụ như mua khóa học, hoàn tiền hủy đơn hay chuyển đổi giảng viên đều phải đi qua Outbox Pattern để cập nhật Tuple khớp tuyệt đối với cơ sở dữ liệu gốc, bởi vì chỉ cần lệch một dòng quan hệ là sinh lỗi phân quyền ngay.
+
+Chính vì cân nhắc cả mặt được lẫn mặt mất như vậy, mình **tuyệt đối không đề xuất chuyện đập hệ thống đang chạy đi viết lại từ đầu**, mà muốn gợi ý cho team một **lộ trình lai (Hybrid) chia làm ba giai đoạn** như ba thẻ ở nửa dưới màn hình. Ở **Giai đoạn 1 hiện tại của bản MVP**, mọi thứ với bốn vai trò RBAC và cơ chế ẩn lỗi `404` chống IDOR vẫn đang chạy ổn định, nên chúng ta giữ nguyên cấu trúc đó và ưu tiên làm trước phần **Redis Nonce** để khóa nốt lỗ hổng phát lại chữ ký HMAC trong cửa sổ 60 giây. Bước sang **Giai đoạn 2 — Thí điểm Hybrid**, ta chỉ mang OpenFGA đặt vào đúng nơi đang đau nhất là cụm **Assessment, Catalog và Learning** nhằm cắt đứt cuộc gọi HTTP chéo sang Catalog gây lỗi `503`, đồng thời gắn bước đồng bộ Tuple vào ngay worker Outbox VietQR sẵn có của Commerce. Và cuối cùng chỉ khi bước vào **Giai đoạn 3**, lúc sản phẩm phát triển thêm những bài toán quan hệ phức tạp hơn như nhiều giảng viên cùng sở hữu một khóa, bán gói combo hay mở rộng sang mô hình doanh nghiệp B2B, khi đó team mới hợp nhất toàn bộ phân quyền đối tượng qua OpenFGA và bật thêm hàm `ListObjects` để tối ưu truy vấn cho các màn hình danh sách dữ liệu lớn.
+
+Mời mọi người chuyển sang **Trang 15** để mình tóm gọn lại buổi chia sẻ và mở phần trao đổi cùng cả phòng."
 
 ---
 
 ### Trang 15 — Tổng kết & Q&A (`44:00 – 45:00` → Phiên Q&A `45:00 – 60:00`)
-- **Trên màn hình slide:** Màn hình kết thúc sạch sẽ với 3 thẻ nhắc nhớ (*1. Phân tách rạch ròi*, *2. Zero Trust thực chiến*, *3. Lộ trình Hybrid*) và lời mời đặt câu hỏi.
-- **Lời thuyết trình gợi ý:**
-  > "Để khép lại phần trình bày, mình xin tóm tắt lại 3 thông điệp cốt lõi:  
-  > 1. **Phân tách đúng việc:** Identity/Keycloak lo **AuthN**, RBAC lo **quyền API thô**, và ReBAC (OpenFGA) lo **quan hệ tài nguyên mịn**.  
-  > 2. **Zero Trust thực chiến:** Kết hợp chốt chặn Gateway + HMAC 5-Tuple nội bộ + PEP/PDP + ẩn lỗi `403 → 404` để chặn cả di chuyển ngang lẫn IDOR.  
-  > 3. **Đi từng bước thực tế:** Chọn lộ trình Hybrid, thí điểm OpenFGA ngay ở điểm đau gọi chéo `Assessment ↔ Catalog` thay vì làm lại từ đầu.  
-  >  
-  > Cảm ơn các anh chị Mentor, Tech Lead và mọi người đã lắng nghe. Bây giờ mình xin mời mọi người đặt câu hỏi, góp ý hoặc phản biện để cả team cùng mổ xẻ sâu hơn!"
+
+`[Chỉ màn hình: Trỏ nhẹ qua 3 thẻ tóm tắt ("1. Phân tách rạch ròi", "2. Zero Trust thực chiến", "3. Lộ trình Hybrid"), sau đó hướng ánh nhìn xuống cả phòng để mở đầu phần thảo luận.]`
+
+"Để khép lại phần trình bày dài 45 phút vừa rồi, mình chỉ mong sau buổi hôm nay anh em mình nhớ đúng ba thông điệp cốt lõi hiện trên màn hình. Thông điệp thứ nhất là **phân tách rạch ròi đúng việc**: để tầng Identity hoặc Keycloak lo chuyện xác thực danh tính **AuthN**, để RBAC lo phân quyền thô theo nhóm API và menu, còn những mối quan hệ phức tạp tới từng bản ghi dữ liệu thì giao cho ReBAC và OpenFGA đảm nhiệm. Thông điệp thứ hai là **Zero Trust thực chiến**: bảo mật Microservices không nằm ở một bức tường lửa ngoài cùng mà nằm ở chuỗi phòng thủ phối hợp từ bước tước header giả tại Gateway, ký nội bộ HMAC 5-Tuple, tách người thực thi PEP khỏi bộ não ra quyết định PDP cho tới việc ẩn lỗi `403` thành `404` để chặn cả di chuyển ngang lẫn lỗ hổng IDOR. Và thông điệp thứ ba là **lộ trình đi từng bước thực tế**: chọn giải pháp lai, giữ nguyên những gì đang hoạt động tốt và chỉ thí điểm OpenFGA ngay tại điểm đau gọi chéo giữa Assessment và Catalog thay vì làm lại từ đầu.
+
+Cảm ơn các anh chị Mentor, Tech Lead và tất cả mọi người đã ngồi lắng nghe rất chăm chú tới giờ phút này. Bây giờ là khoảng thời gian dành cho trao đổi mở — rất mong nhận được những câu hỏi, góc nhìn phản biện hay những ca nghiệp vụ hóc búa của Ekila LMS từ mọi người để cả team cùng mổ xẻ sâu hơn!"
 
 ---
 
-## LIÊN KẾT MỞ RỘNG KHI THUYẾT TRÌNH & PHẢN BIỆN
-- **Khi vào phần Q&A (15–20 phút):** Mở [Cẩm nang Phản biện Q&A (`PHAN_BIEN_QA.md`)](PHAN_BIEN_QA.md) để tra nhanh 12 câu hỏi hóc búa (Keycloak vs OpenFGA, nhét `courseId` vào JWT, lọc 10.000 khóa học chống `N+1`, Fail-open vs Fail-closed, đồng bộ Outbox & *New Enemy*, giữ 404 IDOR, Redis Nonce, `ListObjects` với DB phân trang...).
-- **Khi cần xem kịch bản tổng thể 60 phút & checklist chuẩn bị:** Mở [Kế hoạch & Kịch bản 60 phút (`KE_HOACH_VA_KICH_BAN_60P.md`)](KE_HOACH_VA_KICH_BAN_60P.md).
-- **Khi cần hướng dẫn chạy Docker OpenFGA / tích hợp Java Spring Boot PEP:** Mở [Hướng dẫn mô phỏng & tích hợp OpenFGA (`HUONG_DAN_MO_PHONG_OPENFGA_EKILA_LMS.md`)](HUONG_DAN_MO_PHONG_OPENFGA_EKILA_LMS.md).
+## TÀI LIỆU TRA CỨU NHANH TRONG PHIÊN Q&A (15–20 PHÚT)
+- **Khi cần tra nhanh câu trả lời cho 12 câu hỏi phản biện kỹ thuật** (Keycloak khác gì OpenFGA, tại sao không nhét `courseId` vào JWT, cách lọc 10.000 khóa học chống `N+1` khi phân trang SQL, Fail-open hay Fail-closed, đồng bộ Outbox và xử lý *New Enemy*, giữ `404` IDOR, Redis Nonce...): mở [Cẩm nang Phản biện Q&A (`PHAN_BIEN_QA.md`)](PHAN_BIEN_QA.md).
+- **Khi cần xem lại timeline điều phối 60 phút & checklist chuẩn bị:** mở [Kế hoạch & Kịch bản 60 phút (`KE_HOACH_VA_KICH_BAN_60P.md`)](KE_HOACH_VA_KICH_BAN_60P.md).
+- **Khi cần hướng dẫn chạy Docker OpenFGA / tích hợp Java Spring Boot PEP:** mở [Hướng dẫn mô phỏng & tích hợp OpenFGA (`HUONG_DAN_MO_PHONG_OPENFGA_EKILA_LMS.md`)](HUONG_DAN_MO_PHONG_OPENFGA_EKILA_LMS.md).
